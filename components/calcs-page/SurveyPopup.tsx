@@ -45,20 +45,20 @@ const SurveyPopup = () => {
           width="mx-auto mt-4 w-full md:w-[284px]"
         /> */}
         <p className="text-xl font-semibold w-full">
-          🤖 Хочете персональне меню на день?
+          🚀 Хочете отримати здорове меню на день — швидко і без зайвих зусиль?
         </p>
         <p className="mt-4 text-mainText dark:text-mainTextBlack">
-          Наш безкоштовний Telegram-бот <strong>@Nutri_day_bot</strong> допоможе
-          вам скласти денний раціон харчування, враховуючи ваші цілі та
-          вподобання.
+          Дізнайтеся, як наш безкоштовний Telegram-бот <strong>NutriDay</strong>{' '}
+          допоможе скласти персоналізований раціон за хвилину, враховуючи ваші
+          цілі, вподобання та бажання змінювати страви щодня.
         </p>
         <Link
-          href="https://t.me/Nutri_day_bot"
+          href="https://nutri-day-landing.vercel.app/"
           target="_blank"
           className={`bg-orange-100 hover:bg-orange-200 dark:bg-[#a3a3a3] dark:hover:bg-[#d4d4d4]
       text-mainTitle rounded-xl p-4 text-center block mx-auto mt-6 w-full md:w-[284px] transition-all duration-150`}
         >
-          Спробувати бота в Telegram 🚀
+          Дізнатися більше про NutriDay 🚀
         </Link>
         <button
           onClick={handleClose}
