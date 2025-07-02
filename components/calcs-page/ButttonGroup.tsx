@@ -13,11 +13,11 @@ export const ButtonGroup = () => {
         width="mx-auto mt-4 w-full md:w-[284px]"
       />
       <p className="mt-12 text-mainText dark:text-mainTextBlack">
-        Пройди нашу програму харчування з тренером
+        Дізнайся про легкий сервіс складання денних меню
       </p>
       <Button
-        route="/services"
-        text="Придбати програму"
+        route="https://nutri-day-landing.vercel.app/"
+        text="Склади своє меню"
         width="mx-auto mt-4 w-full md:w-[284px]"
       />
     </>
