@@ -119,15 +119,15 @@ const Contacts = () => {
                 <p className="font-semibold text-mainTitle dark:text-mainTitleBlack">
                   Графік роботи:
                 </p>
-                <ul className="my-4 text-mainText dark:text-mainTextBlack">
+                <ul className="my-4 text-mainText dark:text-mainTextBlack font-semibold">
                   <li>
-                    <span className="font-semibold">пн - пт</span> — 11:00-20:00
+                    <span className="">пн - пт</span> — 11:00-21:00
                   </li>
                   <li>
-                    <span className="font-semibold">сб</span> — 12:00-19:00
+                    <span className="">сб</span> — 12:00-19:00
                   </li>
                   <li>
-                    <span className="font-semibold">нд</span> — вихідний
+                    <span className="">нд</span> — вихідний
                   </li>
                 </ul>
               </div>
