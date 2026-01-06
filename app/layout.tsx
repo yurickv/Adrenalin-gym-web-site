@@ -18,7 +18,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="uk">
       <head>
         <GoogleAnalytics ga_id={process.env.GTM_ID} />
       </head>

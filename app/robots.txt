@@ -1,6 +1,36 @@
+# General bots
 User-agent: *
 Allow: /
 Disallow: /fotoLearning
 Disallow: /fotoPost
 
+# AI/LLM Crawlers - Allow access for better AI visibility
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Sitemaps
 Sitemap: https://gym-adrenalin.com.ua/sitemap.xml
+
+# LLM-specific resource
+# See https://gym-adrenalin.com.ua/llms.txt for AI-readable site information

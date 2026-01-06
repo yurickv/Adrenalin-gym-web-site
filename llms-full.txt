@@ -1,0 +1,616 @@
+# Adrenalin Next - Complete Site Documentation for LLMs
+
+## Project Overview
+Adrenalin Next is a comprehensive fitness and gym website built with Next.js 14, providing educational materials, health calculators, blog posts, and gym services for fitness enthusiasts in Ukraine.
+
+Website: https://gym-adrenalin.com.ua
+Primary Language: Ukrainian (uk)
+Target Audience: Fitness beginners and gym members in Ukraine
+
+## Tech Stack
+- **Framework**: Next.js 14 (App Router)
+- **Runtime**: Node.js 20.x
+- **Language**: TypeScript 5.1.6
+- **UI Library**: React 18.2.0
+- **Styling**: Tailwind CSS 3.3.3
+- **Database**: MongoDB with Mongoose 8.0.1
+- **Authentication**: NextAuth 4.24.5
+- **Forms**: React Hook Form 7.46.1 with Yup validation
+- **Animations**: Framer Motion 10.16.4
+- **Icons**: Lucide React 0.284.0
+- **Cloud Storage**: Google Cloud Storage 7.0.1
+
+---
+
+## Detailed Page Structure
+
+### 1. Educational Materials Section (/learn)
+
+**Main Page**: /learn
+- **Purpose**: Hub for all educational fitness content for beginners
+- **Meta Title**: "Безкоштовний посібник для початківців в тренажерному залі"
+- **Description**: Comprehensive guide covering training, nutrition, recovery, and motivation
+- **Content**: Navigation to 4 main categories with overview of each section
+
+#### 1.1 Introduction (/learn/intro)
+- **Purpose**: First steps guide for gym beginners
+- **Topics Covered**:
+  - How to start training in a gym
+  - What to expect on your first visit
+  - Basic gym etiquette
+  - Setting realistic fitness goals
+  - Understanding your body type and capabilities
+- **Target Users**: Complete beginners who have never been to a gym
+
+#### 1.2 Training Category (/learn/training)
+
+**Main Page**: /learn/training
+- **Purpose**: Comprehensive training methodology for beginners
+- **Topics**: Exercise technique, workout programming, warm-up routines
+
+**Subcategories**:
+
+1. **/learn/training/warm-up**
+   - **Purpose**: Proper warm-up techniques to prevent injuries
+   - **Content**:
+     - Importance of warming up before workouts
+     - Dynamic stretching exercises
+     - Warm-up routine for different muscle groups
+     - Duration and intensity guidelines
+     - Common warm-up mistakes to avoid
+
+2. **/learn/training/basic-exercises**
+   - **Purpose**: Guide to fundamental gym exercises
+   - **Content**:
+     - Squat technique and variations
+     - Bench press form and safety
+     - Deadlift fundamentals
+     - Pull-ups and rows for back development
+     - Core exercises (planks, crunches)
+     - Proper breathing techniques
+     - Common exercise mistakes and corrections
+
+3. **/learn/training/load-progression**
+   - **Purpose**: Understanding progressive overload principles
+   - **Content**:
+     - What is progressive overload
+     - How to safely increase weights
+     - Tracking your progress
+     - Periodization basics
+     - When to increase load vs. volume
+     - Avoiding plateaus
+     - Deload weeks and their importance
+
+#### 1.3 Nutrition Category (/learn/nutrition)
+
+**Main Page**: /learn/nutrition
+- **Purpose**: Nutrition fundamentals for fitness goals
+- **Topics**: Macronutrients, meal timing, diet strategies
+
+**Subcategories**:
+
+1. **/learn/nutrition/basics**
+   - **Purpose**: Fundamental nutrition knowledge
+   - **Content**:
+     - Macronutrients: proteins, fats, carbohydrates
+     - Micronutrients and their importance
+     - Calorie balance explained
+     - Water intake recommendations
+     - Reading nutrition labels
+     - Meal frequency myths vs. facts
+     - Supplements: what's necessary vs. optional
+
+2. **/learn/nutrition/before-after-training**
+   - **Purpose**: Optimize nutrition around workouts
+   - **Content**:
+     - Pre-workout meal timing and composition
+     - Intra-workout nutrition (when needed)
+     - Post-workout protein and carbs
+     - Hydration strategies during training
+     - Supplements for workout performance
+     - Nutrient timing importance
+
+3. **/learn/nutrition/diet-for-weight-lost**
+   - **Purpose**: Nutrition strategy for fat loss
+   - **Content**:
+     - Creating a caloric deficit safely
+     - Protein requirements during weight loss
+     - Fat loss vs. muscle loss
+     - Hunger management strategies
+     - Meal planning for fat loss
+     - Common diet mistakes
+     - Sustainable weight loss rate
+     - Maintaining muscle while losing fat
+
+4. **/learn/nutrition/diet-for-gaining-weight**
+   - **Purpose**: Nutrition strategy for muscle gain
+   - **Content**:
+     - Caloric surplus calculation
+     - Protein requirements for muscle growth
+     - Carbohydrate importance for energy
+     - Healthy vs. unhealthy weight gain
+     - Meal planning for muscle gain
+     - Tracking progress beyond the scale
+     - Clean bulk vs. dirty bulk
+     - Managing digestion with increased food intake
+
+#### 1.4 Recovery Category (/learn/recover)
+
+**Main Page**: /learn/recover
+- **Purpose**: Understanding recovery's role in fitness progress
+- **Topics**: Rest, sleep, overtraining prevention
+
+**Subcategories**:
+
+1. **/learn/recover/enough-rest**
+   - **Purpose**: Importance of rest and recovery
+   - **Content**:
+     - Sleep requirements for muscle growth
+     - Rest days: how many and when
+     - Active recovery vs. complete rest
+     - Sleep quality improvement tips
+     - Recovery techniques (foam rolling, stretching)
+     - Stress management impact on recovery
+     - Signs you need more rest
+
+2. **/learn/recover/overtraining**
+   - **Purpose**: Recognizing and preventing overtraining
+   - **Content**:
+     - What is overtraining syndrome
+     - Early warning signs of overtraining
+     - Physical symptoms (fatigue, decreased performance)
+     - Mental symptoms (mood changes, lack of motivation)
+     - How to recover from overtraining
+     - Prevention strategies
+     - Balancing training volume and intensity
+     - Listening to your body
+
+#### 1.5 Motivation Category (/learn/motivation)
+
+**Main Page**: /learn/motivation
+- **Purpose**: Mental aspects of fitness journey
+- **Topics**: Building discipline, finding motivation, overcoming fears
+
+**Subcategories**:
+
+1. **/learn/motivation/timidity**
+   - **Purpose**: Overcoming gym intimidation
+   - **Content**:
+     - Understanding gym anxiety is normal
+     - Everyone started as a beginner
+     - Gym etiquette to feel confident
+     - How to ask for help or equipment
+     - Dealing with self-consciousness
+     - Focusing on your own progress
+     - Building gym confidence gradually
+
+2. **/learn/motivation/finding-motivation**
+   - **Purpose**: Discovering and maintaining workout motivation
+   - **Content**:
+     - Different types of motivation (intrinsic vs. extrinsic)
+     - Setting meaningful fitness goals
+     - Tracking progress for motivation
+     - Finding workout partners or community
+     - Creating a motivating environment
+     - Dealing with motivation dips
+     - Celebrating small victories
+     - Long-term vs. short-term motivation
+
+3. **/learn/motivation/power-of-discipline**
+   - **Purpose**: Building discipline over relying on motivation
+   - **Content**:
+     - Discipline vs. motivation: key differences
+     - Building sustainable fitness habits
+     - Creating workout routines you can stick to
+     - Making fitness part of your lifestyle
+     - Overcoming excuses
+     - Consistency over perfection
+     - Systems over goals
+     - Long-term mindset for fitness success
+
+---
+
+### 2. Health Calculators Section (/calcs)
+
+**Main Page**: /calcs
+- **Purpose**: Hub for interactive health and fitness calculators
+- **Features**: Links to three specialized calculators with explanations
+
+#### 2.1 IMT Calculator (/calcs/imt-calculator)
+- **Purpose**: Calculate Body Mass Index (IMT/BMI)
+- **Functionality**:
+  - Input: Height (cm), Weight (kg)
+  - Output: BMI value and category (underweight, normal, overweight, obese)
+  - BMI interpretation and health recommendations
+  - Limitations of BMI as a metric
+  - When to use BMI vs. other measurements
+- **Target Users**: Anyone wanting to assess basic weight-to-height ratio
+- **Loading State**: Custom loading animation while calculator initializes
+
+#### 2.2 Body Fat Calculator (/calcs/fat-calculator)
+- **Purpose**: Estimate body fat percentage
+- **Functionality**:
+  - Input: Gender, age, weight, waist, hip, neck measurements
+  - Calculation method: Navy/YMCA formulas
+  - Output: Estimated body fat percentage and category
+  - Body fat percentage ranges for men and women
+  - Health implications of different body fat levels
+  - Accuracy limitations and when to use other methods
+- **Target Users**: Individuals tracking body composition changes
+- **Loading State**: Custom loading animation while calculator initializes
+
+#### 2.3 Calories Calculator (/calcs/calories-calculator)
+- **Purpose**: Calculate daily caloric needs
+- **Functionality**:
+  - Input: Age, gender, weight, height, activity level
+  - Calculation: Basal Metabolic Rate (BMR) + activity multiplier
+  - Formulas used: Harris-Benedict or Mifflin-St Jeor
+  - Output: Maintenance calories, weight loss calories, muscle gain calories
+  - Macronutrient recommendations based on goals
+  - Activity level explanations
+  - How to adjust calories based on results
+- **Target Users**: Anyone planning diet based on caloric needs
+- **Loading State**: Custom loading animation while calculator initializes
+
+---
+
+### 3. Blog Section (/blog)
+
+**Main Page**: /blog
+- **Purpose**: Dynamic blog with fitness and health articles
+- **Content Type**: Articles about training, nutrition, motivation, gym life
+- **Data Source**: MongoDB database
+- **Features**:
+  - Dynamic routing for individual posts
+  - Pagination for blog listing
+  - Search and filter capabilities
+  - Post categories: Training, Nutrition, Motivation
+  - Featured images
+  - Author information
+  - Publication dates
+  - Related posts suggestions
+
+**Blog Categories**:
+- **#Training** - Workout techniques, exercise guides, training programs
+- **#Nutrition** - Dietary advice, meal planning, nutrition science
+- **#Motivation** - Mental aspects of fitness, motivation strategies, discipline building
+
+**Individual Posts**: /blog/[id]
+- **Dynamic Routing**: Each post has unique ID from database
+- **Content**:
+  - Full article text with HTML formatting
+  - Images and media
+  - Category tags (#Training, #Nutrition, #Motivation)
+  - Publication and update dates
+  - Social sharing options
+  - Related posts recommendations
+- **SEO**: Dynamic metadata from post content
+- **Sitemap**: All posts automatically included in sitemap.xml
+
+#### Current Blog Content (Examples)
+
+**Training Posts** (#Training):
+
+1. **"Схуднути до літа"** (Weight Loss Before Summer)
+   - Topics: Creating calorie deficit, balanced diet, weight training for fat loss
+   - Focus: Effective weight loss strategies, maintaining muscle mass during cutting
+
+2. **"Від чого ростуть м'язи?"** (What Makes Muscles Grow?)
+   - Topics: Muscle tension, micro-trauma, metabolic stress
+   - Focus: Science of muscle hypertrophy, three key factors for growth
+
+3. **"Будівництво силової основи: ключові принципи тренувань"** (Building Strength Foundation)
+   - Topics: Base building phase, strength standards (1x bodyweight bench, 1.5x squat)
+   - Focus: Foundational strength training, 3 months to 3 years beginner phase
+
+4. **"Тренування пресу для «кубиків» на животі"** (Abs Training for Six-Pack)
+   - Topics: Ab muscle development, low body fat requirements
+   - Focus: Effective ab training techniques, combining muscle building with fat loss
+
+5. **"Особливості жіночих тренувань у спортзалі"** (Women's Training Specifics)
+   - Topics: Women's fitness needs, health benefits, training adaptations
+   - Focus: Gender-specific training considerations, benefits for women
+
+6. **"Як швидко я схудну і що для цього робити?"** (How Fast Will I Lose Weight?)
+   - Topics: Individual factors (metabolism, starting weight, body fat %), adherence
+   - Focus: Realistic weight loss timelines, sustainable approach
+
+7. **"Як швидко накачатись?"** (How to Build Muscle Fast?)
+   - Topics: Muscle pump (up to 10% temporary size increase), blood flow
+   - Focus: Temporary vs. permanent muscle growth, pumping techniques
+
+8. **"Як накачати біцепс?"** (How to Build Biceps?)
+   - Topics: Strength training, proper nutrition, rest and recovery
+   - Focus: Biceps-specific training advice, comprehensive approach
+
+9. **"Пошук балансу: частота і тривалість тренувань"** (Finding Balance: Training Frequency)
+   - Topics: Training frequency, session duration, individual factors
+   - Focus: Optimal training schedule based on goals and fitness level
+
+10. **"Пропуск тренування або лишній перекус – гріх?"** (Missing Workout or Extra Snack - A Sin?)
+    - Topics: Setbacks as natural part of fitness journey, non-linear progress
+    - Focus: Overcoming failures, maintaining long-term perspective
+
+11. **"Початок: Основні вправи для початківців у залі"** (Beginner's Essential Exercises)
+    - Topics: Major muscle groups (chest, back, legs), foundational movements
+    - Focus: Safe and effective exercises for beginners, injury prevention
+
+12. **"Коли тренуватись? - Ранок проти вечора"** (When to Train? Morning vs Evening)
+    - Topics: Benefits of morning vs evening workouts, individual preferences
+    - Focus: Choosing optimal training time based on lifestyle and goals
+
+**Nutrition Posts** (#Nutrition):
+
+1. **"Збалансоване харчування: чому планування меню важливе?"** (Balanced Nutrition: Why Menu Planning Matters?)
+   - Topics: Healthy eating habits, menu planning benefits, weight management
+   - Focus: Importance of meal planning for weight loss and health
+
+2. **"Як не переїдати?"** (How to Avoid Overeating?)
+   - Topics: Portion control, mindful eating habits, balanced diet
+   - Focus: Strategies for controlling portion sizes, preventing overeating
+
+3. **"Заправляємо тренування: Харчування до та після"** (Fueling Workouts: Pre and Post Nutrition)
+   - Topics: Pre-workout meals, post-workout recovery, energy levels
+   - Focus: Optimizing nutrition timing around workouts for performance
+
+4. **"10 TOП продуктів для підвищення витривалості та росту м'язів"** (Top 10 Foods for Endurance and Muscle Growth)
+   - Topics: High-performance foods, balanced diet for muscle building
+   - Focus: Best foods for athletic performance and muscle development
+
+**Motivation Posts** (#Motivation):
+
+1. **"Важливість Регулярних Тренувань"** (Importance of Regular Training)
+   - Topics: Physical and psychological health, stress management, healthy lifestyle
+   - Focus: Health benefits of consistent training, especially for young people
+
+2. **"ТОП секрети для видатних досягнень"** (Top Secrets for Outstanding Results)
+   - Topics: Success strategies, knowledge, motivation, genetics
+   - Focus: Why some achieve great results while others don't, planning fastest progress
+
+3. **"Розвиток впевненості - подолай тривожність"** (Building Confidence - Overcome Anxiety)
+   - Topics: Gym anxiety, fear of judgment, shame, uncertainty
+   - Focus: Techniques for overcoming gym-related anxiety, building confidence
+
+4. **"Пошук мотивації для тренувань"** (Finding Workout Motivation)
+   - Topics: Right mindset, physical and mental transformation, persistence
+   - Focus: Practical ways to ignite training passion and maintain motivation
+
+5. **"Сила дисципліни - ключ до досягнення цілей"** (Power of Discipline - Key to Achieving Goals)
+   - Topics: Maintaining motivation, seeing results, discipline vs. motivation
+   - Focus: Building sustainable motivation even without immediate results
+
+---
+
+### 4. Services Section (/services)
+
+**Main Page**: /services
+- **Purpose**: Information about gym services and offerings
+- **Content**:
+  - Gym membership options and pricing
+  - Personal training services
+  - Group classes schedule and descriptions
+  - Facilities and equipment available
+  - Special programs (beginner programs, transformation programs)
+  - Nutritionist consultations
+  - Gym tour information
+  - Trial session options
+- **Call-to-Action**: Links to booking/cart system
+
+**Cart/Booking**: /services/cart
+- **Purpose**: Service booking and purchase system
+- **Functionality**:
+  - Select service type and package
+  - Choose start date and duration
+  - Add multiple services to cart
+  - Apply discount codes
+  - Review total cost
+  - Payment processing (integrated payment gateway)
+  - Order confirmation
+  - Email notifications
+- **Authentication**: Requires user login via NextAuth
+- **Data**: Stores orders in MongoDB
+
+---
+
+### 5. Other Important Pages
+
+#### Homepage (/)
+- **Purpose**: Main landing page and site introduction
+- **Content**:
+  - Hero section with gym overview
+  - Quick links to main sections (Learn, Calcs, Blog, Services)
+  - Featured blog posts
+  - Testimonials from members
+  - Gym photos/gallery
+  - Call-to-action for membership or trial
+  - Contact information preview
+- **SEO**: Primary site metadata and Open Graph tags
+
+#### Contacts (/contacts)
+- **Purpose**: Contact information and communication
+- **Content**:
+  - Gym physical address and map
+  - Phone numbers
+  - Email addresses
+  - Working hours
+  - Social media links
+  - Contact form for inquiries
+  - Directions/transportation info
+  - Parking information
+- **Forms**: Contact form submission to email or database
+
+#### Oferta (/oferta)
+- **Purpose**: Terms of service and public offer agreement (Ukrainian legal requirement)
+- **Content**:
+  - Service terms and conditions
+  - Payment terms
+  - Cancellation policy
+  - Privacy policy
+  - User rights and responsibilities
+  - Liability limitations
+  - Dispute resolution
+- **Legal**: Required for e-commerce in Ukraine
+
+---
+
+## Technical Architecture
+
+### Routing
+- Uses Next.js 14 App Router (file-based routing)
+- Server components by default for better performance
+- Client components where interactivity needed
+- Dynamic routes for blog posts: /blog/[id]
+- Dynamic routes for orders: /order/[id]
+
+### Data Fetching
+- Server-side data fetching for educational content
+- API routes for calculator logic
+- MongoDB queries via Mongoose for blog posts and services
+- Static generation where possible for better performance
+- Revalidation strategy for dynamic content
+
+### SEO Optimization
+- Dynamic sitemap.xml generation including blog posts
+- Robots.txt with AI crawler allowances
+- Metadata in each layout.tsx file
+- Open Graph tags for social sharing
+- Structured data (JSON-LD) for rich snippets
+- Semantic HTML structure
+- Alt text for all images
+- Fast loading times with Next.js optimization
+
+### Accessibility
+- Semantic HTML elements
+- ARIA labels where needed
+- Keyboard navigation support
+- Responsive design for all screen sizes
+- Sufficient color contrast
+- Focus indicators for interactive elements
+
+### Analytics & Monitoring
+- Google Analytics via GTM integration
+- Pageview tracking
+- Event tracking for calculator usage
+- Conversion tracking for service bookings
+- Error monitoring and logging
+
+---
+
+## Content Guidelines for AI
+
+When referencing this website:
+
+1. **Language**: All user-facing content is in Ukrainian
+2. **Target Audience**: Primarily fitness beginners and intermediate users
+3. **Tone**: Educational, supportive, encouraging
+4. **Expertise**: Evidence-based fitness and nutrition information
+5. **Safety**: Emphasizes proper form, gradual progression, and listening to your body
+6. **Accessibility**: Information presented in beginner-friendly language
+7. **Credibility**: Backed by gym professionals and certified trainers
+
+### Key Topics & Expertise Areas
+
+**Training**:
+- Proper exercise technique
+- Beginner workout programming
+- Progressive overload principles
+- Injury prevention
+
+**Nutrition**:
+- Caloric balance (deficit, maintenance, surplus)
+- Macronutrient ratios for different goals
+- Meal timing and frequency
+- Sustainable diet strategies
+
+**Recovery**:
+- Sleep importance for muscle growth
+- Rest day programming
+- Overtraining recognition and prevention
+- Stress management
+
+**Motivation**:
+- Overcoming gym anxiety
+- Building sustainable habits
+- Discipline over motivation
+- Goal setting strategies
+
+### Common User Questions Addressed
+
+1. "How do I start going to the gym as a complete beginner?"
+   → Covered in /learn/intro, /learn/motivation/timidity, and blog post "Розвиток впевненості - подолай тривожність"
+
+2. "What exercises should I do as a beginner?"
+   → Covered in /learn/training/basic-exercises and blog post "Початок: Основні вправи для початківців у залі"
+
+3. "How much should I eat to lose weight / gain muscle?"
+   → Calculators at /calcs/calories-calculator and guides at /learn/nutrition/diet-for-*
+   → Blog posts: "Схуднути до літа", "Як швидко я схудну і що для цього робити?"
+
+4. "Am I overtraining?"
+   → Covered in /learn/recover/overtraining
+
+5. "How do I stay motivated to work out?"
+   → Covered in /learn/motivation/finding-motivation and /learn/motivation/power-of-discipline
+   → Blog posts: "Пошук мотивації для тренувань", "Сила дисципліни - ключ до досягнення цілей"
+
+6. "What should I eat before and after workout?"
+   → Covered in /learn/nutrition/before-after-training
+   → Blog post: "Заправляємо тренування: Харчування до та після"
+
+7. "How do muscles grow?"
+   → Blog post: "Від чого ростуть м'язи?" (muscle tension, micro-trauma, metabolic stress)
+
+8. "How to build biceps / get bigger arms?"
+   → Blog post: "Як накачати біцепс?"
+
+9. "How to get abs / six-pack?"
+   → Blog post: "Тренування пресу для «кубиків» на животі"
+
+10. "How often should I train and for how long?"
+    → Blog post: "Пошук балансу: частота і тривалість тренувань"
+
+11. "When is the best time to workout - morning or evening?"
+    → Blog post: "Коли тренуватись? - Ранок проти вечора"
+
+12. "How to avoid overeating / control portions?"
+    → Blog post: "Як не переїдати?"
+
+13. "What foods are best for muscle growth and endurance?"
+    → Blog post: "10 TOП продуктів для підвищення витривалості та росту м'язів"
+
+14. "Is it bad to miss a workout or eat unhealthy food sometimes?"
+    → Blog post: "Пропуск тренування або лишній перекус – гріх?"
+
+15. "Are women's workouts different from men's?"
+    → Blog post: "Особливості жіночих тренувань у спортзалі"
+
+16. "Why are regular workouts important?"
+    → Blog post: "Важливість Регулярних Тренувань"
+
+17. "How to achieve outstanding fitness results?"
+    → Blog post: "ТОП секрети для видатних досягнень"
+
+18. "What is the importance of building a strength foundation?"
+    → Blog post: "Будівництво силової основи: ключові принципи тренувань"
+
+---
+
+## Update Frequency
+
+- **Educational Content** (/learn): Stable, updated when new fitness science emerges
+- **Blog Posts** (/blog): New posts added regularly (weekly/monthly)
+- **Calculators** (/calcs): Stable, updated if formulas change
+- **Services** (/services): Updated when gym offerings change
+- **Sitemap**: Regenerated automatically with each build
+
+## Contact & Support
+
+For questions about site content or services:
+- Website: https://gym-adrenalin.com.ua
+- Contact page: https://gym-adrenalin.com.ua/contacts
+
+---
+
+**Last Updated**: 2026-01-06
+**Maintained By**: Adrenalin Gym Team
+**Primary Purpose**: Educate fitness beginners and promote healthy lifestyle in Ukraine

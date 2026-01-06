@@ -62,10 +62,25 @@ Interactive health and fitness calculators:
 #### 3. Blog (/app/blog)
 Dynamic blog section with posts loaded from MongoDB database:
 
-- /blog - Blog listing page
+- /blog - Blog listing page with pagination and filtering
 - /blog/[id] - Individual blog post pages (dynamic routing)
 - Posts are fetched using `@/app/_services/post.service.ts`
 - Blog posts are included in sitemap.xml dynamically
+
+**Blog Categories:**
+- #Training - 12+ posts about workout techniques, exercise guides, training programs
+- #Nutrition - 4+ posts about dietary advice, meal planning, nutrition science
+- #Motivation - 5+ posts about mental aspects of fitness, motivation strategies, discipline
+
+**Popular Blog Topics:**
+- Muscle building and hypertrophy science
+- Weight loss strategies and timing
+- Beginner exercise guides
+- Nutrition timing (pre/post workout)
+- Overcoming gym anxiety and building confidence
+- Training frequency and optimal schedules
+- Women's specific training considerations
+- Building strength foundation and progressive overload
 
 #### 4. Services (/app/services)
 Gym services and offerings:
@@ -99,7 +114,9 @@ Each section has its own layout.tsx file for consistent styling and navigation w
 ## Important Notes
 - Uses Next.js App Router (not Pages Router)
 - All educational content is organized hierarchically with nested routes
-- Blog posts are dynamically loaded from database
-- Calculators provide interactive health metrics
+- Blog posts are dynamically loaded from MongoDB database with three main categories: Training, Nutrition, Motivation
+- Blog content covers practical topics from beginner exercises to advanced training strategies
+- Calculators provide interactive health metrics (BMI, body fat %, daily calories)
 - Each major section has its own loading states and layouts
 - Authentication is handled via NextAuth
+- All content is in Ukrainian language (lang="uk")
