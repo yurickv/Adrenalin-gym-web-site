@@ -1,0 +1,105 @@
+# Adrenalin Next - Gym & Fitness Website
+
+## Project Overview
+Adrenalin Next is a comprehensive fitness and gym website built with Next.js 14, providing educational materials, calculators, blog posts, and services for fitness enthusiasts.
+
+Website: https://gym-adrenalin.com.ua
+
+## Tech Stack
+- **Framework**: Next.js 14 (App Router)
+- **Runtime**: Node.js 20.x
+- **Language**: TypeScript 5.1.6
+- **UI Library**: React 18.2.0
+- **Styling**: Tailwind CSS 3.3.3
+- **Database**: MongoDB with Mongoose 8.0.1
+- **Authentication**: NextAuth 4.24.5
+- **Forms**: React Hook Form 7.46.1 with Yup validation
+- **Animations**: Framer Motion 10.16.4
+- **Icons**: Lucide React 0.284.0
+
+## Project Structure
+
+### Important Sections
+
+#### 1. Educational Materials (/app/learn)
+Comprehensive fitness education organized into four main categories:
+
+**Introduction**
+- /learn/intro - Getting started with fitness
+
+**Training**
+- /learn/training - Training fundamentals
+- /learn/training/warm-up - Warm-up techniques
+- /learn/training/basic-exercises - Basic exercise guides
+- /learn/training/load-progression - Progressive overload principles
+
+**Nutrition**
+- /learn/nutrition - Nutrition basics
+- /learn/nutrition/basics - Fundamental nutrition concepts
+- /learn/nutrition/before-after-training - Pre and post-workout nutrition
+- /learn/nutrition/diet-for-weight-lost - Weight loss diet guide
+- /learn/nutrition/diet-for-gaining-weight - Muscle gain diet guide
+
+**Recovery**
+- /learn/recover - Recovery fundamentals
+- /learn/recover/enough-rest - Importance of rest
+- /learn/recover/overtraining - Overtraining prevention
+
+**Motivation**
+- /learn/motivation - Motivation fundamentals
+- /learn/motivation/timidity - Overcoming gym intimidation
+- /learn/motivation/finding-motivation - Finding your motivation
+- /learn/motivation/power-of-discipline - Building discipline
+
+#### 2. Health Calculators (/app/calcs)
+Interactive health and fitness calculators:
+
+- /calcs - Calculator hub page
+- /calcs/imt-calculator - BMI (Body Mass Index) calculator
+- /calcs/fat-calculator - Body fat percentage calculator
+- /calcs/calories-calculator - Daily calorie intake calculator
+
+#### 3. Blog (/app/blog)
+Dynamic blog section with posts loaded from MongoDB database:
+
+- /blog - Blog listing page
+- /blog/[id] - Individual blog post pages (dynamic routing)
+- Posts are fetched using `@/app/_services/post.service.ts`
+- Blog posts are included in sitemap.xml dynamically
+
+#### 4. Services (/app/services)
+Gym services and offerings:
+
+- /services - Services overview page
+- /services/cart - Service cart/booking page
+
+#### 5. Other Pages
+- / - Homepage
+- /contacts - Contact information
+
+## Key Files
+
+### Configuration
+- `package.json` - Project dependencies and scripts
+- `app/sitemap.ts` - Dynamic sitemap generation including blog posts
+- `const/routeSitemap.ts` - Static route definitions for sitemap
+
+### Services
+- `app/_services/post.service.ts` - Blog post data service (MongoDB integration)
+
+### Layouts
+Each section has its own layout.tsx file for consistent styling and navigation within that section.
+
+## Development Commands
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+## Important Notes
+- Uses Next.js App Router (not Pages Router)
+- All educational content is organized hierarchically with nested routes
+- Blog posts are dynamically loaded from database
+- Calculators provide interactive health metrics
+- Each major section has its own loading states and layouts
+- Authentication is handled via NextAuth
