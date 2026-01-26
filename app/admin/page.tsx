@@ -1,7 +1,7 @@
 'use client';
 
 import { getSession } from 'next-auth/react';
-import { notFound, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CreatedPost, Post } from '@/app/_types/post.types';
 import Form from '@/components/Form';
@@ -36,23 +36,22 @@ const Admin = () => {
   const [isPostSubmitted, setIsPostSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
-    const isLoggedCheck = async () => {
+    const initPage = async () => {
       const session = await getSession();
 
       if (!session?.user) {
-        notFound();
+        router.replace('/');
+        return;
       }
-      setIsLoading(false);
-    };
 
-    const fetchPosts = async () => {
       const { posts, pages } = await postHttpService.getPosts({ page });
       setPages(pages);
       setPosts(posts);
+      setIsLoading(false);
     };
-    isLoggedCheck();
-    fetchPosts();
-  }, [page]);
+
+    initPage();
+  }, [page, router]);
 
   const cutStringTo30Symbols = (string: string) => {
     if (string.length > 30) {
@@ -189,32 +188,34 @@ const Admin = () => {
           </table>
         </div>
       )}
-      <ReactPaginate
-        pageCount={pages}
-        previousLabel={
-          <PrevNextButton
-            title="Попередня"
-            icon={
-              <div className="rotate-180">
-                <Arrow />
-              </div>
-            }
-          />
-        }
-        forcePage={page - 1}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={1}
-        nextLabel={<PrevNextButton title="Наступна" icon={<Arrow />} />}
-        onPageChange={({ selected }) => {
-          console.log(selected);
-          setPage(selected + 1);
-        }}
-        breakLabel="..."
-        containerClassName="flex gap-4 justify-center items-center"
-        pageLinkClassName="pagination-button"
-        activeLinkClassName="isActive"
-        renderOnZeroPageCount={null}
-      />
+      {pages > 0 && (
+        <ReactPaginate
+          pageCount={pages}
+          previousLabel={
+            <PrevNextButton
+              title="Попередня"
+              icon={
+                <div className="rotate-180">
+                  <Arrow />
+                </div>
+              }
+            />
+          }
+          forcePage={page - 1}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={1}
+          nextLabel={<PrevNextButton title="Наступна" icon={<Arrow />} />}
+          onPageChange={({ selected }) => {
+            console.log(selected);
+            setPage(selected + 1);
+          }}
+          breakLabel="..."
+          containerClassName="flex gap-4 justify-center items-center"
+          pageLinkClassName="pagination-button"
+          activeLinkClassName="isActive"
+          renderOnZeroPageCount={null}
+        />
+      )}
       {showModal && (
         <Form
           title="Edit"

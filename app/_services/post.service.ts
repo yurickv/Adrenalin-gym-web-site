@@ -11,15 +11,21 @@ class PostService {
   async getPosts(post: getPostsProps) {
     const { page = 1, limit = 12, search = '', topic = '' } = post;
     try {
-      const posts = await fetch(
+      const res = await fetch(
         `${
           process.env.HOST || process.env.NEXT_PUBLIC_HOST
         }/api/post?page=${page}&limit=${limit}&search=${search}&topic=${topic}`
       );
 
-      return posts.json();
+      if (!res.ok) {
+        console.error('Failed to fetch posts:', res.status, res.statusText);
+        return { posts: [], totalCount: 0 };
+      }
+
+      return res.json();
     } catch (e) {
-      console.log(e);
+      console.error('Error fetching posts:', e);
+      return { posts: [], totalCount: 0 };
     }
   }
 
