@@ -70,7 +70,7 @@ Dynamic blog section with posts loaded from MongoDB database:
 **Blog Categories:**
 - #Training - 12+ posts about workout techniques, exercise guides, training programs
 - #Nutrition - 4+ posts about dietary advice, meal planning, nutrition science
-- #Motivation - 5+ posts about mental aspects of fitness, motivation strategies, discipline
+- #Motivation - 6+ posts about mental aspects of fitness, motivation strategies, discipline
 
 **Popular Blog Topics:**
 - Muscle building and hypertrophy science
@@ -81,6 +81,10 @@ Dynamic blog section with posts loaded from MongoDB database:
 - Training frequency and optimal schedules
 - Women's specific training considerations
 - Building strength foundation and progressive overload
+- Veteran rehabilitation through sport (програма «Ветеранський спорт»)
+
+**Notable Blog Posts:**
+- `veteran-sport` (#Motivation) — «Свої для своїх: тренування за програмою «Ветеранський спорт» у нашому залі!» — post about veteran rehabilitation through sport, mental health benefits of training.
 
 #### 4. Services (/app/services)
 Gym services and offerings:
