@@ -14,7 +14,8 @@ class PostService {
       const res = await fetch(
         `${
           process.env.HOST || process.env.NEXT_PUBLIC_HOST
-        }/api/post?page=${page}&limit=${limit}&search=${search}&topic=${topic}`
+        }/api/post?page=${page}&limit=${limit}&search=${search}&topic=${topic}`,
+        { cache: 'no-store' }
       );
 
       if (!res.ok) {

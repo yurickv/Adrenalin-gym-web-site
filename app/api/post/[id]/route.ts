@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { authMiddleware } from '@/app/api/_middlewares/auth.middleware';
 import { connectToDB } from '@/app/api/_utils/database';
 import Post from '@/app/api/_schemas/post.schema';
@@ -45,6 +46,9 @@ export const DELETE = async (
     await connectToDB();
 
     await Post.findOneAndDelete({ _id: params.id });
+
+    revalidatePath('/blog');
+    revalidatePath('/');
 
     return NextResponse.json(
       { message: 'Post deleted successfully' },
@@ -98,6 +102,9 @@ export const PATCH = async (
     // }
 
     post.save();
+
+    revalidatePath('/blog');
+    revalidatePath('/');
 
     return NextResponse.json({ post }, { status: 200 });
   } catch (e: any) {

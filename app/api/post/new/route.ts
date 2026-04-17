@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 
 import { connectToDB } from '@/app/api/_utils/database';
 import Post from '@/app/api/_schemas/post.schema';
@@ -31,6 +32,9 @@ export const POST = async (req: NextRequest) => {
       ...transformedData,
       // image: uploadedImage,
     });
+
+    revalidatePath('/blog');
+    revalidatePath('/');
 
     return NextResponse.json({ post: newPost }, { status: 201 });
   } catch (e: any) {
