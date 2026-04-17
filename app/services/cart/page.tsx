@@ -165,6 +165,9 @@ const ShoppingCart = () => {
           <div className="div-container flex flex-col gap-5">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="credentials">
+                <p className="font-poppins font-medium text-mainText dark:text-mainTextBlack text-center">
+                  Послуги спортзалу &quot;Адреналін&quot; в <b>м.Тернопіль</b>
+                </p>
                 <h2 className="credentials__title">Ваші дані:</h2>
                 <div className="credentials__user-info">
                   {USER_CREDENTIALS_INPUTS.map(
