@@ -33,7 +33,8 @@ class PostService {
   async getPostById(id: string) {
     try {
       const res = await fetch(
-        `${process.env.HOST || process.env.NEXT_PUBLIC_HOST}/api/post/${id}`
+        `${process.env.HOST || process.env.NEXT_PUBLIC_HOST}/api/post/${id}`,
+        { cache: 'no-store' }
       );
       if (!res.ok) return undefined;
       const { post } = await res.json();

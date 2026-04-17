@@ -49,6 +49,7 @@ export const DELETE = async (
 
     revalidatePath('/blog');
     revalidatePath('/');
+    revalidatePath(`/blog/${params.id}`);
 
     return NextResponse.json(
       { message: 'Post deleted successfully' },
@@ -105,6 +106,7 @@ export const PATCH = async (
 
     revalidatePath('/blog');
     revalidatePath('/');
+    revalidatePath(`/blog/${params.id}`);
 
     return NextResponse.json({ post }, { status: 200 });
   } catch (e: any) {
