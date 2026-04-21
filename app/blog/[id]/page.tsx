@@ -14,20 +14,43 @@ type Props = {
   params: { id: string };
 };
 
+const BASE_URL = 'https://adrenalin-gym.com.ua';
+
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const post = await postHttpService.getPostById(params.id);
+  const url = `${BASE_URL}/blog/${params.id}`;
 
   return {
     title: post.title,
     description: post.description,
+    keywords: [post.topic, 'Adrenalin gym', 'фітнес', 'спорт'],
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: 'article',
+      url,
+      title: post.title,
+      description: post.description,
+      images: post.image ? [{ url: post.image, alt: post.title }] : [],
+      siteName: 'Adrenalin Gym',
+      locale: 'uk_UA',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: post.image ? [post.image] : [],
+    },
     robots: {
       index: true,
       follow: true,
       googleBot: {
         'max-snippet': -1,
+        'max-image-preview': 'large',
       },
     },
   };
@@ -39,8 +62,27 @@ async function BlogPage({ params }: Props) {
     redirect('/');
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.description,
+    image: post.image || undefined,
+    keywords: post.topic,
+    url: `${BASE_URL}/blog/${params.id}`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Adrenalin Gym',
+      url: BASE_URL,
+    },
+  };
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <section className="relative bg-hero-bg">
         <div className="div-container py-[20px] md:py-[44px]  mx-auto text-center flex flex-col gap-5 md:gap-10 z-10 relative">
           <h3 className="text-left text-white flex gap-2">

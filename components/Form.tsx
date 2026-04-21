@@ -110,14 +110,19 @@ const Form = ({
                 <label htmlFor="topic" className="-mt-1.5">
                   Topic (Hashtag)
                 </label>
-                <input
+                <select
                   id="topic"
                   value={form.topic}
                   className="form-input max-w-[800px]"
                   onChange={e => {
                     handleElementChange('topic', e.target.value);
                   }}
-                />{' '}
+                >
+                  <option value="">-- Select topic --</option>
+                  <option value="Training">Training</option>
+                  <option value="Motivation">Motivation</option>
+                  <option value="Nutrition">Nutrition</option>
+                </select>
               </div>
               <label htmlFor="markup">Markup</label>
               <textarea
