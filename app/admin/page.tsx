@@ -23,6 +23,8 @@ const post = {
   title: '',
   description: '',
   image: '',
+  views: 0,
+  likes: 0,
 };
 const Admin = () => {
   const router = useRouter();
