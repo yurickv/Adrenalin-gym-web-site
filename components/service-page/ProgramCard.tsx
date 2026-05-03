@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { DescriptionText } from './DescriptionText';
 import { DetailsAndPriceButtons } from './DetailsAndPriceButtons';
 import { PriceTrainingPlan } from './PriceProgram';
-import { plans, plansPasses, plansPrices } from '@/const/priceConst';
+import { plansPasses } from '@/const/priceConst';
 
 type ProgramCardProps = {
   onClickMore: (button: 'standart' | 'personal' | 'planTrain') => void;
@@ -22,12 +22,6 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
     plan: plansPasses[0].plans[1],
   });
   const [duration, setDuration] = useState(plansPasses[0].plans[1]);
-  const [chosenProduct, setChosenProduct] = useState({
-    ...plans[0],
-    ...plansPrices[0],
-  });
-  const [servicePlans, setServicePlans] = useState(plans[0]);
-  const [planDuration, setPlanDuration] = useState(plansPrices[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   function onToggleModal() {
