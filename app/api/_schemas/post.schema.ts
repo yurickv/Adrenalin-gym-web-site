@@ -31,6 +31,14 @@ const PostSchema = new Schema(
     markup: {
       type: String,
     },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    likes: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     versionKey: false,

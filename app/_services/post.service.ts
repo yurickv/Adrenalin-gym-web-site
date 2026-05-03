@@ -84,6 +84,32 @@ class PostService {
       console.log(e);
     }
   }
+
+  async trackView(id: string) {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/post/${id}/view`, {
+        method: 'POST',
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async likePost(id: string, action: 'like' | 'unlike') {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/post/${id}/like`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action }),
+        }
+      );
+      return await res.json();
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
 
 const postHttpService = new PostService();

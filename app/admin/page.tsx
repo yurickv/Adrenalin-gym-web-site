@@ -133,6 +133,12 @@ const Admin = () => {
                   Markup
                 </th>
                 <th scope="col" className="px-6 py-3 ">
+                  Views
+                </th>
+                <th scope="col" className="px-6 py-3 ">
+                  Likes
+                </th>
+                <th scope="col" className="px-6 py-3 ">
                   Action
                 </th>
               </tr>
@@ -160,6 +166,12 @@ const Admin = () => {
                   </td>
                   <td scope="row" className="px-6 py-4">
                     {cutStringTo30Symbols(post.markup)}
+                  </td>
+                  <td scope="row" className="px-6 py-4">
+                    {post.views ?? 0}
+                  </td>
+                  <td scope="row" className="px-6 py-4">
+                    {post.likes ?? 0}
                   </td>
                   <td scope="row" className="px-6 py-4 flex gap-2 items-center">
                     {

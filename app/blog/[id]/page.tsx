@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import parse from 'html-react-parser';
 
 import { GoBackBtn } from '@/components/blog-page/GoBackBtn';
+import { ViewTracker } from '@/app/components/blog-page/ViewTracker';
+import { LikeButton } from '@/app/components/blog-page/LikeButton';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import postHttpService from '@/app/_services/post.service';
 import FadeIn from '@/components/FadeIn';
@@ -79,6 +81,7 @@ async function BlogPage({ params }: Props) {
 
   return (
     <main>
+      <ViewTracker postId={params.id} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -131,6 +134,11 @@ async function BlogPage({ params }: Props) {
           </FadeIn>
           <FadeIn>
             <p className="description">{post.description}</p>
+          </FadeIn>
+          <FadeIn>
+            <div className="flex items-center justify-start">
+              <LikeButton postId={post.id} initialLikes={post.likes ?? 0} />
+            </div>
           </FadeIn>
           <FadeIn>
             <div className="overflow-hidden rounded-lg w-full">
