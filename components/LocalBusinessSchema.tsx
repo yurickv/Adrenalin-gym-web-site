@@ -21,6 +21,7 @@ export default function LocalBusinessSchema() {
       latitude: 49.5504811,
       longitude: 25.6447338,
     },
+    image: ['https://gym-adrenalin.com.ua/og-image.avif'],
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',

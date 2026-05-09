@@ -12,7 +12,7 @@ export default function Home() {
       <HeroSection />
       <ServicesSection />
       <AboutCalc />
-      <BlogSection /> 
+      <BlogSection />
       <Motivation />
       <GalerySection />
     </main>
@@ -72,4 +72,21 @@ export const metadata: Metadata = {
     'програма тренувань для схуднення в спортзалі',
     'програма тренувань для набору маси',
   ],
+  openGraph: {
+    title: 'Тренажерний зал Адреналін — БАМ, Тернопіль',
+    description:
+      'Просторий спортзал без черг. Силові та кардіо тренажери, персональний тренер, програми для схуднення та набору маси.',
+    url: 'https://gym-adrenalin.com.ua',
+    siteName: 'Адреналін Gym',
+    images: [
+      {
+        url: 'https://gym-adrenalin.com.ua/og-image.jpg',
+        width: 958,
+        height: 888,
+        alt: 'Тренажерний зал Адреналін у Тернополі',
+      },
+    ],
+    locale: 'uk_UA',
+    type: 'website',
+  },
 };
