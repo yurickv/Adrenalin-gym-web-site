@@ -32,6 +32,8 @@ const Admin = () => {
   const [posts, setPosts] = useState<Post[] | []>([]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
+  const [totalViews, setTotalViews] = useState(0);
+  const [totalLikes, setTotalLikes] = useState(0);
   const [editedPost, setEditedPost] = useState<Post>(post);
   const [showModal, setShowModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -46,9 +48,12 @@ const Admin = () => {
         return;
       }
 
-      const { posts, pages } = await postHttpService.getPosts({ page });
+      const { posts, pages, totalViews, totalLikes } =
+        await postHttpService.getPosts({ page });
       setPages(pages);
       setPosts(posts);
+      setTotalViews(totalViews ?? 0);
+      setTotalLikes(totalLikes ?? 0);
       setIsLoading(false);
     };
 
@@ -111,14 +116,30 @@ const Admin = () => {
         <Loader />
       ) : (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <button
-            className="font-medium text-blue-600 dark:text-blue-500 hover:underline mb-4"
-            onClick={() => {
-              setShowAddModal(true);
-            }}
-          >
-            Add post
-          </button>
+          <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
+            <button
+              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              onClick={() => {
+                setShowAddModal(true);
+              }}
+            >
+              Add post
+            </button>
+            <div className="flex gap-6 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <span>
+                Total views:{' '}
+                <span className="text-gray-900 dark:text-white">
+                  {totalViews}
+                </span>
+              </span>
+              <span>
+                Total likes:{' '}
+                <span className="text-gray-900 dark:text-white">
+                  {totalLikes}
+                </span>
+              </span>
+            </div>
+          </div>
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>

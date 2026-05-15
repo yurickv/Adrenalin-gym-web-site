@@ -27,8 +27,24 @@ export const GET = async (req: NextRequest) => {
 
     const countAllDocuments = await Post.countDocuments(query);
 
+    const [totals] = await Post.aggregate([
+      { $match: query },
+      {
+        $group: {
+          _id: null,
+          totalViews: { $sum: '$views' },
+          totalLikes: { $sum: '$likes' },
+        },
+      },
+    ]);
+
     return NextResponse.json(
-      { posts, pages: Math.ceil(countAllDocuments / Number(limit)) },
+      {
+        posts,
+        pages: Math.ceil(countAllDocuments / Number(limit)),
+        totalViews: totals?.totalViews ?? 0,
+        totalLikes: totals?.totalLikes ?? 0,
+      },
       { status: 200 }
     );
   } catch (e) {
