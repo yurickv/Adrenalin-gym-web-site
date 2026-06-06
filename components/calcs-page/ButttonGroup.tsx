@@ -16,7 +16,7 @@ export const ButtonGroup = () => {
         Дізнайся про легкий сервіс складання денних меню
       </p>
       <Button
-        route="https://nutri-day-landing.vercel.app/"
+        route="https://nutriday.com.ua"
         text="Склади своє меню"
         width="mx-auto mt-4 w-full md:w-[284px]"
       />

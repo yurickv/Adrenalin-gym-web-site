@@ -12,9 +12,12 @@ const SurveyPopup = () => {
     const submitted = sessionStorage.getItem('submittedQuestions');
 
     if (!submitted || submitted === 'false') {
-      const timeout = setTimeout(() => {
-        setShowPopup(true);
-      }, Math.random() * (15000 - 10000) + 10000); // Випадковий час між 10-15 сек.
+      const timeout = setTimeout(
+        () => {
+          setShowPopup(true);
+        },
+        Math.random() * (15000 - 10000) + 10000
+      ); // Випадковий час між 10-15 сек.
 
       return () => clearTimeout(timeout);
     }
@@ -53,7 +56,7 @@ const SurveyPopup = () => {
           підрахунків і з можливістю легко змінювати страви під ваш смак.
         </p>
         <Link
-          href="https://nutri-day-landing.vercel.app/"
+          href="https://nutriday.com.ua"
           target="_blank"
           className={`bg-orange-100 hover:bg-orange-200 dark:bg-[#a3a3a3] dark:hover:bg-[#d4d4d4]
       text-mainTitle rounded-xl p-4 text-center block mx-auto mt-6 w-full md:w-[284px] transition-all duration-150`}
