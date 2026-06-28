@@ -4,8 +4,8 @@ import { redirect } from 'next/navigation';
 import parse from 'html-react-parser';
 
 import { GoBackBtn } from '@/components/blog-page/GoBackBtn';
-import { ViewTracker } from '@/app/components/blog-page/ViewTracker';
-import { LikeButton } from '@/app/components/blog-page/LikeButton';
+import { ViewTracker } from '@/components/blog-page/ViewTracker';
+import { LikeButton } from '@/components/blog-page/LikeButton';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import postHttpService from '@/app/_services/post.service';
 import FadeIn from '@/components/FadeIn';
