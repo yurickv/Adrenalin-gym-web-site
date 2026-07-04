@@ -16,7 +16,7 @@ export const ButtonGroup = () => {
         Дізнайся про легкий сервіс складання денних меню
       </p>
       <Button
-        route="https://nutriday.com.ua"
+        route="https://nutriday.com.ua/?utm_source=partner&utm_medium=referral&utm_campaign=gym-adrenalin"
         text="Склади своє меню"
         width="mx-auto mt-4 w-full md:w-[284px]"
       />

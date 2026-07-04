@@ -56,7 +56,7 @@ const SurveyPopup = () => {
           підрахунків і з можливістю легко змінювати страви під ваш смак.
         </p>
         <Link
-          href="https://nutriday.com.ua"
+          href="https://nutriday.com.ua/?utm_source=partner&utm_medium=referral&utm_campaign=gym-adrenalin"
           target="_blank"
           className={`bg-orange-100 hover:bg-orange-200 dark:bg-[#a3a3a3] dark:hover:bg-[#d4d4d4]
       text-mainTitle rounded-xl p-4 text-center block mx-auto mt-6 w-full md:w-[284px] transition-all duration-150`}
