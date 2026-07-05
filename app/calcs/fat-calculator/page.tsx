@@ -4,6 +4,8 @@ import { ButtonGroup } from '@/components/calcs-page/ButttonGroup';
 import { CalcTitle } from '@/components/calcs-page/CalcsTitle';
 import { FatCalcList } from '@/components/calcs-page/FatCalcList';
 import { DescriptionFat } from '@/components/calcs-page/FatDescription';
+import { FatFaq } from '@/components/calcs-page/FatFaq';
+import { FatJsonLd } from '@/components/calcs-page/FatJsonLd';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import Image from 'next/image';
 import profilePic from '../../../public/bg-hero.webp';
@@ -16,26 +18,38 @@ const FatCalc = () => {
           className="div-container  
         py-[20px] md:py-[44px]  mx-auto text-center flex flex-col gap-5 md:gap-10 z-10 relative"
         >
-          <h2 className="sr-only">
-            Калькулятор для визначення Відсотку жиру в тілі
-          </h2>
-          <h3 className=" text-left text-mainTitleBlack flex gap-2">
-            <Link href="/" className="flex gap-2 items-center">
-              <HomeIcon />
-              <span className="sr-only md:not-sr-only">Adrenalin_gym</span>
-            </Link>
-            <Link
-              href="/calcs"
-              className="flex gap-2 items-center font-semibold"
-            >
-              <span className="sr-only md:not-sr-only">&gt; Калькулятори</span>
-            </Link>
-            <span className="font-semibold"> &gt; Відсоток жиру в тілі</span>
-          </h3>
-          <h1 className="title mb-14 text-mainTitleBlack">Калькулятори</h1>
+          <nav
+            aria-label="Хлібні крихти"
+            className="text-left text-mainTitleBlack"
+          >
+            <ol className="flex gap-2 items-center">
+              <li>
+                <Link href="/" className="flex gap-2 items-center">
+                  <HomeIcon />
+                  <span className="sr-only md:not-sr-only">Adrenalin_gym</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/calcs"
+                  className="flex gap-2 items-center font-semibold"
+                >
+                  <span className="sr-only md:not-sr-only">
+                    &gt; Калькулятори
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <span className="font-semibold"> &gt; Відсоток жиру в тілі</span>
+              </li>
+            </ol>
+          </nav>
+          <h1 className="title mb-14 text-mainTitleBlack">
+            Калькулятор відсотка жиру в організмі
+          </h1>
         </div>
         <Image
-          alt="Adrenalin gym foto"
+          alt="Калькулятор відсотка жиру в організмі — тренажерний зал Адреналін"
           src={profilePic}
           placeholder="blur"
           fill
@@ -49,6 +63,9 @@ const FatCalc = () => {
       <section className="bg-white dark:bg-darkBody">
         <div className="div-container py-[20px] md:py-[44px]  mx-auto text-center">
           <CalcTitle page={1} />
+          <h2 className="title text-mainTitle dark:text-mainTitleBlack">
+            Розрахунок відсотка жиру в тілі онлайн
+          </h2>
           <p className="font-bold text-base md:text-lg my-10 md:my-12 text-mainText dark:text-mainTextBlack">
             Для отримання розрахунку переміщуйте мишкою повзунок на лінії, або
             введіть дані вручну
@@ -65,6 +82,8 @@ const FatCalc = () => {
           </div>
         </div>
       </section>
+      <FatFaq />
+      <FatJsonLd />
     </main>
   );
 };
