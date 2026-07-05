@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ButtonGroup } from '@/components/calcs-page/ButttonGroup';
 import { CalcTitle } from '@/components/calcs-page/CalcsTitle';
@@ -6,6 +5,7 @@ import { FatCalcList } from '@/components/calcs-page/FatCalcList';
 import { DescriptionFat } from '@/components/calcs-page/FatDescription';
 import { FatFaq } from '@/components/calcs-page/FatFaq';
 import { FatJsonLd } from '@/components/calcs-page/FatJsonLd';
+import { CalcByline } from '@/components/calcs-page/CalcByline';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import Image from 'next/image';
 import profilePic from '../../../public/bg-hero.webp';
@@ -66,6 +66,12 @@ const FatCalc = () => {
           <h2 className="title text-mainTitle dark:text-mainTitleBlack">
             Розрахунок відсотка жиру в тілі онлайн
           </h2>
+          <p className="max-w-[820px] mx-auto mt-6 text-base md:text-lg text-mainText dark:text-mainTextBlack">
+            Калькулятор відсотка жиру в організмі визначає процент жиру в тілі за
+            товщиною шкірних складок на грудях, животі та стегні (метод
+            каліперометрії за формулою Джексона-Поллока). Оптимальна норма — 12–20%
+            для чоловіків і 16–24% для жінок.
+          </p>
           <p className="font-bold text-base md:text-lg my-10 md:my-12 text-mainText dark:text-mainTextBlack">
             Для отримання розрахунку переміщуйте мишкою повзунок на лінії, або
             введіть дані вручну
@@ -83,6 +89,7 @@ const FatCalc = () => {
         </div>
       </section>
       <FatFaq />
+      <CalcByline />
       <FatJsonLd />
     </main>
   );

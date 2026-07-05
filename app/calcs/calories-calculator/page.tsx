@@ -4,6 +4,7 @@ import { CaloriesCalcList } from '@/components/calcs-page/CaloriesCalcList';
 import { CaloriesDescription } from '@/components/calcs-page/CaloriesDescription';
 import { CaloriesFaq } from '@/components/calcs-page/CaloriesFaq';
 import { CaloriesJsonLd } from '@/components/calcs-page/CaloriesJsonLd';
+import { CalcByline } from '@/components/calcs-page/CalcByline';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -62,6 +63,12 @@ const CaloriesCalc = () => {
           <h2 className="title text-mainTitle dark:text-mainTitleBlack">
             Розрахунок денної норми калорій онлайн
           </h2>
+          <p className="max-w-[820px] mx-auto mt-6 text-base md:text-lg text-mainText dark:text-mainTextBlack">
+            Калькулятор калорій розраховує денну норму калорій за формулою
+            Міффліна-Сан Жеора з урахуванням статі, віку, зросту, ваги та рівня
+            активності. Щоб схуднути, створюють дефіцит 10–15%, щоб набрати вагу
+            — профіцит 10–15% від норми.
+          </p>
           <p className="font-bold text-base md:text-lg my-10 md:my-12 text-mainText dark:text-mainTextBlack">
             Для отримання розрахунку переміщуйте мишкою повзунок на лінії, або
             введіть дані вручну
@@ -80,6 +87,7 @@ const CaloriesCalc = () => {
         </div>
       </section>
       <CaloriesFaq />
+      <CalcByline />
       <CaloriesJsonLd />
     </main>
   );

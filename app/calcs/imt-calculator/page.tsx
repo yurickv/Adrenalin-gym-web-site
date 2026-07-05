@@ -5,6 +5,7 @@ import { DescriptionIMT } from '@/components/calcs-page/IMTDescription';
 import { ImtCalcList } from '@/components/calcs-page/ImtCalcList';
 import { ImtFaq } from '@/components/calcs-page/ImtFaq';
 import { ImtJsonLd } from '@/components/calcs-page/ImtJsonLd';
+import { CalcByline } from '@/components/calcs-page/CalcByline';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import Image from 'next/image';
 import profilePic from '../../../public/bg-hero.webp';
@@ -66,6 +67,12 @@ const ImtCalc = () => {
           <h2 className="title text-mainTitle dark:text-mainTitleBlack">
             Розрахунок індексу маси тіла онлайн
           </h2>
+          <p className="max-w-[820px] mx-auto mt-6 text-base md:text-lg text-mainText dark:text-mainTextBlack">
+            Індекс маси тіла (ІМТ) — це співвідношення ваги та зросту, що
+            показує, чи відповідає вага нормі. Розраховується як вага в
+            кілограмах, поділена на квадрат зросту в метрах (ІМТ = вага / зріст²).
+            Нормальний ІМТ — 18,5–24,9.
+          </p>
           <p className="font-bold text-base md:text-lg my-10 md:my-12 text-mainText dark:text-mainTextBlack">
             Для отримання розрахунку переміщуйте мишкою повзунок на лінії, або
             введіть дані вручну
@@ -83,6 +90,7 @@ const ImtCalc = () => {
         </div>
       </section>
       <ImtFaq />
+      <CalcByline />
       <ImtJsonLd />
     </main>
   );

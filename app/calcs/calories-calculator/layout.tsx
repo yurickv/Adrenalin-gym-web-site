@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://gym-adrenalin.com.ua/calcs/calories-calculator',
   },
+  authors: [{ name: 'Теслюк Юрій' }],
   robots: {
     index: true,
     follow: true,

@@ -72,6 +72,104 @@ export const DescriptionFat = () => {
           плечем і ліктем
         </li>
       </ul>
+
+      <div className="mt-8 overflow-x-auto">
+        <table className="w-full text-left text-base border-collapse text-mainText dark:text-mainTextBlack">
+          <caption className="text-left font-bold text-mainTitle dark:text-mainTitleBlack mb-2">
+            Норма відсотка жиру для чоловіків
+          </caption>
+          <thead>
+            <tr className="border-b border-gray-400">
+              <th className="py-2 pr-4">Відсоток жиру</th>
+              <th className="py-2">Оцінка</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">до 6%</td>
+              <td className="py-2">Мінімальний рівень</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">6–13%</td>
+              <td className="py-2">Спортсмен, атлетична статура</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">13–17%</td>
+              <td className="py-2">Гарна фізична форма</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">17–21%</td>
+              <td className="py-2">Середній рівень</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">21–25%</td>
+              <td className="py-2">Прийнятний рівень</td>
+            </tr>
+            <tr>
+              <td className="py-2 pr-4">понад 25%</td>
+              <td className="py-2">Зайва вага</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mt-8 overflow-x-auto">
+        <table className="w-full text-left text-base border-collapse text-mainText dark:text-mainTextBlack">
+          <caption className="text-left font-bold text-mainTitle dark:text-mainTitleBlack mb-2">
+            Норма відсотка жиру для жінок
+          </caption>
+          <thead>
+            <tr className="border-b border-gray-400">
+              <th className="py-2 pr-4">Відсоток жиру</th>
+              <th className="py-2">Оцінка</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">до 10%</td>
+              <td className="py-2">Виснаження (небезпечно)</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">10–14%</td>
+              <td className="py-2">Мінімальний для здоров’я</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">14–16%</td>
+              <td className="py-2">Спортсменка, атлетична статура</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">16–20%</td>
+              <td className="py-2">Аматорка спорту, гарна форма</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">20–24%</td>
+              <td className="py-2">Прийнятний рівень</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <td className="py-2 pr-4">24–30%</td>
+              <td className="py-2">Середній рівень</td>
+            </tr>
+            <tr>
+              <td className="py-2 pr-4">понад 30%</td>
+              <td className="py-2">Зайва вага</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p className="mt-6 text-sm text-mainText dark:text-mainTextBlack">
+        Джерело: метод каліперометрії за формулою Джексона-Поллока; орієнтовні
+        норми —{' '}
+        <a
+          href="https://www.acsm.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-mainTitle dark:text-mainTitleBlack underline"
+        >
+          Американський коледж спортивної медицини (ACSM)
+        </a>
+        .
+      </p>
     </div>
   );
 };
