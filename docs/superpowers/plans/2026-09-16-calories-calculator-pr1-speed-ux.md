@@ -1202,3 +1202,35 @@ git log --oneline main..HEAD
 ```
 
 Далі гілку завершує skill `superpowers:finishing-a-development-branch`. Після деплою на Vercel: PageSpeed Insights для `https://gym-adrenalin.com.ua/calcs/calories-calculator`, Rich Results Test, у Search Console "Перевірка URL" → "Запросити індексування".
+
+## Результати PR 1
+
+Локальна production-збірка, Lighthouse 12, мобільна емуляція, simulate. Локальні цифри
+не дорівнюють PSI на проді: на localhost немає мережевої затримки CDN, а Google Analytics
+у базовому вимірі встигав виконатись після першого кадру. Остаточне підтвердження
+робиться на Vercel preview або проді через PageSpeed Insights.
+
+| Метрика | До (Task 0) | Після (Task 7) |
+|---|---|---|
+| Performance (mobile, local) | 99 | 95 |
+| LCP simulated | 1213 ms | 2717 ms |
+| LCP element | img hero-фото | h1 текст |
+| Observed FCP / LCP | 142 / 142 ms | 275 / 275 ms |
+| TBT simulated | 89 ms | 29 ms |
+| CLS | 0,067 | 0,067 |
+
+Чому simulated LCP локально зріс: раніше LCP-кандидатом було маленьке фото (8 KB),
+яке симулятор вважав готовим одразу; тепер LCP це текст H1, і симулятор рахує для нього
+повний критичний ланцюжок CSS + шрифт. На проді до змін той самий ланцюжок давав
+6,0-6,8 с через GA у критичному шляху; тепер GA стартує через 3 с або при взаємодії.
+
+Перший кадр малюється до гідратації React (трейс: Paint 250 ms, FCP 275 ms, перший
+EvaluateScript 267 ms). Повноекранний мобільний скріншот Lighthouse 412 px: без
+горизонтального переповнення, форма починається одразу під H1 і підводкою.
+
+Відхилення від плану під час виконання: GA вставляється клієнтом із затримкою замість
+`lazyOnload`; `opengraph-image.tsx` працює в edge-рантаймі зі шрифтом, скопійованим у
+папку роуту (Node-рантайм `next/og` не збирається на Windows); `vitest.config.mts`
+замість `.ts`; лінт пропущено, бо ESLint у репозиторії відсутній.
+
+Скріншоти і звіти: `.lighthouse/` (локально, не в git).
