@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.0.1",
@@ -49,7 +50,8 @@
   },
   "devDependencies": {
     "@types/sha.js": "^2.4.1",
-    "@types/uuid": "^9.0.3"
+    "@types/uuid": "^9.0.3",
+    "vitest": "^5.0.1"
   },
   "engines": {
     "node": "24.x"
