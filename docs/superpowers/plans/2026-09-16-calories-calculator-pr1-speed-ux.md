@@ -55,7 +55,7 @@
 | `const/routeSitemap.ts` | змінити | `SITE_CONTENT_LASTMOD` |
 | `lib/sitemap.ts`, `lib/sitemap.test.ts` | створити | побудова записів sitemap і тести |
 | `app/sitemap.ts` | змінити | делегує в `lib/sitemap.ts` |
-| `vitest.config.ts`, `package.json` | створити / змінити | тестовий раннер |
+| `vitest.config.mts`, `package.json` | створити / змінити | тестовий раннер |
 
 ---
 
@@ -939,7 +939,7 @@ git commit -m "seo(calories): og image, twitter card, metadataBase and brand tit
 
 **Files:**
 - Modify: `package.json` (`scripts.test`, devDependency `vitest`)
-- Create: `vitest.config.ts`
+- Create: `vitest.config.mts`
 - Modify: `const/routeSitemap.ts`
 - Create: `lib/sitemap.ts`
 - Create: `lib/sitemap.test.ts`
@@ -959,7 +959,7 @@ grep -n '"test"' package.json
 
 Очікувано: рядок `"test": "vitest run"` у `scripts`.
 
-- [ ] **Step 2: Створити `vitest.config.ts`**
+- [ ] **Step 2: Створити `vitest.config.mts`**
 
 ```ts
 import { fileURLToPath } from 'node:url';
@@ -1138,7 +1138,7 @@ PID=$(netstat -ano | grep ':3100 ' | grep LISTENING | awk '{print $5}' | head -1
 - [ ] **Step 10: Commit**
 
 ```bash
-git add package.json package-lock.json vitest.config.ts const/routeSitemap.ts lib/sitemap.ts lib/sitemap.test.ts app/sitemap.ts
+git add package.json package-lock.json vitest.config.mts const/routeSitemap.ts lib/sitemap.ts lib/sitemap.test.ts app/sitemap.ts
 git commit -m "seo(sitemap): real lastmod dates, drop changefreq and priority, add vitest"
 ```
 
