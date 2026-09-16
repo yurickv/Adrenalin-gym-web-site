@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import Header from '@/components/Header';
@@ -13,6 +14,14 @@ const inter = Inter({
   display: 'swap',
   variable: '--font-inter',
 });
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://gym-adrenalin.com.ua'),
+  title: {
+    default: 'Тренажерний зал Адреналін у Тернополі',
+    template: '%s | Adrenalin Gym',
+  },
+};
 
 export default async function RootLayout({
   children,

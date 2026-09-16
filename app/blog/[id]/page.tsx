@@ -26,7 +26,7 @@ export async function generateMetadata(
   const url = `${BASE_URL}/blog/${params.id}`;
 
   return {
-    title: post.title,
+    title: { absolute: post.title },
     description: post.description,
     keywords: [post.topic, 'Adrenalin gym', 'фітнес', 'спорт'],
     alternates: {
