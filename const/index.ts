@@ -55,3 +55,6 @@ export const SCREEN_WIDTHS = {
   desktop: 1280,
   xlDesktop: 1440,
 };
+
+export const SYTNO_URL =
+  'https://nutriday.com.ua/?utm_source=partner&utm_medium=referral&utm_campaign=gym-adrenalin';
