@@ -22,7 +22,6 @@ export default async function RootLayout({
   return (
     <html lang="uk" className={inter.variable}>
       <head>
-        <GoogleAnalytics ga_id={process.env.GTM_ID} />
         <LocalBusinessSchema />
       </head>
       <body className={inter.className}>
@@ -32,6 +31,7 @@ export default async function RootLayout({
           <Footer />
           <ToastContainer />
         </div>
+        <GoogleAnalytics ga_id={process.env.GTM_ID} />
       </body>
     </html>
   );

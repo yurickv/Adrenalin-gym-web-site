@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 
-import { ToastContainer } from 'react-toastify';
 import { NavLinks } from '@/const';
 import { Barbell } from './icons/Barbell';
 import { BurgerMenu } from './icons/BurgerMenu';
@@ -323,7 +322,6 @@ const Header: React.FC = () => {
           </Dialog.Panel>
         </Dialog>
       </div>
-      <ToastContainer />
     </header>
   );
 };
