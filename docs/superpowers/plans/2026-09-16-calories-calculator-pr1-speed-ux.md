@@ -26,6 +26,8 @@
 - У робочому дереві є незакоммічена правка description у `app/calcs/calories-calculator/layout.tsx`. Її не відкочувати: вона потрапить у коміт Task 5, а PR 2 замінить description повністю.
 - Середовище: Windows 11, Git Bash, Node 24, Chrome `C:/Program Files/Google/Chrome/Application/chrome.exe`. Production-сервер для перевірок піднімаємо на порту 3100, щоб не конфліктувати з `next dev` на 3000.
 - Команди довші за кілька тисяч символів через Bash не передавати (обмеження Windows); великі файли писати інструментом Write.
+- ESLint у репозиторії не встановлений і конфігурації немає (`npm run lint` не працює з 2023 року); у PR 1 лінт не запускаємо, це окрема задача.
+- Chrome напряму (screenshot, dump-dom) запускати з прапорцями `--no-sandbox --do-not-de-elevate`, інакше в підвищеній оболочці він переспавнюється і не віддає результат.
 
 ## Структура файлів
 
@@ -395,18 +397,17 @@ export default Header;
 
 ```bash
 npm run build 2>&1 | tail -5
-npm run lint 2>&1 | tail -3
 npx next start -p 3100 > .lighthouse/server.log 2>&1 &
 sleep 8
 curl -s http://localhost:3100/calcs/calories-calculator > .lighthouse/page.html
 grep -c "googletagmanager" .lighthouse/page.html
 grep -o 'class="Toastify"' .lighthouse/page.html | wc -l
-"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --no-sandbox --virtual-time-budget=1500 --dump-dom http://localhost:3100/calcs/calories-calculator 2>/dev/null | grep -c "googletagmanager.com/gtag/js?id="
-"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --no-sandbox --virtual-time-budget=8000 --dump-dom http://localhost:3100/calcs/calories-calculator 2>/dev/null | grep -c "googletagmanager.com/gtag/js?id="
+"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --no-sandbox --do-not-de-elevate --virtual-time-budget=1500 --dump-dom http://localhost:3100/calcs/calories-calculator 2>/dev/null | grep -c "googletagmanager.com/gtag/js?id="
+"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --no-sandbox --do-not-de-elevate --virtual-time-budget=8000 --dump-dom http://localhost:3100/calcs/calories-calculator 2>/dev/null | grep -c "googletagmanager.com/gtag/js?id="
 PID=$(netstat -ano | grep ':3100 ' | grep LISTENING | awk '{print $5}' | head -1); [ -n "$PID" ] && taskkill //PID "$PID" //F
 ```
 
-Очікувано: у серверному HTML `googletagmanager` `0` і `class="Toastify"` рівно `1`; DOM після 1,5 с віртуального часу без gtag (`0`), після 8 с з одним тегом gtag (`1`). Лінтер без помилок. Перевірка потребує `GTM_ID` у `.env` (він там є, GA вантажився у Task 0).
+Очікувано: у серверному HTML `googletagmanager` `0` і `class="Toastify"` рівно `1`; DOM після 1,5 с віртуального часу без gtag (`0`), після 8 с з одним тегом gtag (`1`). Перевірка потребує `GTM_ID` у `.env` (він там є, GA вантажився у Task 0).
 
 - [ ] **Step 5: Commit**
 
@@ -706,9 +707,9 @@ sleep 8
 curl -s http://localhost:3100/calcs/calories-calculator > .lighthouse/page.html
 for pat in '<h1' '<form' 'Розрахунок денної норми' 'Індекс маси тіла' 'Часті питання'; do printf "%8s  %s\n" "$(grep -b -o -m1 "$pat" .lighthouse/page.html | head -1 | cut -d: -f1)" "$pat"; done
 grep -c 'data-nimg="fill"' .lighthouse/page.html
-"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --hide-scrollbars --window-size=412,915 --screenshot="$PWD/.lighthouse/shot-412.png" http://localhost:3100/calcs/calories-calculator
-"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --hide-scrollbars --window-size=360,640 --screenshot="$PWD/.lighthouse/shot-360.png" http://localhost:3100/calcs/calories-calculator
-"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --hide-scrollbars --window-size=1366,900 --screenshot="$PWD/.lighthouse/shot-1366.png" http://localhost:3100/calcs/calories-calculator
+"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --no-sandbox --do-not-de-elevate --hide-scrollbars --window-size=412,915 --screenshot="$PWD/.lighthouse/shot-412.png" http://localhost:3100/calcs/calories-calculator
+"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --no-sandbox --do-not-de-elevate --hide-scrollbars --window-size=360,640 --screenshot="$PWD/.lighthouse/shot-360.png" http://localhost:3100/calcs/calories-calculator
+"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --no-sandbox --do-not-de-elevate --hide-scrollbars --window-size=1366,900 --screenshot="$PWD/.lighthouse/shot-1366.png" http://localhost:3100/calcs/calories-calculator
 PID=$(netstat -ano | grep ':3100 ' | grep LISTENING | awk '{print $5}' | head -1); [ -n "$PID" ] && taskkill //PID "$PID" //F
 ```
 
@@ -1122,7 +1123,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 ```bash
 npm run build 2>&1 | tail -5
-npm run lint 2>&1 | tail -5
 npx next start -p 3100 > .lighthouse/server.log 2>&1 &
 sleep 8
 curl -s http://localhost:3100/sitemap.xml > .lighthouse/sitemap.xml
@@ -1152,12 +1152,11 @@ git commit -m "seo(sitemap): real lastmod dates, drop changefreq and priority, a
 - [ ] **Step 1: Повний прогін збірки, лінтера і тестів**
 
 ```bash
-npm run lint 2>&1 | tail -5
 npm test 2>&1 | tail -5
 npm run build 2>&1 | tail -30
 ```
 
-Очікувано: лінтер без помилок, `6 passed`, у списку маршрутів `○ /calcs/calories-calculator` і `○ /calcs/calories-calculator/opengraph-image`.
+Очікувано: `6 passed`, у списку маршрутів `○ /calcs/calories-calculator` і `○ /calcs/calories-calculator/opengraph-image`.
 
 - [ ] **Step 2: Lighthouse після змін**
 
