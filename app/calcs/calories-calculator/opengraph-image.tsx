@@ -4,21 +4,34 @@ export const alt =
   'Калькулятор калорій онлайн від тренажерного залу Адреналін: норма на день, дефіцит для схуднення, БЖВ';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-// Node.js runtime цього роуту падає при білді на Windows: скомпільований
-// next/dist/compiled/@vercel/og/index.node.js резолвить свій вбудований
-// фолбек-шрифт через path.join(import.meta.url, ...), а path.join ламає
-// схему file:// на Windows (заміняє / на \). Edge runtime використовує
-// інший бандл (index.edge.js) без цього виклику.
+// Node.js-рантайм цього роуту в Next 14.2 не збирається на Windows: його
+// фолбек-шрифт резолвиться через path.join на file://-URL, а path.join
+// ламає цю схему на Windows (заміняє / на \). Проєкт розробляється на
+// Windows, тому для робочих локальних білдів потрібен саме edge-рантайм.
+// На Vercel роут кешується на CDN, тож рендеринг на льоту не додає витрат.
 export const runtime = 'edge';
 
 // Гліфи шрифту обмежені українським і латинським алфавітом, цифрами і базовою
 // пунктуацією (див. Task 5 плану PR 1). Інші символи зрендеряться порожніми.
+// Канонічна копія шрифту і його ліцензія лежать в assets/fonts/Inter-Bold.ttf
+// та assets/fonts/OFL.txt; тут файл продубльований лише тому, що бандлеру
+// роуту потрібен колокований асет — обидві копії мають лишатися побайтово
+// ідентичними.
 const interBold = fetch(
   new URL('./Inter-Bold.ttf', import.meta.url)
 ).then(res => res.arrayBuffer());
 
 export default async function Image() {
-  const fontData = await interBold;
+  let fontData: ArrayBuffer;
+  try {
+    fontData = await interBold;
+  } catch (error) {
+    console.error(
+      'opengraph-image: не вдалося завантажити Inter-Bold.ttf',
+      error
+    );
+    throw error;
+  }
 
   return new ImageResponse(
     (
