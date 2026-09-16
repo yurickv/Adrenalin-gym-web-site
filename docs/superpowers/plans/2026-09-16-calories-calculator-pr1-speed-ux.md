@@ -19,7 +19,7 @@
 - Три калькулятори, головна і пости блогу використовують `title: { absolute: ... }`.
 - Колір hero на мобільному: `#2E2F42`; акцент: `#f97316`.
 - Inter: `subsets: ['latin', 'cyrillic']`, `display: 'swap'`, `variable: '--font-inter'`.
-- Google Analytics: `strategy="lazyOnload"`, URL `https://www.googletagmanager.com/gtag/js?id=${ga_id}`, без `ga_id` компонент повертає `null`.
+- Google Analytics: вставляється клієнтом через 3 с після монтування або при першій взаємодії, URL `https://www.googletagmanager.com/gtag/js?id=${ga_id}`, без `ga_id` компонент нічого не робить.
 - Sitemap: маршрути, що починаються з `/calcs`, отримують `CALC_DATE_MODIFIED`; решта статичних маршрутів `SITE_CONTENT_LASTMOD = '2026-08-29'`; пости `createdAt` у форматі `YYYY-MM-DD`; полів `changeFrequency` і `priority` немає.
 - Посилання на Sytno завжди з UTM: `https://nutriday.com.ua/?utm_source=partner&utm_medium=referral&utm_campaign=gym-adrenalin`.
 - Змінюється тільки макет сторінки калорій. Сторінки ІМТ і жиру отримують лише `title.absolute`.
@@ -36,7 +36,7 @@
 | `app/layout.tsx` | змінити | Inter із кирилицею і CSS-змінною; GA у body; `metadataBase` і title template |
 | `app/globals.css` | змінити | прибрати `@import` Poppins і `font-family` у body |
 | `tailwind.config.js` | змінити | `font-poppins` → Inter; фон `hero-photo` |
-| `components/GoogleAnalytics.tsx` | змінити | gtag із `lazyOnload`, правильний URL |
+| `components/GoogleAnalytics.tsx` | змінити | клієнтський компонент: gtag через 3 с або при взаємодії, правильний URL |
 | `components/Header.tsx` | змінити | прибрати дубльований `ToastContainer` |
 | `const/index.ts` | змінити | `SYTNO_URL` |
 | `components/calcs-page/ButttonGroup.tsx` | змінити | використовує `SYTNO_URL` |
@@ -262,7 +262,7 @@ git commit -m "perf(fonts): preload cyrillic Inter and drop ignored Poppins impo
 
 ---
 
-### Task 2: Google Analytics після події load
+### Task 2: Google Analytics після першого кадру
 
 **Files:**
 - Modify: `components/GoogleAnalytics.tsx`
@@ -271,31 +271,76 @@ git commit -m "perf(fonts): preload cyrillic Inter and drop ignored Poppins impo
 
 **Interfaces:**
 - Consumes: `process.env.GTM_ID`.
-- Produces: `GoogleAnalytics({ ga_id })` рендерить два `<Script strategy="lazyOnload">` або `null`.
+- Produces: клієнтський компонент `GoogleAnalytics({ ga_id })`, який нічого не рендерить і вставляє gtag через `GA_DELAY_MS = 3000` мс після монтування або при першій взаємодії користувача, що настане раніше.
+
+Чому не `next/script` зі `strategy="lazyOnload"`: вимірювання на проді показали, що перший кадр малюється лише після виконання останнього скрипта (спостережуваний FCP 1,3-2,4 с при `load` 0,75-0,87 с). `lazyOnload` вставляє gtag одразу після `load`, тобто все одно до першого кадру, і Lighthouse далі рахує 285 KB GA у залежностях LCP. Затримка 3 с або перша взаємодія гарантовано виносить GA за межі першого кадру.
 
 - [ ] **Step 1: Переписати `components/GoogleAnalytics.tsx`**
 
 ```tsx
-import Script from 'next/script';
+'use client';
+
+import { useEffect } from 'react';
+
+export const GA_DELAY_MS = 3000;
+
+const INTERACTION_EVENTS = [
+  'pointerdown',
+  'keydown',
+  'scroll',
+  'touchstart',
+] as const;
+
+declare global {
+  interface Window {
+    dataLayer: unknown[];
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+function injectGtag(gaId: string) {
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag() {
+    // gtag очікує саме обʼєкт arguments, як в офіційному сніпеті Google
+    // eslint-disable-next-line prefer-rest-params
+    window.dataLayer.push(arguments);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', gaId);
+
+  const script = document.createElement('script');
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+  script.async = true;
+  document.head.appendChild(script);
+}
 
 const GoogleAnalytics = ({ ga_id }: { ga_id?: string }) => {
-  if (!ga_id) return null;
+  useEffect(() => {
+    if (!ga_id) return;
 
-  return (
-    <>
-      <Script
-        id="gtag-lib"
-        src={`https://www.googletagmanager.com/gtag/js?id=${ga_id}`}
-        strategy="lazyOnload"
-      />
-      <Script id="gtag-init" strategy="lazyOnload">
-        {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${ga_id}');`}
-      </Script>
-    </>
-  );
+    let done = false;
+    const load = () => {
+      if (done) return;
+      done = true;
+      cleanup();
+      injectGtag(ga_id);
+    };
+    const timer = window.setTimeout(load, GA_DELAY_MS);
+    INTERACTION_EVENTS.forEach(event =>
+      window.addEventListener(event, load, { once: true, passive: true })
+    );
+
+    function cleanup() {
+      window.clearTimeout(timer);
+      INTERACTION_EVENTS.forEach(event =>
+        window.removeEventListener(event, load)
+      );
+    }
+
+    return cleanup;
+  }, [ga_id]);
+
+  return null;
 };
 
 export default GoogleAnalytics;
@@ -346,25 +391,28 @@ import { ToastContainer } from 'react-toastify';
 export default Header;
 ```
 
-- [ ] **Step 4: Зібрати і перевірити HTML**
+- [ ] **Step 4: Зібрати і перевірити HTML та момент вставки gtag**
 
 ```bash
 npm run build 2>&1 | tail -5
+npm run lint 2>&1 | tail -3
 npx next start -p 3100 > .lighthouse/server.log 2>&1 &
 sleep 8
 curl -s http://localhost:3100/calcs/calories-calculator > .lighthouse/page.html
 grep -c "googletagmanager" .lighthouse/page.html
 grep -o 'class="Toastify"' .lighthouse/page.html | wc -l
+"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --no-sandbox --virtual-time-budget=1500 --dump-dom http://localhost:3100/calcs/calories-calculator 2>/dev/null | grep -c "googletagmanager.com/gtag/js?id="
+"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --no-sandbox --virtual-time-budget=8000 --dump-dom http://localhost:3100/calcs/calories-calculator 2>/dev/null | grep -c "googletagmanager.com/gtag/js?id="
 PID=$(netstat -ano | grep ':3100 ' | grep LISTENING | awk '{print $5}' | head -1); [ -n "$PID" ] && taskkill //PID "$PID" //F
 ```
 
-Очікувано: `googletagmanager` у HTML `0` (скрипт вставляється клієнтом після load, preload зник); `class="Toastify"` рівно `1`.
+Очікувано: у серверному HTML `googletagmanager` `0` і `class="Toastify"` рівно `1`; DOM після 1,5 с віртуального часу без gtag (`0`), після 8 с з одним тегом gtag (`1`). Лінтер без помилок. Перевірка потребує `GTM_ID` у `.env` (він там є, GA вантажився у Task 0).
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add components/GoogleAnalytics.tsx app/layout.tsx components/Header.tsx
-git commit -m "perf(analytics): load gtag after window load, fix script url, single ToastContainer"
+git commit -m "perf(analytics): inject gtag after 3 s or first interaction, fix script url, single ToastContainer"
 ```
 
 ---
