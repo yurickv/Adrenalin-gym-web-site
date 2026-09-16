@@ -84,6 +84,8 @@ module.exports = {
       backgroundImage: {
         'hero-bg':
           'linear-gradient(to right, rgba(46, 47, 66, 0.5), rgba(46, 47, 66, 0.5))', //, url('/bg-hero.webp')
+        'hero-photo':
+          "linear-gradient(to right, rgba(46, 47, 66, 0.5), rgba(46, 47, 66, 0.5)), url('/bg-hero.webp')",
         'calc-bg':
           'linear-gradient(to right, rgba(219, 219, 219, 0.5), rgba(219, 219, 219, 0.5)) ',
         'calc-bg-woman': "url('/woman.webp')",
