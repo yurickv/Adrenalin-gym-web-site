@@ -1,5 +1,4 @@
 import './globals.css';
-import dynamic from 'next/dynamic';
 import { Inter } from 'next/font/google';
 import Header from '@/components/Header';
 import LocalBusinessSchema from '@/components/LocalBusinessSchema';
@@ -9,9 +8,11 @@ import { ToastContainer } from 'react-toastify';
 import Footer from '@/components/Footer';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 
-// const Footer = dynamic(() => import('../components/Footer'), { ssr: false });
-
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export default async function RootLayout({
   children,
@@ -19,7 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="uk">
+    <html lang="uk" className={inter.variable}>
       <head>
         <GoogleAnalytics ga_id={process.env.GTM_ID} />
         <LocalBusinessSchema />

@@ -73,7 +73,7 @@ module.exports = {
         full: '9999px',
       },
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
+        poppins: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       screens: {
         sm: '320px',
