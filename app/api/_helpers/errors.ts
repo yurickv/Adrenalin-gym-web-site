@@ -25,6 +25,15 @@ export class Unauthorized extends Error {
   }
 }
 
+export class Forbidden extends Error {
+  private status;
+  constructor(message: string) {
+    super(message);
+    this.status = 403;
+    this.message = message;
+  }
+}
+
 export class Conflict extends Error {
   private status;
   constructor(message: string) {

@@ -79,3 +79,33 @@ describe('formatRating', () => {
     expect(formatRating(4.4)).toBe('4,4');
   });
 });
+
+describe('buildAggregateRating at the threshold', () => {
+  it('publishes at exactly 5 votes and keeps a trailing zero', () => {
+    expect(buildAggregateRating({ average: 4, count: 5 })).toEqual({
+      '@type': 'AggregateRating',
+      ratingValue: '4.0',
+      ratingCount: 5,
+      bestRating: 5,
+      worstRating: 1,
+    });
+  });
+});
+
+describe('averageOf edge cases', () => {
+  it('rounds repeating fractions and treats negative counts as empty', () => {
+    expect(averageOf(11, 3)).toBe(3.7);
+    expect(averageOf(7, 2)).toBe(3.5);
+    expect(averageOf(5, -1)).toBe(0);
+  });
+});
+
+describe('guards reject odd inputs', () => {
+  it('rejects Infinity, null, booleans and empty ids', () => {
+    expect(isValidRatingValue(Infinity)).toBe(false);
+    expect(isValidRatingValue(null)).toBe(false);
+    expect(isValidRatingValue(true)).toBe(false);
+    expect(isCalcId('')).toBe(false);
+    expect(isCalcId(null)).toBe(false);
+  });
+});

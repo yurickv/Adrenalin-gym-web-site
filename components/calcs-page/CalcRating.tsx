@@ -54,8 +54,11 @@ export const CalcRating = ({ calcId, initial }: Props) => {
     }
   }, [key]);
 
+  const locked =
+    status === 'voted' || status === 'duplicate' || status === 'pending';
+
   const submit = async (value: number) => {
-    if (status !== 'idle' && status !== 'error') return;
+    if (locked) return;
     setStatus('pending');
     setVote(value);
     try {
@@ -85,7 +88,6 @@ export const CalcRating = ({ calcId, initial }: Props) => {
     }
   };
 
-  const locked = status === 'voted' || status === 'duplicate';
   const shown = hover ?? vote ?? 0;
   const statsText =
     stats && stats.count > 0
@@ -107,59 +109,41 @@ export const CalcRating = ({ calcId, initial }: Props) => {
       <p id={labelId} className="font-semibold text-mainTitle dark:text-mainTitleBlack">
         Чи корисний калькулятор?
       </p>
-
-      {locked ? (
-        <div className="mt-2 flex justify-center gap-1">
-          <span className="sr-only">
-            {vote !== null
-              ? `Ваша оцінка: ${vote} з ${RATING_MAX}`
-              : 'Оцінку з вашої адреси вже зараховано'}
-          </span>
-          <span aria-hidden="true" className="flex gap-1">
-            {STARS.map(value => (
-              <span key={value} className={`px-1 ${starClass(value <= (vote ?? 0))}`}>
-                ★
-              </span>
-            ))}
-          </span>
-        </div>
-      ) : (
-        <div
-          role="radiogroup"
-          aria-labelledby={labelId}
-          className="mt-2 flex justify-center gap-1"
-          onMouseLeave={() => setHover(null)}
-        >
-          {STARS.map(value => (
-            <label
-              key={value}
-              className={`cursor-pointer rounded px-1 focus-within:ring-2 focus-within:ring-main ${starClass(
-                value <= shown
-              )}`}
-              onMouseEnter={() => setHover(value)}
-            >
-              <input
-                type="radio"
-                name={`${calcId}-rating`}
-                value={value}
-                className="sr-only"
-                checked={vote === value}
-                disabled={status === 'pending'}
-                aria-label={`Оцінити ${value} з ${RATING_MAX}`}
-                onChange={() => submit(value)}
-                onFocus={() => setHover(value)}
-                onBlur={() => setHover(null)}
-              />
-              <span aria-hidden="true">★</span>
-            </label>
-          ))}
-        </div>
-      )}
-
+      {/* Кнопки, а не radio: стрілки не мають надсилати голос, лише клік, Enter або пробіл. */}
+      <div
+        role="group"
+        aria-labelledby={labelId}
+        className="mt-2 flex justify-center gap-1"
+        onMouseLeave={() => setHover(null)}
+      >
+        {STARS.map(value => (
+          <button
+            key={value}
+            type="button"
+            aria-pressed={vote === value}
+            aria-disabled={locked || undefined}
+            aria-label={`Оцінити ${value} з ${RATING_MAX}`}
+            className={`rounded px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-700 dark:focus-visible:ring-orange-200 ${
+              locked ? 'cursor-default' : 'cursor-pointer'
+            } ${starClass(value <= shown)}`}
+            onMouseEnter={() => !locked && setHover(value)}
+            onFocus={() => !locked && setHover(value)}
+            onBlur={() => setHover(null)}
+            onClick={() => submit(value)}
+          >
+            <span aria-hidden="true">★</span>
+          </button>
+        ))}
+      </div>
       <p
         className="mt-2 min-h-[1.5rem] text-sm text-neutral-600 dark:text-mainTextBlack"
         aria-live="polite"
       >
+        {status === 'voted' && vote !== null ? (
+          <span className="sr-only">
+            Ваша оцінка: {vote} з {RATING_MAX}.{' '}
+          </span>
+        ) : null}
         {message}
       </p>
     </div>
