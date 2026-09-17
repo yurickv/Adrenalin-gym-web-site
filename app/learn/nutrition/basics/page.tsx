@@ -69,8 +69,9 @@ const BasicsNutrition = () => {
                 href="/calcs/calories-calculator"
                 className="underline underline-offset-4 font-semibold text-mainTitle dark:text-mainTitleBlack"
               >
-                нашого калькулятора.
-              </Link>{' '}
+                калькулятора денної норми калорій
+              </Link>
+              .
             </p>
             <p className="p-text">
               Окрім енергії, кожен{' '}

@@ -102,8 +102,9 @@ const DietForWeightLost = () => {
                 href="/calcs/calories-calculator"
                 className="underline underline-offset-4 font-semibold text-mainTitle dark:text-mainTitleBlack"
               >
-                нашого калькулятора.
+                калькулятора калорій для схуднення
               </Link>
+              .
             </p>
             <p className="p-text">
               Якщо з’їли більше калорій ніж витратили, то надлишкові
@@ -114,15 +115,16 @@ const DietForWeightLost = () => {
                 href="/calcs/imt-calculator"
                 className="underline underline-offset-4 font-semibold text-mainTitle dark:text-mainTitleBlack"
               >
-                IMT
+                калькулятор ІМТ
               </Link>{' '}
               та{' '}
               <Link
                 href="/calcs/fat-calculator"
                 className="underline underline-offset-4 font-semibold text-mainTitle dark:text-mainTitleBlack"
               >
-                % жиру в тілі.
+                калькулятор відсотка жиру в організмі
               </Link>
+              .
             </p>
             <p className="p-text">
               <span className="font-semibold text-mainTitle dark:text-mainTitleBlack ">

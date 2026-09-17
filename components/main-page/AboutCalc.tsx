@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '../Button';
 import me from '../../public/woman.webp';
 import FadeIn from '@/components/FadeIn';
@@ -31,6 +32,20 @@ export const AboutCalc = () => {
           Прості калькулятори допоможуть визначити ІМТ (індекс маси тіла),
           відсоток жиру в тілі та денну потребу калорій. Це допоможе стежити за
           прогресом і збалансувати твоє харчування та тренування.
+        </p>
+        <p className="text-base lg:text-lg md:w-6/12 text-mainText mb-8 text-left">
+          <Link href="/calcs/calories-calculator" className="underline underline-offset-4 font-semibold text-mainTitle">
+            Калькулятор калорій для схуднення
+          </Link>
+          ,{' '}
+          <Link href="/calcs/imt-calculator" className="underline underline-offset-4 font-semibold text-mainTitle">
+            калькулятор ІМТ
+          </Link>{' '}
+          та{' '}
+          <Link href="/calcs/fat-calculator" className="underline underline-offset-4 font-semibold text-mainTitle">
+            калькулятор відсотка жиру в організмі
+          </Link>
+          .
         </p>
 
         <Button

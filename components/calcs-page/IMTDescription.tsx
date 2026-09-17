@@ -39,6 +39,16 @@ export const DescriptionIMT = () => {
         серцево-судинної системи, гіпертонію і артрит.
       </li>
       <li>
+        Знаючи свою форму, розрахуйте{' '}
+        <Link
+          href="/calcs/calories-calculator"
+          className="text-mainTitle dark:text-mainTitleBlack underline"
+        >
+          денну норму калорій і дефіцит для схуднення
+        </Link>
+        .
+      </li>
+      <li>
         {' '}
         Короткі статті про{' '}
         <Link

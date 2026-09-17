@@ -79,7 +79,7 @@ const DietForGainingWeight = () => {
                 href="/calcs/calories-calculator"
                 className="underline underline-offset-4 font-semibold text-mainTitle dark:text-mainTitleBlack"
               >
-                денну норму в калоріях можна тут
+                денну норму калорій у калькуляторі калорій
               </Link>
               ).
             </p>

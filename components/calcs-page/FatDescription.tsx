@@ -28,6 +28,16 @@ export const DescriptionFat = () => {
           організмі є одним із найбільш точних.
         </li>
         <li>
+          Знаючи свою форму, розрахуйте{' '}
+          <Link
+            href="/calcs/calories-calculator"
+            className="text-mainTitle dark:text-mainTitleBlack underline"
+          >
+            денну норму калорій і дефіцит для схуднення
+          </Link>
+          .
+        </li>
+        <li>
           {' '}
           Короткі статті про{' '}
           <Link
