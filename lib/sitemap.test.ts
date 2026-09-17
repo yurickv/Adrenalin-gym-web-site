@@ -61,4 +61,10 @@ describe('buildSitemap', () => {
       expect(entry).not.toHaveProperty('priority');
     }
   });
+
+  it('skips posts without a valid id', () => {
+    const entries = buildSitemap([{ id: '' }, { id: 'ok', createdAt: '2026-02-03T00:00:00.000Z' }]);
+    const postEntries = entries.slice(routeSitemap.length);
+    expect(postEntries).toEqual([{ url: `${SITE_URL}/blog/ok`, lastModified: '2026-02-03' }]);
+  });
 });

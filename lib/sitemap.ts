@@ -19,10 +19,12 @@ export function buildSitemap(posts: SitemapPost[]): MetadataRoute.Sitemap {
     lastModified: lastModifiedForRoute(route),
   }));
 
-  const postEntries = posts.map(post => ({
-    url: `${SITE_URL}/blog/${post.id}`,
-    ...(post.createdAt ? { lastModified: post.createdAt.slice(0, 10) } : {}),
-  }));
+  const postEntries = posts
+    .filter(post => typeof post.id === 'string' && post.id.length > 0)
+    .map(post => ({
+      url: `${SITE_URL}/blog/${post.id}`,
+      ...(post.createdAt ? { lastModified: post.createdAt.slice(0, 10) } : {}),
+    }));
 
   return [...staticEntries, ...postEntries];
 }

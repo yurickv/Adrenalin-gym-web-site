@@ -17,21 +17,26 @@ export const runtime = 'edge';
 // та assets/fonts/OFL.txt; тут файл продубльований лише тому, що бандлеру
 // роуту потрібен колокований асет — обидві копії мають лишатися побайтово
 // ідентичними.
-const interBold = fetch(
-  new URL('./Inter-Bold.ttf', import.meta.url)
-).then(res => res.arrayBuffer());
+let fontPromise: Promise<ArrayBuffer> | null = null;
+
+function loadFont(): Promise<ArrayBuffer> {
+  if (!fontPromise) {
+    fontPromise = fetch(new URL('./Inter-Bold.ttf', import.meta.url))
+      .then(res => res.arrayBuffer())
+      .catch(error => {
+        fontPromise = null;
+        console.error(
+          'opengraph-image: не вдалося завантажити Inter-Bold.ttf',
+          error
+        );
+        throw error;
+      });
+  }
+  return fontPromise;
+}
 
 export default async function Image() {
-  let fontData: ArrayBuffer;
-  try {
-    fontData = await interBold;
-  } catch (error) {
-    console.error(
-      'opengraph-image: не вдалося завантажити Inter-Bold.ttf',
-      error
-    );
-    throw error;
-  }
+  const fontData = await loadFont();
 
   return new ImageResponse(
     (
