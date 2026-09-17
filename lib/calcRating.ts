@@ -61,3 +61,7 @@ export function buildAggregateRating(
 export function ratingStorageKey(calcId: CalcId): string {
   return `calc_rating_${calcId}`;
 }
+
+export function formatRating(average: number): string {
+  return average.toFixed(1).replace('.', ',');
+}

@@ -3,6 +3,7 @@ import {
   averageOf,
   buildAggregateRating,
   CALC_IDS,
+  formatRating,
   isCalcId,
   isPublishable,
   isValidRatingValue,
@@ -69,5 +70,12 @@ describe('buildAggregateRating', () => {
 describe('ratingStorageKey', () => {
   it('namespaces the key by calculator', () => {
     expect(ratingStorageKey('calories-calculator')).toBe('calc_rating_calories-calculator');
+  });
+});
+
+describe('formatRating', () => {
+  it('uses one decimal and a comma separator', () => {
+    expect(formatRating(4)).toBe('4,0');
+    expect(formatRating(4.4)).toBe('4,4');
   });
 });
