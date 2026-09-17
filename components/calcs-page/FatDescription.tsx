@@ -77,9 +77,9 @@ export const DescriptionFat = () => {
         </li>
       </ul>
 
-      <p className="text-lg font-semibold mt-6 text-mainTitle dark:text-mainTitleBlack">
-        Як виміряти обхвати:
-      </p>
+      <h3 className="text-lg font-semibold mt-6 text-mainTitle dark:text-mainTitleBlack">
+        Як виміряти обхвати
+      </h3>
       <ul className="flex flex-col gap-1 text-justify mt-3 list-disc list-inside">
         <li>Шия: під гортанню, стрічка трохи нахилена вперед-вниз, не стискає.</li>
         <li>
@@ -90,20 +90,22 @@ export const DescriptionFat = () => {
         <li>Зріст без взуття. Усі виміри в сантиметрах, стрічка щільна, але не врізається.</li>
       </ul>
 
-      <p className="text-lg font-semibold mt-6 text-mainTitle dark:text-mainTitleBlack">
-        Як виміряти шкірні складки:
-      </p>
+      <h3 className="text-lg font-semibold mt-6 text-mainTitle dark:text-mainTitleBlack">
+        Як виміряти шкірні складки
+      </h3>
       <ul className="flex flex-col gap-1 text-justify mt-3 list-disc list-inside">
         <li>
           Відтягніть шкіру вказівним і великим пальцями в потрібному місці і виміряйте товщину
           складки каліпером або лінійкою.
         </li>
-        <li>Груди (чоловіки): діагональна складка по зовнішньому краю великого грудного мʼяза.</li>
+        <li>Груди (чоловіки): діагональна складка посередині між передньою пахвовою лінією і соском.</li>
         <li>Трицепс (жінки): вертикальна складка на задній середній лінії руки між плечем і ліктем.</li>
+        <li>Живіт (чоловіки): вертикальна складка за 2 см від пупа.</li>
         <li>
-          Живіт: вертикальна складка за 2 см від пупа (чоловіки) або збоку на рівні пупа (жінки).
+          Над клубовою кісткою (жінки): діагональна складка над гребенем таза по передній
+          пахвовій лінії.
         </li>
-        <li>Стегно: вертикальна складка на передній середній лінії між пахом і коліном.</li>
+        <li>Стегно: вертикальна складка на передній поверхні посередині між пахом і коліном.</li>
       </ul>
 
       <NormTable sex="male" title="Норма відсотка жиру для чоловіків" />

@@ -13,6 +13,7 @@ import {
   jacksonPollockBodyFat,
   leanMassKg,
   navyBodyFat,
+  PLAUSIBLE_RANGE,
   type FatMethod,
 } from '@/lib/bodyFat';
 
@@ -76,7 +77,7 @@ export const FatResult = ({ method, sex, values }: FatResultProps) => {
 
   if (pct !== null && !isPlausibleBodyFat(pct)) {
     pct = null;
-    hint = 'Перевірте виміри: результат поза можливим діапазоном 2–70%.';
+    hint = `Перевірте виміри: результат поза можливим діапазоном ${PLAUSIBLE_RANGE[0]}–${PLAUSIBLE_RANGE[1]}%. Найчастіше причина в обхватах талії і шиї.`;
   }
 
   const weight = validNumber(values.weight, FAT_LIMITS.weight);

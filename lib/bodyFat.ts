@@ -39,7 +39,7 @@ export function navyBodyFat(sex: Sex, m: TapeMeasures): number | null {
 }
 
 // Джексон-Поллок за трьома складками (чоловіки: груди, живіт, стегно;
-// жінки: трицепс, живіт збоку, стегно).
+// жінки: трицепс, над клубовою кісткою (suprailiac), стегно).
 export function jacksonPollockBodyFat(sex: Sex, age: number, sumMm: number): number {
   const density =
     sex === 'male'
@@ -97,7 +97,7 @@ export function fatMassKg(weightKg: number, pct: number): number {
 }
 
 export function leanMassKg(weightKg: number, pct: number): number {
-  return round1(weightKg - (weightKg * pct) / 100);
+  return round1(round1(weightKg) - fatMassKg(weightKg, pct));
 }
 
 export function formatPercent(pct: number): string {

@@ -126,8 +126,8 @@ export const FatCalcList = () => {
             Товщина шкірних складок:
           </p>
           {field('skinFold', sex === 'male' ? 'На грудях (мм):' : 'На трицепсі (мм):')}
-          {field('skinFoldW', sex === 'male' ? 'На животі (мм):' : 'Живіт збоку (мм):')}
-          {field('skinFoldL', 'На стегні (мм):')}
+          {field('skinFoldW', sex === 'male' ? 'На животі (мм):' : 'Над клубовою кісткою (мм):')}
+          {field('skinFoldL', 'На стегні, передня поверхня (мм):')}
         </>
       )}
 

@@ -103,3 +103,51 @@ describe('constants', () => {
     expect(HEALTHY_RANGE.female).toEqual([16, 24]);
   });
 });
+
+describe('fat and lean mass', () => {
+  it('always sum to the entered weight', () => {
+    for (let w = 40; w <= 120; w += 0.5) {
+      for (let p = 2; p <= 70; p = Math.round((p + 0.1) * 10) / 10) {
+        expect(fatMassKg(w, p) + leanMassKg(w, p)).toBeCloseTo(Math.round(w * 10) / 10, 5);
+      }
+    }
+  });
+});
+
+describe('category boundaries', () => {
+  it('switches category exactly at every threshold', () => {
+    const male = [6, 13, 17, 21, 25];
+    male.forEach((t, i) => {
+      expect(bodyFatCategory('male', t - 0.1)).toBe(FAT_CATEGORIES.male[i]);
+      expect(bodyFatCategory('male', t)).toBe(FAT_CATEGORIES.male[i + 1]);
+    });
+    const female = [10, 14, 16, 20, 24, 30];
+    female.forEach((t, i) => {
+      expect(bodyFatCategory('female', t - 0.1)).toBe(FAT_CATEGORIES.female[i]);
+      expect(bodyFatCategory('female', t)).toBe(FAT_CATEGORIES.female[i + 1]);
+    });
+  });
+
+  it('table labels agree with the classifier', () => {
+    for (const sex of ['male', 'female'] as const) {
+      const list = FAT_CATEGORIES[sex];
+      list.forEach((c, i) => {
+        const label = fatRangeLabel(list, i);
+        if (Number.isFinite(c.max)) {
+          expect(label.endsWith(`${c.max}%`)).toBe(true);
+          expect(bodyFatCategory(sex, c.max - 0.1)).toBe(c);
+        } else {
+          expect(label.startsWith('понад')).toBe(true);
+        }
+      });
+    }
+  });
+});
+
+describe('navyBodyFat implausible output', () => {
+  it('goes far negative when waist barely exceeds neck, which isPlausibleBodyFat rejects', () => {
+    const pct = navyBodyFat('male', { heightCm: 180, neckCm: 38, waistCm: 38.1 });
+    expect(pct).not.toBeNull();
+    expect(isPlausibleBodyFat(pct as number)).toBe(false);
+  });
+});
