@@ -21,10 +21,10 @@ export const CaloriesDeficitTable = () => (
             </caption>
             <thead>
               <tr className="border-b border-gray-400">
-                <th className="py-2 pr-4">Дефіцит</th>
-                <th className="py-2 pr-4">ккал на день</th>
-                <th className="py-2 pr-4">Мінус на день</th>
-                <th className="py-2">Втрата за тиждень</th>
+                <th scope="col" className="py-2 pr-4">Дефіцит</th>
+                <th scope="col" className="py-2 pr-4">ккал на день</th>
+                <th scope="col" className="py-2 pr-4">Мінус на день</th>
+                <th scope="col" className="py-2">Втрата за тиждень</th>
               </tr>
             </thead>
             <tbody>
@@ -32,7 +32,7 @@ export const CaloriesDeficitTable = () => (
                 const perDay = Math.round((BASE * percent) / 100);
                 return (
                   <tr key={percent} className="border-b border-gray-300">
-                    <td className="py-2 pr-4">{percent}%</td>
+                    <th scope="row" className="py-2 pr-4 font-normal">{percent}%</th>
                     <td className="py-2 pr-4">{BASE - perDay}</td>
                     <td className="py-2 pr-4">{perDay} ккал</td>
                     <td className="py-2">≈ {weeklyLossKg(perDay)} кг</td>

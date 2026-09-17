@@ -779,9 +779,9 @@ export const CaloriesNormTable = () => (
               </caption>
               <thead>
                 <tr className="border-b border-gray-400">
-                  <th className="py-2 pr-4">Вік</th>
+                  <th scope="col" className="py-2 pr-4">Вік</th>
                   {ACTIVITIES.map(a => (
-                    <th key={a.factor} className="py-2 pr-4">
+                    <th key={a.factor} scope="col" className="py-2 pr-4">
                       Активність {a.label}
                     </th>
                   ))}
@@ -790,7 +790,7 @@ export const CaloriesNormTable = () => (
               <tbody>
                 {AGE_GROUPS.map(group => (
                   <tr key={group.age} className="border-b border-gray-300">
-                    <td className="py-2 pr-4">{group.label}</td>
+                    <th scope="row" className="py-2 pr-4 font-normal">{group.label}</th>
                     {ACTIVITIES.map(a => (
                       <td key={a.factor} className="py-2 pr-4">
                         {norm(profile, group.age, a.factor)}
@@ -834,10 +834,10 @@ export const CaloriesDeficitTable = () => (
             </caption>
             <thead>
               <tr className="border-b border-gray-400">
-                <th className="py-2 pr-4">Дефіцит</th>
-                <th className="py-2 pr-4">ккал на день</th>
-                <th className="py-2 pr-4">Мінус на день</th>
-                <th className="py-2">Втрата за тиждень</th>
+                <th scope="col" className="py-2 pr-4">Дефіцит</th>
+                <th scope="col" className="py-2 pr-4">ккал на день</th>
+                <th scope="col" className="py-2 pr-4">Мінус на день</th>
+                <th scope="col" className="py-2">Втрата за тиждень</th>
               </tr>
             </thead>
             <tbody>
@@ -845,7 +845,7 @@ export const CaloriesDeficitTable = () => (
                 const perDay = Math.round((BASE * percent) / 100);
                 return (
                   <tr key={percent} className="border-b border-gray-300">
-                    <td className="py-2 pr-4">{percent}%</td>
+                    <th scope="row" className="py-2 pr-4 font-normal">{percent}%</th>
                     <td className="py-2 pr-4">{BASE - perDay}</td>
                     <td className="py-2 pr-4">{perDay} ккал</td>
                     <td className="py-2">≈ {weeklyLossKg(perDay)} кг</td>
@@ -1029,12 +1029,12 @@ import type { Metadata } from 'next';
 const TITLE = 'Калькулятор калорій: норма, дефіцит для схуднення, БЖВ';
 const DESCRIPTION =
   'Безкоштовний калькулятор калорій без реєстрації: денна норма за Міффліном-Сан Жеором, дефіцит для схуднення, профіцит для набору ваги і БЖВ за 10 секунд.';
-const URL = 'https://gym-adrenalin.com.ua/calcs/calories-calculator';
+const PAGE_URL = 'https://gym-adrenalin.com.ua/calcs/calories-calculator';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
   description: DESCRIPTION,
-  alternates: { canonical: URL },
+  alternates: { canonical: PAGE_URL },
   authors: [{ name: 'Теслюк Юрій' }],
   robots: {
     index: true,
@@ -1061,7 +1061,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: URL,
+    url: PAGE_URL,
     siteName: 'Адреналін Gym',
     locale: 'uk_UA',
     type: 'website',

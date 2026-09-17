@@ -38,9 +38,9 @@ export const CaloriesNormTable = () => (
               </caption>
               <thead>
                 <tr className="border-b border-gray-400">
-                  <th className="py-2 pr-4">Вік</th>
+                  <th scope="col" className="py-2 pr-4">Вік</th>
                   {ACTIVITIES.map(a => (
-                    <th key={a.factor} className="py-2 pr-4">
+                    <th key={a.factor} scope="col" className="py-2 pr-4">
                       Активність {a.label}
                     </th>
                   ))}
@@ -49,7 +49,7 @@ export const CaloriesNormTable = () => (
               <tbody>
                 {AGE_GROUPS.map(group => (
                   <tr key={group.age} className="border-b border-gray-300">
-                    <td className="py-2 pr-4">{group.label}</td>
+                    <th scope="row" className="py-2 pr-4 font-normal">{group.label}</th>
                     {ACTIVITIES.map(a => (
                       <td key={a.factor} className="py-2 pr-4">
                         {norm(profile, group.age, a.factor)}
