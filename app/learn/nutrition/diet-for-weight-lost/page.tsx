@@ -109,8 +109,8 @@ const DietForWeightLost = () => {
             <p className="p-text">
               Якщо з’їли більше калорій ніж витратили, то надлишкові
               відкладаються в жирових клітинах. Якщо довго переїдати калорії, то
-              людина набирає лишню вагу. Визначити в якій ви формі легко нашими
-              з фітнес калькуляторами{' '}
+              людина набирає лишню вагу. Визначити, в якій ви формі, легко за
+              допомогою наших інструментів:{' '}
               <Link
                 href="/calcs/imt-calculator"
                 className="underline underline-offset-4 font-semibold text-mainTitle dark:text-mainTitleBlack"
