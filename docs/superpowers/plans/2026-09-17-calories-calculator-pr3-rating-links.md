@@ -875,7 +875,7 @@ git commit -m "docs(plan): record PR 3 verification results"
 
 | Метрика | PR 2 | PR 3 |
 |---|---|---|
-| Performance (mobile, local) | 96 | 97 |
+| Performance (mobile, local) | 96 | 96 |
 | Accessibility | 100 | 100 |
 | SEO | 100 | 100 |
 | Тестів | 26 | 38 |
