@@ -9,6 +9,7 @@ import { CaloriesNormTable } from '@/components/calcs-page/CaloriesNormTable';
 import { CaloriesDeficitTable } from '@/components/calcs-page/CaloriesDeficitTable';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import { getCalcRating } from '@/app/_services/calcRating.service';
+import { CalcRating } from '@/components/calcs-page/CalcRating';
 import Link from 'next/link';
 
 export const revalidate = 3600;
@@ -67,6 +68,7 @@ const CaloriesCalc = async () => {
               </p>
               <CaloriesCalcList />
               <ButtonGroup />
+              <CalcRating calcId="calories-calculator" initial={rating} />
             </div>
 
             <div className="basis-1/2 text-left">
