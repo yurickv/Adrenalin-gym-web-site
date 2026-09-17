@@ -1319,3 +1319,24 @@ git commit -m "docs(plan): record PR 2 verification results"
 ```
 
 Далі гілку завершує skill `superpowers:finishing-a-development-branch`.
+
+## Результати PR 2
+
+Локальна production-збірка, Lighthouse 12, мобільна емуляція, simulate.
+
+| Метрика | PR 1 | PR 2 |
+|---|---|---|
+| Performance (mobile, local) | 95 | 90 |
+| Accessibility | 96 | 100 |
+| SEO | 100 | 100 |
+| LCP simulated | 2717 ms | 2621 ms |
+| LCP element | h1 | h1 |
+| Тестів | 7 | 23 |
+
+Performance коливається між прогонами на 5-10 балів через локальний шум; сторінка стала
+довшою на два блоки з таблицями і компонент результату, TBT лишається в зеленій зоні.
+Контрастних зауважень 0 після заміни кольорів підказки й активного перемикача.
+
+Після деплою: Rich Results Test для BreadcrumbList і WebApplication, PSI, запит на
+переіндексацію в Search Console. Порівняння позицій за «калькулятор калорій»,
+«калькулятор дефіциту калорій», «розрахунок калорій» через 4–6 тижнів.
