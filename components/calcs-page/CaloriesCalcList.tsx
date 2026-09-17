@@ -5,17 +5,9 @@ import { InputSkeleton } from './InputSkeleton';
 import { CaloriesResult } from './CaloriesResult';
 import { ACTIVITY_LEVELS, LIMITS, type Goal, type Sex } from '@/lib/calories';
 import { rangeError } from '@/lib/rangeError';
+import { SEX_OPTIONS, toggleClass } from './formStyles';
 
 type Field = keyof typeof LIMITS;
-
-const toggleClass = (active: boolean) =>
-  `cursor-pointer flex items-center justify-center tracking-widest truncate font-semibold text-lg rounded-xl p-2
-   focus-within:ring-2 focus-within:ring-main focus-within:ring-offset-1
-   hover:bg-[#ECECEC] dark:hover:bg-[#d4d4d4] dark:hover:text-mainTitle ${
-     active
-       ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-orange-800'
-       : 'text-neutral-700 dark:text-mainTextBlack'
-   }`;
 
 const GOALS: Array<{ value: Goal; label: string }> = [
   { value: 'loss', label: 'Схуднути' },
@@ -49,12 +41,7 @@ export const CaloriesCalcList = () => {
         <span className="p-2 text-lg font-bold text-mainTitle dark:text-mainTitleBlack">
           Стать:
         </span>
-        {(
-          [
-            { value: 'female', label: 'Жінка' },
-            { value: 'male', label: 'Чоловік' },
-          ] as Array<{ value: Sex; label: string }>
-        ).map(option => (
+        {SEX_OPTIONS.map(option => (
           <label key={option.value} className={toggleClass(sex === option.value)}>
             <input
               type="radio"
