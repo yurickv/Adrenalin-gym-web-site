@@ -58,7 +58,7 @@ const CaloriesCalc = () => {
             text-center basis-1/2
             shadow-[0px_4px_20px_0px_rgba(133,119,123,0.30)] dark:shadow-[0px_4px_15px_0px_rgba(116,116,116,0.30)]"
             >
-              <p className="text-sm mb-4 text-mainText dark:text-mainTextBlack">
+              <p className="text-sm mb-4 text-neutral-600 dark:text-mainTextBlack">
                 Переміщуйте повзунок або введіть значення вручну
               </p>
               <CaloriesCalcList />

@@ -19,7 +19,7 @@ const toggleClass = (active: boolean) =>
    focus-within:ring-2 focus-within:ring-main focus-within:ring-offset-1
    hover:bg-[#ECECEC] dark:hover:bg-[#d4d4d4] dark:hover:text-mainText ${
      active
-       ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-orange-700'
+       ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-orange-800'
        : 'text-neutral-700 dark:text-mainTextBlack'
    }`;
 

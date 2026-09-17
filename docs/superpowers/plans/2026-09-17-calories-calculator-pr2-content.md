@@ -443,7 +443,7 @@ export const CaloriesResult = ({
             </span>
           </p>
           <p className="text-lg font-bold text-mainTitle dark:text-mainTitleBlack">
-            Норма на день: <span className="text-orange-700">{t.maintain} ккал</span>
+            Норма на день: <span className="text-orange-800">{t.maintain} ккал</span>
           </p>
         </div>
 
@@ -539,7 +539,7 @@ const toggleClass = (active: boolean) =>
    focus-within:ring-2 focus-within:ring-main focus-within:ring-offset-1
    hover:bg-[#ECECEC] dark:hover:bg-[#d4d4d4] dark:hover:text-mainText ${
      active
-       ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-orange-700'
+       ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-orange-800'
        : 'text-neutral-700 dark:text-mainTextBlack'
    }`;
 
