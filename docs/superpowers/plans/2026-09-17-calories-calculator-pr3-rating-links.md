@@ -220,7 +220,7 @@ export function formatRating(average: number): string {
 }
 ```
 
-- [ ] **Step 4: GREEN** — `npm test 2>&1 | tail -4`, очікувано `Test Files 4 passed`, `Tests 35 passed`.
+- [ ] **Step 4: GREEN** — `npm test 2>&1 | tail -4`, очікувано `Test Files 4 passed`, `Tests 38 passed`.
 
 - [ ] **Step 5: Commit**
 
@@ -279,8 +279,15 @@ export const CalcRatingVote =
 ```ts
 import { createHash } from 'crypto';
 
+// Сіль тримає хеш адреси необоротним; без неї SHA-256 від IPv4 перебирається за секунди.
 export function hashIp(ip: string): string {
-  const salt = process.env.NEXTAUTH_SECRET ?? 'calc-rating';
+  const salt = process.env.NEXTAUTH_SECRET;
+  if (!salt) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('NEXTAUTH_SECRET is required to hash voter addresses');
+    }
+    return createHash('sha256').update(`calc-rating-dev:${ip}`).digest('hex');
+  }
   return createHash('sha256').update(`${salt}:${ip}`).digest('hex');
 }
 ```
@@ -292,7 +299,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDB } from '@/app/api/_utils/database';
 import { CalcRating, CalcRatingVote } from '@/app/api/_schemas/calcRating.schema';
 import { hashIp } from '@/app/api/_helpers/hashIp';
-import { BadRequest, Conflict, NotFound } from '@/app/api/_helpers/errors';
+import { BadRequest, Conflict, Forbidden, NotFound } from '@/app/api/_helpers/errors';
 import { averageOf, isCalcId, isValidRatingValue } from '@/lib/calcRating';
 
 export const runtime = 'nodejs';
@@ -305,19 +312,40 @@ function statsOf(doc: { sum?: number; count?: number } | null) {
   return { average: averageOf(sum, count), count };
 }
 
-// req.ip заповнює платформа (Vercel) з реального з'єднання; X-Forwarded-For
-// беремо лише як запасний варіант, бо перший елемент цього заголовка
-// контролює клієнт. Без обох значень усі голоси об'єднуються під 'unknown'.
+// Next 14 не заповнює req.ip у route handlers, тож адресу беремо з заголовків.
+// x-vercel-forwarded-for і x-real-ip виставляє платформа, клієнт їх не підмінить;
+// x-forwarded-for лишається запасним варіантом для інших хостингів.
 function clientIp(req: NextRequest): string {
-  const forwarded = req.headers.get('x-forwarded-for');
-  return req.ip || forwarded?.split(',')[0]?.trim() || 'unknown';
+  const h = req.headers;
+  return (
+    h.get('x-vercel-forwarded-for')?.split(',')[0]?.trim() ||
+    h.get('x-real-ip')?.trim() ||
+    h.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.ip ||
+    'unknown'
+  );
+}
+
+// Захист від запису з чужих сайтів: «простий» крос-сайтовий запит без preflight
+// не може мати Content-Type application/json, а Sec-Fetch-Site видає джерело.
+function assertSameSite(req: NextRequest) {
+  const site = req.headers.get('sec-fetch-site');
+  if (site && site !== 'same-origin' && site !== 'same-site' && site !== 'none') {
+    throw new Forbidden('Cross-site requests are not allowed');
+  }
+  const type = req.headers.get('content-type') ?? '';
+  if (!type.toLowerCase().startsWith('application/json')) {
+    throw new BadRequest('Content-Type must be application/json');
+  }
 }
 
 function errorResponse(e: unknown) {
   const err = e as { message?: string; status?: number };
+  const status = err.status ?? 500;
+  if (status === 500) console.error('calc-rating:', e);
   return NextResponse.json(
-    { message: err.message || 'Unable to process rating' },
-    { status: err.status || 500 }
+    { message: status === 500 ? 'Unable to process rating' : err.message },
+    { status }
   );
 }
 
@@ -328,7 +356,10 @@ export const GET = async (_req: NextRequest, { params }: { params: Params }) => 
     }
     await connectToDB();
     const doc = await CalcRating.findOne({ calcId: params.calcId }).lean();
-    return NextResponse.json(statsOf(doc), { status: 200 });
+    return NextResponse.json(
+      statsOf(doc as { sum?: number; count?: number } | null),
+      { status: 200 }
+    );
   } catch (e) {
     return errorResponse(e);
   }
@@ -339,6 +370,7 @@ export const POST = async (req: NextRequest, { params }: { params: Params }) => 
     if (!isCalcId(params.calcId)) {
       throw new NotFound(`Unknown calculator '${params.calcId}'`);
     }
+    assertSameSite(req);
     const body = await req.json().catch(() => ({}));
     const value = body?.value;
     if (!isValidRatingValue(value)) {
@@ -372,7 +404,10 @@ export const POST = async (req: NextRequest, { params }: { params: Params }) => 
       throw e;
     }
 
-    return NextResponse.json(statsOf(doc), { status: 200 });
+    return NextResponse.json(
+      statsOf(doc as { sum?: number; count?: number } | null),
+      { status: 200 }
+    );
   } catch (e) {
     return errorResponse(e);
   }
@@ -571,8 +606,11 @@ export const CalcRating = ({ calcId, initial }: Props) => {
     }
   }, [key]);
 
+  const locked =
+    status === 'voted' || status === 'duplicate' || status === 'pending';
+
   const submit = async (value: number) => {
-    if (status !== 'idle' && status !== 'error') return;
+    if (locked) return;
     setStatus('pending');
     setVote(value);
     try {
@@ -602,7 +640,6 @@ export const CalcRating = ({ calcId, initial }: Props) => {
     }
   };
 
-  const locked = status === 'voted' || status === 'duplicate';
   const shown = hover ?? vote ?? 0;
   const statsText =
     stats && stats.count > 0
@@ -624,59 +661,41 @@ export const CalcRating = ({ calcId, initial }: Props) => {
       <p id={labelId} className="font-semibold text-mainTitle dark:text-mainTitleBlack">
         Чи корисний калькулятор?
       </p>
-
-      {locked ? (
-        <div className="mt-2 flex justify-center gap-1">
-          <span className="sr-only">
-            {vote !== null
-              ? `Ваша оцінка: ${vote} з ${RATING_MAX}`
-              : 'Оцінку з вашої адреси вже зараховано'}
-          </span>
-          <span aria-hidden="true" className="flex gap-1">
-            {STARS.map(value => (
-              <span key={value} className={`px-1 ${starClass(value <= (vote ?? 0))}`}>
-                ★
-              </span>
-            ))}
-          </span>
-        </div>
-      ) : (
-        <div
-          role="radiogroup"
-          aria-labelledby={labelId}
-          className="mt-2 flex justify-center gap-1"
-          onMouseLeave={() => setHover(null)}
-        >
-          {STARS.map(value => (
-            <label
-              key={value}
-              className={`cursor-pointer rounded px-1 focus-within:ring-2 focus-within:ring-main ${starClass(
-                value <= shown
-              )}`}
-              onMouseEnter={() => setHover(value)}
-            >
-              <input
-                type="radio"
-                name={`${calcId}-rating`}
-                value={value}
-                className="sr-only"
-                checked={vote === value}
-                disabled={status === 'pending'}
-                aria-label={`Оцінити ${value} з ${RATING_MAX}`}
-                onChange={() => submit(value)}
-                onFocus={() => setHover(value)}
-                onBlur={() => setHover(null)}
-              />
-              <span aria-hidden="true">★</span>
-            </label>
-          ))}
-        </div>
-      )}
-
+      {/* Кнопки, а не radio: стрілки не мають надсилати голос, лише клік, Enter або пробіл. */}
+      <div
+        role="group"
+        aria-labelledby={labelId}
+        className="mt-2 flex justify-center gap-1"
+        onMouseLeave={() => setHover(null)}
+      >
+        {STARS.map(value => (
+          <button
+            key={value}
+            type="button"
+            aria-pressed={vote === value}
+            aria-disabled={locked || undefined}
+            aria-label={`Оцінити ${value} з ${RATING_MAX}`}
+            className={`rounded px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-700 dark:focus-visible:ring-orange-200 ${
+              locked ? 'cursor-default' : 'cursor-pointer'
+            } ${starClass(value <= shown)}`}
+            onMouseEnter={() => !locked && setHover(value)}
+            onFocus={() => !locked && setHover(value)}
+            onBlur={() => setHover(null)}
+            onClick={() => submit(value)}
+          >
+            <span aria-hidden="true">★</span>
+          </button>
+        ))}
+      </div>
       <p
         className="mt-2 min-h-[1.5rem] text-sm text-neutral-600 dark:text-mainTextBlack"
         aria-live="polite"
       >
+        {status === 'voted' && vote !== null ? (
+          <span className="sr-only">
+            Ваша оцінка: {vote} з {RATING_MAX}.{' '}
+          </span>
+        ) : null}
         {message}
       </p>
     </div>
@@ -823,7 +842,7 @@ node -e "const r=require('./.lighthouse/pr3.json');const c=r.categories;console.
 PID=$(netstat -ano | grep ':3100 ' | grep LISTENING | awk '{print $5}' | head -1); [ -n "$PID" ] && taskkill //PID "$PID" //F
 ```
 
-Очікувано: 35 тестів; сторінка ISR; performance не гірше 90, accessibility 100, SEO 100, без провалених бінарних аудитів (зірки мають `aria-label`, група `aria-labelledby`).
+Очікувано: 38 тестів; сторінка ISR; performance не гірше 90, accessibility 100, SEO 100, без провалених бінарних аудитів (зірки мають `aria-label`, група `aria-labelledby`).
 
 - [ ] **Step 2: Записати результати**
 
@@ -859,7 +878,7 @@ git commit -m "docs(plan): record PR 3 verification results"
 | Performance (mobile, local) | 96 | 97 |
 | Accessibility | 100 | 100 |
 | SEO | 100 | 100 |
-| Тестів | 26 | 35 |
+| Тестів | 26 | 38 |
 | Перевірка API локально | — | виконано на реальній базі: GET 200, 404 для невідомого calcId, 400 для балу 7, 200 для голосу, 409 для повтору з тієї ж адреси |
 
 ISR підтверджено через `.next/prerender-manifest.json`: `initialRevalidateSeconds: 3600`.
@@ -878,3 +897,12 @@ Software App з рейтингом; PSI; Search Console.
 - відповідь 409 скидає щойно підсвічену зірку замість того, щоб лишати її позначеною без збереженого голосу;
 - кольори зірок підібрано під контраст ≥3:1 на обох фонах картки (`#F5F5F5` світла, `#676465` темна): `text-orange-700`/`dark:text-orange-300` для заповнених, `text-neutral-500`/`dark:text-neutral-300` для порожніх;
 - десятковий роздільник у середній оцінці — кома (`formatRating`), відповідно до української типографіки.
+
+**Зміни після фінального рев'ю:**
+- порядок заголовків для адреси голосуючого: `x-vercel-forwarded-for` → `x-real-ip` → `x-forwarded-for` (`req.ip` порожній у route handlers Next 14);
+- захист від крос-сайтового голосування: перевірка `Sec-Fetch-Site` і `Content-Type: application/json` (403 для чужого сайту, 400 для неправильного типу вмісту);
+- узагальнене повідомлення про помилку при 500 замість деталей причини, деталі логуються лише на сервері;
+- `hashIp` кидає помилку в production, якщо `NEXTAUTH_SECRET` не заданий, замість тихого дефолтного значення;
+- зірки — кнопки з `aria-pressed` замість radio-інпутів: стрілки клавіатури більше не надсилають голос випадково, кнопки лишаються сфокусованими й досяжними Tab'ом і в заблокованому стані;
+- фокусне кільце зірок — `focus-visible:ring-orange-700` / `dark:focus-visible:ring-orange-200`;
+- уточнення анкорного тексту: речення про три калькулятори на головній і фраза про калькулятор калорій для набору ваги в статті про харчування.
