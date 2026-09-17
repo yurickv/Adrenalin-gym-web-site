@@ -78,7 +78,7 @@ export const CaloriesResult = ({
           </p>
         </div>
 
-        <table className="w-full text-left text-sm md:text-base border-collapse">
+        <table className="w-full text-left text-sm md:text-base border-collapse text-neutral-700 dark:text-mainTextBlack">
           <caption className="sr-only">Цільові калорії за метою</caption>
           <thead>
             <tr className="border-b border-gray-400">

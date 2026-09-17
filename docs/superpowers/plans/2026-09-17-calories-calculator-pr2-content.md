@@ -447,7 +447,7 @@ export const CaloriesResult = ({
           </p>
         </div>
 
-        <table className="w-full text-left text-sm md:text-base border-collapse">
+        <table className="w-full text-left text-sm md:text-base border-collapse text-neutral-700 dark:text-mainTextBlack">
           <caption className="sr-only">Цільові калорії за метою</caption>
           <thead>
             <tr className="border-b border-gray-400">
@@ -536,6 +536,7 @@ type Field = keyof typeof LIMITS;
 
 const toggleClass = (active: boolean) =>
   `cursor-pointer flex items-center justify-center tracking-widest truncate font-semibold text-lg rounded-xl p-2
+   focus-within:ring-2 focus-within:ring-main focus-within:ring-offset-1
    hover:bg-[#ECECEC] dark:hover:bg-[#d4d4d4] dark:hover:text-mainText ${
      active
        ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-orange-700'
