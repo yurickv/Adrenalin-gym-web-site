@@ -7,6 +7,7 @@ interface Props {
   setAny: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string | null;
+  noRange?: boolean;
 }
 
 export const InputSkeleton = ({
@@ -18,6 +19,7 @@ export const InputSkeleton = ({
   setAny,
   onBlur,
   error,
+  noRange,
 }: Props) => {
   return (
     <div className="flex flex-col gap-2">
@@ -50,17 +52,19 @@ export const InputSkeleton = ({
         </div>
       </div>
 
-      <input
-        aria-label={`${text} повзунок`}
-        max={max}
-        min={min}
-        name={name}
-        value={value}
-        onChange={setAny}
-        type="range"
-        onBlur={onBlur}
-        className="bg-[#D9D9D9] appearance-none rounded-xl  outline-none overflow-hidden"
-      />
+      {!noRange && (
+        <input
+          aria-label={`${text} повзунок`}
+          max={max}
+          min={min}
+          name={name}
+          value={value}
+          onChange={setAny}
+          type="range"
+          onBlur={onBlur}
+          className="bg-[#D9D9D9] appearance-none rounded-xl  outline-none overflow-hidden"
+        />
+      )}
     </div>
   );
 };

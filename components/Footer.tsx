@@ -131,7 +131,7 @@ const Footer: React.FC = () => {
         </nav>
         <div className="flex flex-col gap-6 lg:justify-center">
           <p className="font-bold ml-2 text-mainTitle dark:text-mainTitleBlack">
-            Будь з нами на звязку
+            Будь з нами на звʼязку
           </p>
           <ul className="flex flex-col gap-4">
             <li>

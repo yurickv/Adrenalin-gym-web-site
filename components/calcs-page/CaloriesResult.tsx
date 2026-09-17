@@ -13,6 +13,7 @@ import {
   type Targets,
 } from '@/lib/calories';
 import { rangeError } from '@/lib/rangeError';
+import { toPositiveNumber } from '@/lib/toPositiveNumber';
 
 export interface CaloriesResultProps {
   sex: Sex;
@@ -32,11 +33,6 @@ const ROWS: Array<{ key: keyof Targets; label: string; goal: Goal | null }> = [
   { key: 'gain15', label: 'Швидкий набір, +15%', goal: null },
 ];
 
-function toNumber(value: string): number | null {
-  const n = Number(value);
-  return value.trim() !== '' && Number.isFinite(n) && n > 0 ? n : null;
-}
-
 export const CaloriesResult = ({
   sex,
   age,
@@ -45,9 +41,9 @@ export const CaloriesResult = ({
   activity,
   goal,
 }: CaloriesResultProps) => {
-  const ageN = toNumber(age);
-  const heightN = toNumber(heightCm);
-  const weightN = toNumber(weightKg);
+  const ageN = toPositiveNumber(age);
+  const heightN = toPositiveNumber(heightCm);
+  const weightN = toPositiveNumber(weightKg);
   const inRange =
     rangeError(age, LIMITS.age.min, LIMITS.age.max) === undefined &&
     rangeError(heightCm, LIMITS.height.min, LIMITS.height.max) === undefined &&

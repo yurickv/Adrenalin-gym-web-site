@@ -13,7 +13,7 @@ export const BmiHeightWeightTable = () => (
       <div className="max-w-[900px] mx-auto overflow-x-auto">
         <table className="w-full text-left text-base border-collapse text-mainText dark:text-mainTextBlack">
           <caption className="text-left font-bold text-mainTitle dark:text-mainTitleBlack mb-2">
-            Норма ваги і ідеальна вага для зросту 150–195 см
+            Норма ваги й ідеальна вага для зросту 150–195 см
           </caption>
           <thead>
             <tr className="border-b border-gray-400">

@@ -1,4 +1,5 @@
 import SceletonForCalc from '@/components/sceleton/sceletonForCalc';
+import { IMT_H1, IMT_LEAD } from '@/components/calcs-page/imtHero';
 
 export default function Loading() {
   return (
@@ -7,10 +8,10 @@ export default function Loading() {
         <div className="div-container py-4 md:py-[44px] mx-auto flex flex-col gap-3 md:gap-8">
           <div className="h-5 w-40 rounded bg-gray-500/60" aria-hidden="true" />
           <h1 className="text-3xl md:text-5xl font-bold text-center text-mainTitleBlack">
-            Калькулятор ІМТ: індекс маси тіла і норма ваги
+            {IMT_H1}
           </h1>
           <p className="text-base md:text-lg text-center text-mainTitleBlack pb-2 md:pb-6">
-            Введіть зріст і вагу і дізнайтесь ІМТ, норму ваги та ідеальну вагу
+            {IMT_LEAD}
           </p>
         </div>
       </section>

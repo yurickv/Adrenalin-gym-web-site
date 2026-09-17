@@ -78,6 +78,7 @@ export const ImtCalcList = () => {
         setAny={change('age')}
         onBlur={validate('age')}
         error={errors.age}
+        noRange
       />
 
       <ImtResult sex={sex} heightCm={values.height} weightKg={values.weight} age={values.age} />

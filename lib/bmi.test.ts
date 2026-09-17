@@ -5,6 +5,7 @@ import {
   bmi,
   BMI_CATEGORY_LABELS,
   BMI_CATEGORY_ORDER,
+  BMI_LIMITS,
   bmiCategory,
   devineIdealWeight,
   formatBmi,
@@ -101,5 +102,37 @@ describe('formatBmi', () => {
   it('uses one decimal and a comma', () => {
     expect(formatBmi(22.5)).toBe('22,5');
     expect(formatBmi(20)).toBe('20,0');
+  });
+});
+
+describe('bmi at the form limits', () => {
+  it('handles the extreme corners of the allowed ranges', () => {
+    expect(bmi(250, 120)).toBe(173.6);
+    expect(bmiCategory(bmi(250, 120))).toBe('obese3');
+    expect(bmi(30, 230)).toBe(5.7);
+  });
+});
+
+describe('devineIdealWeight at the 152 cm boundary', () => {
+  it('is defined at exactly 152 cm', () => {
+    expect(devineIdealWeight('male', 152)).toBe(50);
+    expect(devineIdealWeight('female', 152)).toBe(46);
+  });
+});
+
+describe('normalWeightRange at the table endpoints', () => {
+  it('matches the first and last table rows', () => {
+    expect(normalWeightRange(150)).toEqual({ min: 42, max: 56 });
+    expect(normalWeightRange(195)).toEqual({ min: 70, max: 95 });
+  });
+});
+
+describe('BMI_LIMITS', () => {
+  it('matches the agreed form ranges', () => {
+    expect(BMI_LIMITS).toEqual({
+      height: { min: 120, max: 230 },
+      weight: { min: 30, max: 250 },
+      age: { min: 18, max: 100 },
+    });
   });
 });

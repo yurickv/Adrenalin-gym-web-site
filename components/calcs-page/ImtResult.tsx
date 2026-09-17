@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import type { Sex } from '@/lib/calories';
 import { rangeError } from '@/lib/rangeError';
+import { toPositiveNumber } from '@/lib/toPositiveNumber';
 import {
   ageBmiNorm,
   bmi,
@@ -21,17 +22,12 @@ export interface ImtResultProps {
   age: string;
 }
 
-function toNumber(value: string): number | null {
-  const n = Number(value);
-  return value.trim() !== '' && Number.isFinite(n) && n > 0 ? n : null;
-}
-
 const valueClass = 'font-semibold text-mainTitle dark:text-mainTitleBlack';
 
 export const ImtResult = ({ sex, heightCm, weightKg, age }: ImtResultProps) => {
-  const heightN = toNumber(heightCm);
-  const weightN = toNumber(weightKg);
-  const ageN = toNumber(age);
+  const heightN = toPositiveNumber(heightCm);
+  const weightN = toPositiveNumber(weightKg);
+  const ageN = toPositiveNumber(age);
   const inRange =
     rangeError(heightCm, BMI_LIMITS.height.min, BMI_LIMITS.height.max) === undefined &&
     rangeError(weightKg, BMI_LIMITS.weight.min, BMI_LIMITS.weight.max) === undefined;
@@ -54,7 +50,7 @@ export const ImtResult = ({ sex, heightCm, weightKg, age }: ImtResultProps) => {
     const devine = devineIdealWeight(sex, heightN);
     const ageNorm = ageValid && ageN !== null ? ageBmiNorm(ageN) : null;
 
-    summary = `ІМТ ${formatBmi(value)}, ${category.label.toLowerCase()}`;
+    summary = `ІМТ ${formatBmi(value)}, ${category.label}`;
     body = (
       <>
         <div className="flex flex-col gap-2 text-left">

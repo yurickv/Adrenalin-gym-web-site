@@ -10,6 +10,7 @@ import { CalcRating } from '@/components/calcs-page/CalcRating';
 import { BmiCategoryTable } from '@/components/calcs-page/BmiCategoryTable';
 import { BmiHeightWeightTable } from '@/components/calcs-page/BmiHeightWeightTable';
 import { BmiAgeTable } from '@/components/calcs-page/BmiAgeTable';
+import { IMT_H1, IMT_LEAD } from '@/components/calcs-page/imtHero';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import { getCalcRating } from '@/app/_services/calcRating.service';
 
@@ -41,10 +42,10 @@ const ImtCalc = async () => {
             </ol>
           </nav>
           <h1 className="text-3xl md:text-5xl font-bold text-center text-mainTitleBlack">
-            Калькулятор ІМТ: індекс маси тіла і норма ваги
+            {IMT_H1}
           </h1>
           <p className="text-base md:text-lg text-center text-mainTitleBlack pb-2 md:pb-6">
-            Введіть зріст і вагу і дізнайтесь ІМТ, норму ваги та ідеальну вагу
+            {IMT_LEAD}
           </p>
         </div>
       </section>
@@ -73,7 +74,7 @@ const ImtCalc = async () => {
                 Індекс маси тіла (ІМТ) — це співвідношення ваги та зросту, яке показує, чи
                 відповідає вага нормі: вага в кілограмах, поділена на квадрат зросту в метрах.
                 Нормальний ІМТ — 18,5–24,9. Калькулятор також показує норму ваги для вашого
-                зросту, ідеальну вагу за формулою Девіна і орієнтовну норму для вашого віку.
+                зросту, ідеальну вагу за формулою Девіна й орієнтовну норму для вашого віку.
               </p>
               <DescriptionIMT />
             </div>

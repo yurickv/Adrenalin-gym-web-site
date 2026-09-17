@@ -26,6 +26,7 @@ export const CalcsHubJsonLd = () => {
           name: card.appName,
           url: `${CALC_SITE_URL}${card.href}`,
           applicationCategory: 'HealthApplication',
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'UAH' },
         })),
       },
     ],

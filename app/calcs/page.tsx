@@ -9,8 +9,9 @@ import {
   HUB_DESCRIPTION,
   HUB_TITLE,
 } from '@/components/calcs-page/calcHubContent';
+import { CALC_SITE_URL } from '@/const/calcSeo';
 
-const PAGE_URL = 'https://gym-adrenalin.com.ua/calcs';
+const PAGE_URL = `${CALC_SITE_URL}/calcs`;
 
 export const metadata: Metadata = {
   title: { absolute: HUB_TITLE },
@@ -67,15 +68,7 @@ const Calcs = () => {
         <div className="div-container py-8 md:py-[44px] mx-auto">
           <div className="grid gap-6 md:grid-cols-3">
             {HUB_CARDS.map(card => (
-              <CalcHubCard
-                key={card.href}
-                href={card.href}
-                title={card.title}
-                appName={card.appName}
-                lead={card.lead}
-                inputs={card.inputs}
-                useCase={card.useCase}
-              />
+              <CalcHubCard key={card.href} {...card} />
             ))}
           </div>
           <div className="max-w-[820px] mx-auto mt-10 md:mt-14">
