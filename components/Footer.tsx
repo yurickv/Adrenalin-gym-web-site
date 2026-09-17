@@ -43,9 +43,9 @@ const Footer: React.FC = () => {
           <GymIcon />
         </Link>
         <nav className="md:!w-[220px] flex flex-col gap-6">
-          <h4 className="ml-2 font-bold text-mainTitle dark:text-mainTitleBlack">
+          <p className="ml-2 font-bold text-mainTitle dark:text-mainTitleBlack">
             Клієнтам
-          </h4>
+          </p>
           <ul className="md:flex md:flex-wrap md:justify-between gap-4 text-small  text-base ">
             <li key="calcs">
               <Popover className="relative">
@@ -130,9 +130,9 @@ const Footer: React.FC = () => {
           </ul>
         </nav>
         <div className="flex flex-col gap-6 lg:justify-center">
-          <h4 className="font-bold ml-2 text-mainTitle dark:text-mainTitleBlack">
+          <p className="font-bold ml-2 text-mainTitle dark:text-mainTitleBlack">
             Будь з нами на звязку
-          </h4>
+          </p>
           <ul className="flex flex-col gap-4">
             <li>
               <a
