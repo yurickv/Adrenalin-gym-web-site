@@ -74,12 +74,12 @@ const DietForGainingWeight = () => {
                 ви повинні з’їдати більше калорій на 10-15% ніж ваш базова денна
                 потреба в них
               </span>{' '}
-              (порахувати{' '}
+              (порахувати норму можна в{' '}
               <Link
                 href="/calcs/calories-calculator"
                 className="underline underline-offset-4 font-semibold text-mainTitle dark:text-mainTitleBlack"
               >
-                денну норму калорій у калькуляторі калорій
+                калькуляторі калорій для набору ваги
               </Link>
               ).
             </p>

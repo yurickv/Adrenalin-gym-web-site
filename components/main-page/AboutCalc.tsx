@@ -34,8 +34,9 @@ export const AboutCalc = () => {
           прогресом і збалансувати твоє харчування та тренування.
         </p>
         <p className="text-base lg:text-lg md:w-6/12 text-mainText mb-8 text-left">
+          Спробуйте{' '}
           <Link href="/calcs/calories-calculator" className="underline underline-offset-4 font-semibold text-mainTitle">
-            Калькулятор калорій для схуднення
+            калькулятор калорій для схуднення
           </Link>
           ,{' '}
           <Link href="/calcs/imt-calculator" className="underline underline-offset-4 font-semibold text-mainTitle">
