@@ -72,8 +72,8 @@ const CaloriesCalc = () => {
               <p className="mt-4 text-base md:text-lg text-mainText dark:text-mainTextBlack">
                 Калькулятор калорій розраховує денну норму калорій за формулою
                 Міффліна-Сан Жеора з урахуванням статі, віку, зросту, ваги та
-                рівня активності. Щоб схуднути, створюють дефіцит 10–15%, щоб
-                набрати вагу — профіцит 10–15% від норми.
+                рівня активності. Щоб схуднути, створюють дефіцит 10–20%
+                (оптимально 15%), щоб набрати вагу — профіцит 10–15% від норми.
               </p>
               <CaloriesDescription />
             </div>
@@ -81,7 +81,7 @@ const CaloriesCalc = () => {
 
           <div className="mt-12 md:mt-16">
             <h2 className="text-xl md:text-2xl font-semibold mb-4 text-mainTitle dark:text-mainTitleBlack">
-              Інші фітнес-калькулятори
+              Фітнес-калькулятори
             </h2>
             <CalcTitle page={2} />
           </div>

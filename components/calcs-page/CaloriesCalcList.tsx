@@ -3,21 +3,15 @@
 import React, { useState } from 'react';
 import { InputSkeleton } from './InputSkeleton';
 import { CaloriesResult } from './CaloriesResult';
-import { ACTIVITY_LEVELS, type Goal, type Sex } from '@/lib/calories';
+import { ACTIVITY_LEVELS, LIMITS, type Goal, type Sex } from '@/lib/calories';
 import { rangeError } from '@/lib/rangeError';
-
-export const LIMITS = {
-  age: { min: 14, max: 100 },
-  height: { min: 120, max: 230 },
-  weight: { min: 30, max: 250 },
-} as const;
 
 type Field = keyof typeof LIMITS;
 
 const toggleClass = (active: boolean) =>
   `cursor-pointer flex items-center justify-center tracking-widest truncate font-semibold text-lg rounded-xl p-2
    focus-within:ring-2 focus-within:ring-main focus-within:ring-offset-1
-   hover:bg-[#ECECEC] dark:hover:bg-[#d4d4d4] dark:hover:text-mainText ${
+   hover:bg-[#ECECEC] dark:hover:bg-[#d4d4d4] ${
      active
        ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-orange-800'
        : 'text-neutral-700 dark:text-mainTextBlack'

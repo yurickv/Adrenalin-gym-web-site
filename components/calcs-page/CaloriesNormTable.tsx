@@ -6,9 +6,9 @@ const AGE_GROUPS = [
   { label: '51–70 років', age: 60 },
 ];
 const ACTIVITIES = [
-  { label: 'низька, 1,2', factor: 1.2 },
-  { label: 'помірна, 1,55', factor: 1.55 },
-  { label: 'висока, 1,725', factor: 1.725 },
+  { label: 'Низька (1,2)', factor: 1.2 },
+  { label: 'Помірна (1,55)', factor: 1.55 },
+  { label: 'Висока (1,725)', factor: 1.725 },
 ];
 const PROFILES: Array<{ sex: Sex; title: string; heightCm: number; weightKg: number }> = [
   { sex: 'female', title: 'Жінка, 165 см, 65 кг', heightCm: 165, weightKg: 65 },
@@ -16,7 +16,7 @@ const PROFILES: Array<{ sex: Sex; title: string; heightCm: number; weightKg: num
 ];
 
 const norm = (p: (typeof PROFILES)[number], age: number, factor: number) =>
-  targets(tdee(bmrMifflin({ ...p, age }), factor)).maintain;
+  targets(tdee(bmrMifflin({ sex: p.sex, heightCm: p.heightCm, weightKg: p.weightKg, age }), factor)).maintain;
 
 export const CaloriesNormTable = () => (
   <section className="bg-white dark:bg-darkBody">
@@ -34,14 +34,14 @@ export const CaloriesNormTable = () => (
           <div key={profile.sex} className="overflow-x-auto">
             <table className="w-full text-left text-base border-collapse text-mainText dark:text-mainTextBlack">
               <caption className="text-left font-bold text-mainTitle dark:text-mainTitleBlack mb-2">
-                {profile.title}, ккал на день
+                {profile.title}: ккал на день за рівнем активності
               </caption>
               <thead>
                 <tr className="border-b border-gray-400">
                   <th scope="col" className="py-2 pr-4">Вік</th>
                   {ACTIVITIES.map(a => (
                     <th key={a.factor} scope="col" className="py-2 pr-4">
-                      Активність {a.label}
+                      {a.label}
                     </th>
                   ))}
                 </tr>

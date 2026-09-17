@@ -2,7 +2,9 @@ import { describe, it, expect } from 'vitest';
 import {
   ACTIVITY_LEVELS,
   bmrMifflin,
+  formatKg,
   goalTarget,
+  LIMITS,
   macros,
   safeMinimum,
   targets,
@@ -87,5 +89,29 @@ describe('weeklyLossKg', () => {
 describe('ACTIVITY_LEVELS', () => {
   it('lists the five standard factors in ascending order', () => {
     expect(ACTIVITY_LEVELS.map(l => l.value)).toEqual([1.2, 1.375, 1.55, 1.725, 1.9]);
+  });
+});
+
+describe('targets rounding', () => {
+  it('rounds .5 boundaries up despite floating point noise', () => {
+    // 2700 * 1.15 = 3104.9999999999995 in IEEE-754; exact decimal is 3105 -> 3110
+    expect(targets(2700).gain15).toBe(3110);
+  });
+});
+
+describe('formatKg', () => {
+  it('formats with two decimals and a comma separator', () => {
+    expect(formatKg(0.2727)).toBe('0,27');
+    expect(formatKg(0.5)).toBe('0,50');
+  });
+});
+
+describe('LIMITS', () => {
+  it('matches the agreed form ranges', () => {
+    expect(LIMITS).toEqual({
+      age: { min: 14, max: 100 },
+      height: { min: 120, max: 230 },
+      weight: { min: 30, max: 250 },
+    });
   });
 });

@@ -1,4 +1,4 @@
-import { safeMinimum, weeklyLossKg } from '@/lib/calories';
+import { formatKg, safeMinimum, weeklyLossKg } from '@/lib/calories';
 
 const BASE = 2000;
 const DEFICITS = [10, 15, 20];
@@ -12,7 +12,7 @@ export const CaloriesDeficitTable = () => (
       <div className="max-w-[900px] mx-auto text-mainText dark:text-mainTextBlack">
         <p className="mb-6 text-base lg:text-lg">
           Дефіцит калорій — це різниця між нормою і тим, що ви з'їдаєте. Для сталого
-          схуднення достатньо 10–20% від норми. Приклад для норми {BASE} ккал:
+          схуднення достатньо 10–20% від норми, оптимально 15%. Приклад для норми {BASE} ккал:
         </p>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-base border-collapse">
@@ -35,7 +35,7 @@ export const CaloriesDeficitTable = () => (
                     <th scope="row" className="py-2 pr-4 font-normal">{percent}%</th>
                     <td className="py-2 pr-4">{BASE - perDay}</td>
                     <td className="py-2 pr-4">{perDay} ккал</td>
-                    <td className="py-2">≈ {weeklyLossKg(perDay)} кг</td>
+                    <td className="py-2">≈ {formatKg(weeklyLossKg(perDay))} кг</td>
                   </tr>
                 );
               })}
@@ -47,7 +47,7 @@ export const CaloriesDeficitTable = () => (
             Не опускайтеся нижче {safeMinimum('female')} ккал для жінок і{' '}
             {safeMinimum('male')} ккал для чоловіків.
           </li>
-          <li>Безпечний темп — 0,5–1 кг на тиждень; швидше втрачаються м'язи і вода.</li>
+          <li>Не більше 0,5–1 кг на тиждень: швидше втрачаються мʼязи і вода.</li>
           <li>Після кожних 4–5 кг перерахуйте норму: легше тіло витрачає менше.</li>
           <li>Розрахунок орієнтовний: 1 кг жиру ≈ 7700 ккал, реальний темп коливається.</li>
         </ul>

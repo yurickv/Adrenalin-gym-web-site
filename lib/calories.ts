@@ -42,7 +42,13 @@ export const PROTEIN_PER_KG: Record<Goal, number> = {
 export const FAT_SHARE = 0.25;
 export const KCAL_PER_KG_FAT = 7700;
 
-const round10 = (n: number) => Math.round(n / 10) * 10;
+export const LIMITS = {
+  age: { min: 14, max: 100 },
+  height: { min: 120, max: 230 },
+  weight: { min: 30, max: 250 },
+} as const;
+
+const round10 = (n: number) => Math.round(+(n / 10).toFixed(6)) * 10;
 
 export function bmrMifflin({ sex, weightKg, heightCm, age }: BodyParams): number {
   const base = 10 * weightKg + 6.25 * heightCm - 5 * age;
@@ -83,4 +89,8 @@ export function safeMinimum(sex: Sex): number {
 
 export function weeklyLossKg(deficitPerDay: number): number {
   return Math.round(((deficitPerDay * 7) / KCAL_PER_KG_FAT) * 100) / 100;
+}
+
+export function formatKg(kg: number): string {
+  return kg.toFixed(2).replace('.', ',');
 }

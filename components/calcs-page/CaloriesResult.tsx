@@ -3,6 +3,7 @@ import { SYTNO_URL } from '@/const';
 import {
   bmrMifflin,
   goalTarget,
+  LIMITS,
   macros,
   safeMinimum,
   targets,
@@ -11,6 +12,7 @@ import {
   type Sex,
   type Targets,
 } from '@/lib/calories';
+import { rangeError } from '@/lib/rangeError';
 
 export interface CaloriesResultProps {
   sex: Sex;
@@ -46,21 +48,28 @@ export const CaloriesResult = ({
   const ageN = toNumber(age);
   const heightN = toNumber(heightCm);
   const weightN = toNumber(weightKg);
-  const ready = ageN !== null && heightN !== null && weightN !== null;
+  const inRange =
+    rangeError(age, LIMITS.age.min, LIMITS.age.max) === undefined &&
+    rangeError(heightCm, LIMITS.height.min, LIMITS.height.max) === undefined &&
+    rangeError(weightKg, LIMITS.weight.min, LIMITS.weight.max) === undefined;
+  const ready = ageN !== null && heightN !== null && weightN !== null && inRange;
+
+  // Computed unconditionally (with safe fallbacks) so the always-present
+  // sr-only summary below can read `t`/`target` regardless of readiness.
+  const bmr = bmrMifflin({ sex, age: ageN ?? 0, heightCm: heightN ?? 0, weightKg: weightN ?? 0 });
+  const norm = tdee(bmr, activity);
+  const t = targets(norm);
+  const target = goalTarget(t, goal);
 
   let body: ReactNode;
 
-  if (!ready) {
+  if (!ready || ageN === null || heightN === null || weightN === null) {
     body = (
       <p className="text-neutral-600 dark:text-mainTextBlack">
         Введіть вік, зріст і вагу, щоб побачити норму, дефіцит і БЖВ.
       </p>
     );
   } else {
-    const bmr = bmrMifflin({ sex, age: ageN, heightCm: heightN, weightKg: weightN });
-    const norm = tdee(bmr, activity);
-    const t = targets(norm);
-    const target = goalTarget(t, goal);
     const m = macros(target, weightN, goal);
     const minimum = safeMinimum(sex);
 
@@ -74,7 +83,7 @@ export const CaloriesResult = ({
             </span>
           </p>
           <p className="text-lg font-bold text-mainTitle dark:text-mainTitleBlack">
-            Норма на день: <span className="text-orange-700">{t.maintain} ккал</span>
+            Норма на день: <span className="text-orange-800 dark:text-mainTitleBlack">{t.maintain} ккал</span>
           </p>
         </div>
 
@@ -82,8 +91,8 @@ export const CaloriesResult = ({
           <caption className="sr-only">Цільові калорії за метою</caption>
           <thead>
             <tr className="border-b border-gray-400">
-              <th className="py-1 pr-2">Мета</th>
-              <th className="py-1 text-right">ккал/день</th>
+              <th scope="col" className="py-1 pr-2">Мета</th>
+              <th scope="col" className="py-1 text-right">ккал/день</th>
             </tr>
           </thead>
           <tbody>
@@ -95,9 +104,11 @@ export const CaloriesResult = ({
                   className={`border-b border-gray-300 ${
                     active ? 'font-bold text-mainTitle dark:text-mainTitleBlack' : ''
                   }`}
-                  aria-current={active ? 'true' : undefined}
                 >
-                  <td className="py-1 pr-2">{row.label}</td>
+                  <th scope="row" className="py-1 pr-2 font-normal text-left">
+                    {row.label}
+                    {active && <span className="sr-only"> (ваша мета)</span>}
+                  </th>
                   <td className="py-1 text-right">{t[row.key]}</td>
                 </tr>
               );
@@ -117,14 +128,17 @@ export const CaloriesResult = ({
         </div>
 
         {target < minimum && (
-          <p className="text-left text-sm text-red-700 dark:text-red-300" role="alert">
+          <p
+            className="text-left text-sm rounded-lg p-3 bg-red-50 text-red-800 dark:bg-red-950 dark:text-red-200"
+            role="alert"
+          >
             {target} ккал нижче безпечного мінімуму {minimum} ккал. Не опускайтеся нижче
             нього без нагляду лікаря.
           </p>
         )}
 
         <p className="text-left text-sm text-neutral-600 dark:text-mainTextBlack">
-          Під {target} ккал застосунок Sytno складе меню на день.{' '}
+          Під вашу ціль {target} ккал застосунок Sytno складе меню на день.{' '}
           <a
             href={SYTNO_URL}
             target="_blank"
@@ -139,7 +153,12 @@ export const CaloriesResult = ({
   }
 
   return (
-    <div aria-live="polite" className="flex flex-col gap-4 mt-2">
+    <div className="flex flex-col gap-4 mt-2">
+      <p className="sr-only" aria-live="polite">
+        {ready
+          ? `Норма ${t.maintain} ккал на день, ціль ${target} ккал`
+          : 'Результат з’явиться після введення віку, зросту і ваги'}
+      </p>
       {body}
     </div>
   );
