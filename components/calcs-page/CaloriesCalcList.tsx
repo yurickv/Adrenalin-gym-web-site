@@ -2,146 +2,109 @@
 
 import React, { useState } from 'react';
 import { InputSkeleton } from './InputSkeleton';
-import * as yup from 'yup';
-import { CaloriesCalcFormula } from './CaloriesCalcFormula';
+import { CaloriesResult } from './CaloriesResult';
+import { ACTIVITY_LEVELS, type Goal, type Sex } from '@/lib/calories';
+import { rangeError } from '@/lib/rangeError';
 
-const schema = yup.object().shape({
-  age: yup.number().positive().min(14, 'Не менше 14').max(130, 'Не більше 130'),
+export const LIMITS = {
+  age: { min: 14, max: 100 },
+  height: { min: 120, max: 230 },
+  weight: { min: 30, max: 250 },
+} as const;
 
-  height: yup
-    .number()
-    .positive()
-    .min(100, 'Не менше 100')
-    .max(220, 'Не більше 220'),
+type Field = keyof typeof LIMITS;
 
-  weight: yup
-    .number()
-    .positive()
-    .min(40, 'Не менше 40')
-    .max(130, 'Не більше 130'),
-});
+const toggleClass = (active: boolean) =>
+  `cursor-pointer flex items-center justify-center tracking-widest truncate font-semibold text-lg rounded-xl p-2
+   hover:bg-[#ECECEC] dark:hover:bg-[#d4d4d4] dark:hover:text-mainText ${
+     active
+       ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-orange-700'
+       : 'text-neutral-700 dark:text-mainTextBlack'
+   }`;
+
+const GOALS: Array<{ value: Goal; label: string }> = [
+  { value: 'loss', label: 'Схуднути' },
+  { value: 'maintain', label: 'Підтримати' },
+  { value: 'gain', label: 'Набрати' },
+];
 
 export const CaloriesCalcList = () => {
-  const [sex, setSex] = useState<boolean>(true);
-  const [age, setAge] = useState<string>('');
-  const [weight, setWeight] = useState<string>('');
-  const [height, setHeight] = useState<string>('');
+  const [sex, setSex] = useState<Sex>('male');
+  const [goal, setGoal] = useState<Goal>('loss');
+  const [values, setValues] = useState<Record<Field, string>>({
+    age: '',
+    height: '',
+    weight: '',
+  });
+  const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [activity, setActivity] = useState<number>(1.2);
 
-  const [errors, setErrors] = useState<{
-    age?: string;
-    height?: string;
-    weight?: string;
-  }>({});
+  const change = (field: Field) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValues(prev => ({ ...prev, [field]: e.target.value }));
 
-  const changeAge = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAge(e.target.value);
-  };
-  const changeWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWeight(e.target.value);
-  };
-  const changeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHeight(e.target.value);
-  };
-
-  const validate = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      await schema.validate(
-        { [e.target.name]: e.target.value },
-        { abortEarly: false }
-      );
-      setErrors({});
-    } catch (err) {
-      const validationErrors: Record<string, string> = {};
-      (err as yup.ValidationError).inner.forEach(error => {
-        if (error.path) {
-          validationErrors[error.path] = error.message;
-        }
-      });
-      setErrors(validationErrors);
-    }
-  };
+  const validate = (field: Field) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setErrors(prev => ({
+      ...prev,
+      [field]: rangeError(e.target.value, LIMITS[field].min, LIMITS[field].max),
+    }));
 
   return (
-    <form className="flex flex-col gap-7 ">
-      <label htmlFor="sex" className="font-bold flex items-center gap-3">
-        <span className="p-2 text-lg text-mainTitle dark:text-mainTitleBlack">
-          Стать:{' '}
+    <form className="flex flex-col gap-7" onSubmit={e => e.preventDefault()}>
+      <div role="radiogroup" aria-label="Стать" className="flex items-center gap-3">
+        <span className="p-2 text-lg font-bold text-mainTitle dark:text-mainTitleBlack">
+          Стать:
         </span>
-        <label
-          htmlFor="woman"
-          className={`cursor-pointer flex items-center justify-center tracking-widest
-          dark:hover:bg-[#d4d4d4] dark:hover:text-mainText 
-          truncate font-semibold text-lg rounded-xl p-2  hover:bg-[#ECECEC] ${
-            !sex
-              ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-main'
-              : 'dark:text-mainTextBlack'
-          } `}
-        >
-          Жінка{' '}
-        </label>
-        <input
-          id="woman"
-          name="sex"
-          type="radio"
-          value="Жінка"
-          className="appearance-none"
-          checked={!sex}
-          onChange={() => setSex(false)}
-        />
-        <label
-          htmlFor="man"
-          className={`cursor-pointer flex items-center justify-center tracking-widest
-          dark:hover:bg-[#d4d4d4] dark:hover:text-mainText 
-          truncate font-semibold text-lg rounded-xl p-2  hover:bg-[#ECECEC] ${
-            sex
-              ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-main '
-              : 'dark:text-mainTextBlack'
-          } `}
-        >
-          Чоловік{' '}
-        </label>
-        <input
-          id="man"
-          name="sex"
-          type="radio"
-          value="Чоловік"
-          className="appearance-none"
-          checked={sex}
-          onChange={() => setSex(true)}
-        />
-      </label>
+        {(
+          [
+            { value: 'female', label: 'Жінка' },
+            { value: 'male', label: 'Чоловік' },
+          ] as Array<{ value: Sex; label: string }>
+        ).map(option => (
+          <label key={option.value} className={toggleClass(sex === option.value)}>
+            <input
+              type="radio"
+              name="sex"
+              value={option.value}
+              className="sr-only"
+              checked={sex === option.value}
+              onChange={() => setSex(option.value)}
+            />
+            {option.label}
+          </label>
+        ))}
+      </div>
 
       <InputSkeleton
-        text={'Вік, років:'}
+        text="Вік, років:"
         name="age"
-        max={130}
-        min={14}
-        value={age}
-        setAny={changeAge}
-        onBlur={validate}
+        min={LIMITS.age.min}
+        max={LIMITS.age.max}
+        value={values.age}
+        setAny={change('age')}
+        onBlur={validate('age')}
         error={errors.age}
       />
       <InputSkeleton
-        text={'Зріст (см):'}
+        text="Зріст (см):"
         name="height"
-        max={220}
-        min={100}
-        value={height}
-        setAny={changeHeight}
-        onBlur={validate}
+        min={LIMITS.height.min}
+        max={LIMITS.height.max}
+        value={values.height}
+        setAny={change('height')}
+        onBlur={validate('height')}
         error={errors.height}
       />
       <InputSkeleton
-        text={'Вага (кг):'}
+        text="Вага (кг):"
         name="weight"
-        max={130}
-        min={40}
-        value={weight}
-        setAny={changeWeight}
-        onBlur={validate}
+        min={LIMITS.weight.min}
+        max={LIMITS.weight.max}
+        value={values.weight}
+        setAny={change('weight')}
+        onBlur={validate('weight')}
         error={errors.weight}
       />
+
       <label
         htmlFor="activity"
         className="font-bold -mb-4 text-lg text-mainTitle dark:text-mainTitleBlack"
@@ -152,35 +115,46 @@ export const CaloriesCalcList = () => {
         id="activity"
         name="activity"
         className="max-[440px]:max-w-[280px] min-[768px]:max-w-[340px] min-[880px]:max-w-[380px] min-[980px]:max-w-[404px]
-        font-bold border border-gray-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-main 
-        text-mainText dark:text-mainTextBlack bg-[#e5e5e5] dark:bg-[#676465]"
+        font-bold border border-gray-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-main
+        text-neutral-700 dark:text-mainTextBlack bg-[#e5e5e5] dark:bg-[#676465]"
         value={activity}
         onChange={e => setActivity(Number(e.target.value))}
       >
-        <option value="1.2">
-          Сидячий спосіб життя (мало або зовсім без фізичних вправ)
-        </option>
-        <option value="1.375">
-          Легка активність (1-3 дні тренувань на тиждень)
-        </option>
-        <option value="1.55">
-          Помірно активний (3-5 днів тренувань на тиждень)
-        </option>
-        <option value="1.725">
-          Дуже активний (6-7 днів тренувань на тиждень)
-        </option>
-        <option value="1.9">
-          Надзвичайно активний (дуже інтенсивні фізичні вправи або фізична
-          робота)
-        </option>
+        {ACTIVITY_LEVELS.map(level => (
+          <option key={level.value} value={level.value}>
+            {level.label}
+          </option>
+        ))}
       </select>
 
-      <CaloriesCalcFormula
-        age={age}
+      <div role="radiogroup" aria-label="Мета" className="flex flex-col gap-2">
+        <span className="text-lg font-bold text-left text-mainTitle dark:text-mainTitleBlack">
+          Мета
+        </span>
+        <div className="flex gap-2 flex-wrap">
+          {GOALS.map(option => (
+            <label key={option.value} className={toggleClass(goal === option.value)}>
+              <input
+                type="radio"
+                name="goal"
+                value={option.value}
+                className="sr-only"
+                checked={goal === option.value}
+                onChange={() => setGoal(option.value)}
+              />
+              {option.label}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <CaloriesResult
         sex={sex}
-        weight={weight}
-        height={height}
+        age={values.age}
+        heightCm={values.height}
+        weightKg={values.weight}
         activity={activity}
+        goal={goal}
       />
     </form>
   );

@@ -5,7 +5,7 @@ import { SYTNO_URL } from '@/const';
 export const ButtonGroup = () => {
   return (
     <>
-      <p className="mt-12 text-mainText dark:text-mainTextBlack">
+      <p className="mt-12 text-neutral-600 dark:text-mainTextBlack">
         Дізнайся більше про здорове харчування
       </p>
       <ButtonSecond
@@ -13,7 +13,7 @@ export const ButtonGroup = () => {
         text="Все про харчування"
         width="mx-auto mt-4 w-full md:w-[284px]"
       />
-      <p className="mt-12 text-mainText dark:text-mainTextBlack">
+      <p className="mt-12 text-neutral-600 dark:text-mainTextBlack">
         Дізнайся про легкий сервіс складання денних меню
       </p>
       <Button
