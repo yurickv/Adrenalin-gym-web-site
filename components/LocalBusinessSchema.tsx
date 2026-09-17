@@ -2,6 +2,7 @@ export default function LocalBusinessSchema() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'SportsActivityLocation',
+    '@id': 'https://gym-adrenalin.com.ua/#organization',
     name: 'Тренажерний зал Адреналін',
     alternateName: 'Adrenalin Gym',
     description:
