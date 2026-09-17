@@ -18,6 +18,7 @@ const Footer: React.FC = () => {
       name: 'Потреба калорій',
       href: '/calcs/calories-calculator',
     },
+    { name: 'Усі калькулятори', href: '/calcs' },
   ];
 
   return (

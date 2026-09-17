@@ -66,6 +66,12 @@ const Header: React.FC = () => {
       href: '/calcs/calories-calculator',
       icon: <CaloriesCalcIcon />,
     },
+    {
+      name: 'Усі калькулятори',
+      description: 'Огляд трьох калькуляторів на одній сторінці',
+      href: '/calcs',
+      icon: <HomeIcon />,
+    },
   ];
 
   return (
