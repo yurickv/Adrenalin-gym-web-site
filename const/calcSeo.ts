@@ -13,5 +13,5 @@ export const CALC_PUBLISHER = {
 };
 
 export const CALC_DATE_PUBLISHED = '2023-08-12';
-export const CALC_DATE_MODIFIED = '2026-07-05';
-export const CALC_DATE_MODIFIED_LABEL = '5 липня 2026';
+export const CALC_DATE_MODIFIED = '2026-09-17';
+export const CALC_DATE_MODIFIED_LABEL = '17 вересня 2026';
