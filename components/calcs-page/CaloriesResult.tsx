@@ -157,7 +157,7 @@ export const CaloriesResult = ({
       <p className="sr-only" aria-live="polite">
         {ready
           ? `Норма ${t.maintain} ккал на день, ціль ${target} ккал`
-          : 'Результат з’явиться після введення віку, зросту і ваги'}
+          : 'Результат зʼявиться після введення віку, зросту і ваги'}
       </p>
       {body}
     </div>
