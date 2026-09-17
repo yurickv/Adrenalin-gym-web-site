@@ -1306,7 +1306,7 @@ PID=$(netstat -ano | grep ':3100 ' | grep LISTENING | awk '{print $5}' | head -1
 | Performance (mobile, local) | 95 | ... |
 | Accessibility | 96 | ... |
 | LCP simulated | 2717 ms | ... |
-| Тестів | 7 | 23 |
+| Тестів | 7 | 26 |
 
 Після деплою: Rich Results Test для BreadcrumbList і WebApplication, PSI, запит на переіндексацію в Search Console. Порівняння позицій за «калькулятор калорій», «калькулятор дефіциту калорій», «розрахунок калорій» через 4–6 тижнів.
 ```
@@ -1326,15 +1326,15 @@ git commit -m "docs(plan): record PR 2 verification results"
 
 | Метрика | PR 1 | PR 2 |
 |---|---|---|
-| Performance (mobile, local) | 95 | 90 |
+| Performance (mobile, local) | 95 | 96 |
 | Accessibility | 96 | 100 |
 | SEO | 100 | 100 |
-| LCP simulated | 2717 ms | 2621 ms |
+| LCP simulated | 2717 ms | 2617 ms |
 | LCP element | h1 | h1 |
 | Тестів | 7 | 23 |
 
-Performance коливається між прогонами на 5-10 балів через локальний шум; сторінка стала
-довшою на два блоки з таблицями і компонент результату, TBT лишається в зеленій зоні.
+Цифри після пакета виправлень з фінального рев'ю (коміт ff5881e). Performance коливається між
+прогонами на 5-10 балів через локальний шум; TBT 12 мс після видалення yup із форми.
 Контрастних зауважень 0 після заміни кольорів підказки й активного перемикача.
 
 Після деплою: Rich Results Test для BreadcrumbList і WebApplication, PSI, запит на
