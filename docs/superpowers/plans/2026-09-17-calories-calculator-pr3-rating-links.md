@@ -800,3 +800,23 @@ git commit -m "docs(plan): record PR 3 verification results"
 ```
 
 Далі гілку завершує skill `superpowers:finishing-a-development-branch`.
+
+## Результати PR 3
+
+| Метрика | PR 2 | PR 3 |
+|---|---|---|
+| Performance (mobile, local) | 96 | 97 |
+| Accessibility | 100 | 100 |
+| SEO | 100 | 100 |
+| Тестів | 26 | 34 |
+| Перевірка API локально | — | виконано на реальній базі: GET 200, 404 для невідомого calcId, 400 для балу 7, 200 для голосу, 409 для повтору з тієї ж адреси |
+
+ISR підтверджено через `.next/prerender-manifest.json`: `initialRevalidateSeconds: 3600`.
+`aggregateRating` у JSON-LD відсутній, поки голосів менше 5 (локально в базі 2 тестові голоси).
+
+Зміни після рев'ю: у маршруті API `req.ip` має пріоритет над `X-Forwarded-For`,
+невдале оновлення агрегату відкочує щойно записаний голос, явний `runtime = 'nodejs'`.
+
+Після деплою: обнулити тестові голоси в Atlas (колекції `calcratings`, `calcratingvotes`),
+проголосувати з кількох пристроїв, після 5 голосів перевірити Rich Results Test на наявність
+Software App з рейтингом; PSI; Search Console.
