@@ -1468,3 +1468,21 @@ git commit -m "docs(plan): record PR 4 verification results, bump calculators da
 ```
 
 Далі гілку завершує skill `superpowers:finishing-a-development-branch`.
+
+## Результати PR 4
+
+| Сторінка | Performance | Accessibility | SEO |
+|---|---|---|---|
+| /calcs | 98 | 100 | 100 |
+| /calcs/imt-calculator | 97 | 100 | 100 |
+
+Тестів: 50. ISR ІМТ: `initialRevalidateSeconds` 3600. Локальна production-збірка, Lighthouse 12, мобільна емуляція.
+
+Зміни поза планом під час виконання: `unmount={false}` на `Transition` і `Popover.Panel` у шапці й
+футері, щоб посилання меню «Калькулятори» існували в HTML для краулера (раніше панелі не
+рендерились у закритому стані); заголовки колонок футера стали абзацами, бо H4 після H2 карток
+хабу ламав порядок заголовків; у таблиці «Норма ваги за зростом» для 150 см замість порожньої
+клітинки Девіна стоїть «—».
+
+Після деплою: Rich Results Test для обох сторінок, PSI, запит на індексування; через 4–6 тижнів
+порівняти позицію ІМТ (базова 14,9) і CTR (базовий 0,3%).
