@@ -1,5 +1,3 @@
-import GoogleAnalytics from '@/components/GoogleAnalytics';
-
 export default function ServicesLayout({
   children,
 }: {
@@ -8,7 +6,6 @@ export default function ServicesLayout({
   return (
     <>
       {children}
-      <GoogleAnalytics ga_id={process.env.GTM_ID} />
     </>
   );
 }

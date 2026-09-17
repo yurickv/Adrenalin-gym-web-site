@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 export const metadata: Metadata = {
   title: 'Розминка перед тренуванням в тренажерному залі',
@@ -22,7 +21,6 @@ export default function ServicesLayout({
   return (
     <>
       {children}
-      <GoogleAnalytics ga_id={process.env.GTM_ID} />
     </>
   );
 }

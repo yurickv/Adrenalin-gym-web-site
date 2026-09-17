@@ -18,7 +18,12 @@ declare global {
   }
 }
 
+let injected = false;
+
 function injectGtag(gaId: string) {
+  if (injected) return;
+  injected = true;
+
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() {
     // gtag очікує саме обʼєкт arguments, як в офіційному сніпеті Google
