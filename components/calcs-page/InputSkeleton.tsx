@@ -23,13 +23,14 @@ export const InputSkeleton = ({
     <div className="flex flex-col gap-2">
       <div className="flex gap-7 items-center justify-between">
         <label
-          htmlFor={text}
+          htmlFor={`${name}-input`}
           className="font-bold md:text-lg text-mainTitle dark:text-mainTitleBlack"
         >
           {text}
         </label>
         <div className="relative flex pb-1">
           <input
+            id={`${name}-input`}
             max={max}
             min={min}
             value={value}
@@ -50,6 +51,7 @@ export const InputSkeleton = ({
       </div>
 
       <input
+        aria-label={`${text} повзунок`}
         max={max}
         min={min}
         name={name}

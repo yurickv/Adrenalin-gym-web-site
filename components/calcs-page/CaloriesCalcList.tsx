@@ -149,6 +149,7 @@ export const CaloriesCalcList = () => {
         Рівень активності
       </label>
       <select
+        id="activity"
         name="activity"
         className="max-[440px]:max-w-[280px] min-[768px]:max-w-[340px] min-[880px]:max-w-[380px] min-[980px]:max-w-[404px]
         font-bold border border-gray-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-main 
