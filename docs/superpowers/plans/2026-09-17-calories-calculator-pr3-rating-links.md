@@ -58,6 +58,7 @@
   - `interface RatingStats { average: number; count: number }`
   - `buildAggregateRating(stats: RatingStats | null | undefined): AggregateRatingJsonLd | undefined`
   - `ratingStorageKey(calcId: CalcId): string`
+  - `formatRating(average: number): string` (одна десяткова цифра, роздільник — кома, напр. `4,4`)
 
 - [ ] **Step 1: Тести `lib/calcRating.test.ts`**
 
@@ -67,6 +68,7 @@ import {
   averageOf,
   buildAggregateRating,
   CALC_IDS,
+  formatRating,
   isCalcId,
   isPublishable,
   isValidRatingValue,
@@ -133,6 +135,13 @@ describe('buildAggregateRating', () => {
 describe('ratingStorageKey', () => {
   it('namespaces the key by calculator', () => {
     expect(ratingStorageKey('calories-calculator')).toBe('calc_rating_calories-calculator');
+  });
+});
+
+describe('formatRating', () => {
+  it('uses one decimal and a comma separator', () => {
+    expect(formatRating(4)).toBe('4,0');
+    expect(formatRating(4.4)).toBe('4,4');
   });
 });
 ```
@@ -205,9 +214,13 @@ export function buildAggregateRating(
 export function ratingStorageKey(calcId: CalcId): string {
   return `calc_rating_${calcId}`;
 }
+
+export function formatRating(average: number): string {
+  return average.toFixed(1).replace('.', ',');
+}
 ```
 
-- [ ] **Step 4: GREEN** — `npm test 2>&1 | tail -4`, очікувано `Test Files 4 passed`, `Tests 34 passed`.
+- [ ] **Step 4: GREEN** — `npm test 2>&1 | tail -4`, очікувано `Test Files 4 passed`, `Tests 35 passed`.
 
 - [ ] **Step 5: Commit**
 
@@ -506,6 +519,7 @@ git commit -m "feat(rating): read calculator rating on the server, ISR page, agg
 
 import { useEffect, useState } from 'react';
 import {
+  formatRating,
   isValidRatingValue,
   RATING_MAX,
   RATING_MIN,
@@ -532,8 +546,18 @@ function readStoredVote(key: string): number | null {
   }
 }
 
+// Кольори підібрано під фон картки (#F5F5F5 / #676465): заповнена зірка
+// orange-700 / orange-300, порожня neutral-500 / neutral-300, усі не нижче 3:1.
+const starClass = (filled: boolean) =>
+  `text-3xl leading-none ${
+    filled
+      ? 'text-orange-700 dark:text-orange-300'
+      : 'text-neutral-500 dark:text-neutral-300'
+  }`;
+
 export const CalcRating = ({ calcId, initial }: Props) => {
   const key = ratingStorageKey(calcId);
+  const labelId = `${calcId}-rating-label`;
   const [stats, setStats] = useState<RatingStats | null>(initial);
   const [vote, setVote] = useState<number | null>(null);
   const [hover, setHover] = useState<number | null>(null);
@@ -548,7 +572,7 @@ export const CalcRating = ({ calcId, initial }: Props) => {
   }, [key]);
 
   const submit = async (value: number) => {
-    if (status === 'pending' || status === 'voted' || status === 'duplicate') return;
+    if (status !== 'idle' && status !== 'error') return;
     setStatus('pending');
     setVote(value);
     try {
@@ -558,6 +582,8 @@ export const CalcRating = ({ calcId, initial }: Props) => {
         body: JSON.stringify({ value }),
       });
       if (res.status === 409) {
+        // Сервер знає про голос з цієї адреси, але не знає його значення.
+        setVote(null);
         setStatus('duplicate');
         return;
       }
@@ -576,57 +602,82 @@ export const CalcRating = ({ calcId, initial }: Props) => {
     }
   };
 
-  const locked = status === 'voted' || status === 'duplicate' || status === 'pending';
+  const locked = status === 'voted' || status === 'duplicate';
   const shown = hover ?? vote ?? 0;
+  const statsText =
+    stats && stats.count > 0
+      ? `Середня оцінка ${formatRating(stats.average)} з ${RATING_MAX}, голосів: ${stats.count}`
+      : '';
+  const message =
+    status === 'voted'
+      ? statsText
+        ? `Дякуємо! ${statsText}`
+        : 'Дякуємо за оцінку!'
+      : status === 'duplicate'
+      ? 'Ви вже оцінювали цей калькулятор сьогодні'
+      : status === 'error'
+      ? 'Не вдалося зберегти оцінку, спробуйте пізніше'
+      : statsText;
 
   return (
     <div className="mt-10 text-center">
-      <p
-        id={`${calcId}-rating-label`}
-        className="font-semibold text-mainTitle dark:text-mainTitleBlack"
-      >
+      <p id={labelId} className="font-semibold text-mainTitle dark:text-mainTitleBlack">
         Чи корисний калькулятор?
       </p>
-      <div
-        role="radiogroup"
-        aria-labelledby={`${calcId}-rating-label`}
-        className="mt-2 flex justify-center gap-1"
-        onMouseLeave={() => setHover(null)}
+
+      {locked ? (
+        <div className="mt-2 flex justify-center gap-1">
+          <span className="sr-only">
+            {vote !== null
+              ? `Ваша оцінка: ${vote} з ${RATING_MAX}`
+              : 'Оцінку з вашої адреси вже зараховано'}
+          </span>
+          <span aria-hidden="true" className="flex gap-1">
+            {STARS.map(value => (
+              <span key={value} className={`px-1 ${starClass(value <= (vote ?? 0))}`}>
+                ★
+              </span>
+            ))}
+          </span>
+        </div>
+      ) : (
+        <div
+          role="radiogroup"
+          aria-labelledby={labelId}
+          className="mt-2 flex justify-center gap-1"
+          onMouseLeave={() => setHover(null)}
+        >
+          {STARS.map(value => (
+            <label
+              key={value}
+              className={`cursor-pointer rounded px-1 focus-within:ring-2 focus-within:ring-main ${starClass(
+                value <= shown
+              )}`}
+              onMouseEnter={() => setHover(value)}
+            >
+              <input
+                type="radio"
+                name={`${calcId}-rating`}
+                value={value}
+                className="sr-only"
+                checked={vote === value}
+                disabled={status === 'pending'}
+                aria-label={`Оцінити ${value} з ${RATING_MAX}`}
+                onChange={() => submit(value)}
+                onFocus={() => setHover(value)}
+                onBlur={() => setHover(null)}
+              />
+              <span aria-hidden="true">★</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      <p
+        className="mt-2 min-h-[1.5rem] text-sm text-neutral-600 dark:text-mainTextBlack"
+        aria-live="polite"
       >
-        {STARS.map(value => (
-          <button
-            key={value}
-            type="button"
-            role="radio"
-            aria-checked={vote === value}
-            aria-label={`Оцінити ${value} з ${RATING_MAX}`}
-            disabled={locked}
-            onMouseEnter={() => !locked && setHover(value)}
-            onFocus={() => !locked && setHover(value)}
-            onBlur={() => setHover(null)}
-            onClick={() => submit(value)}
-            className={`text-3xl leading-none px-1 rounded focus-visible:ring-2 focus-visible:ring-main disabled:cursor-default ${
-              value <= shown
-                ? 'text-orange-500'
-                : 'text-neutral-400 dark:text-neutral-500'
-            }`}
-          >
-            ★
-          </button>
-        ))}
-      </div>
-      <p className="mt-2 min-h-[1.5rem] text-sm text-neutral-600 dark:text-mainTextBlack" aria-live="polite">
-        {status === 'voted' && stats && stats.count > 0
-          ? `Дякуємо! Середня оцінка ${stats.average.toFixed(1)} з ${RATING_MAX}, голосів: ${stats.count}`
-          : status === 'voted'
-          ? 'Дякуємо за оцінку!'
-          : status === 'duplicate'
-          ? 'Ви вже оцінювали цей калькулятор сьогодні'
-          : status === 'error'
-          ? 'Не вдалося зберегти оцінку, спробуйте пізніше'
-          : stats && stats.count > 0
-          ? `Середня оцінка ${stats.average.toFixed(1)} з ${RATING_MAX}, голосів: ${stats.count}`
-          : ''}
+        {message}
       </p>
     </div>
   );
@@ -772,7 +823,7 @@ node -e "const r=require('./.lighthouse/pr3.json');const c=r.categories;console.
 PID=$(netstat -ano | grep ':3100 ' | grep LISTENING | awk '{print $5}' | head -1); [ -n "$PID" ] && taskkill //PID "$PID" //F
 ```
 
-Очікувано: 34 тести; сторінка ISR; performance не гірше 90, accessibility 100, SEO 100, без провалених бінарних аудитів (зірки мають `aria-label`, група `aria-labelledby`).
+Очікувано: 35 тестів; сторінка ISR; performance не гірше 90, accessibility 100, SEO 100, без провалених бінарних аудитів (зірки мають `aria-label`, група `aria-labelledby`).
 
 - [ ] **Step 2: Записати результати**
 
@@ -786,7 +837,7 @@ PID=$(netstat -ano | grep ':3100 ' | grep LISTENING | awk '{print $5}' | head -1
 | Performance (mobile, local) | 96 | ... |
 | Accessibility | 100 | ... |
 | SEO | 100 | ... |
-| Тестів | 26 | 34 |
+| Тестів | 26 | 35 |
 | Перевірка API локально | — | виконано / відкладено на preview |
 
 Після деплою: обнулити тестові голоси в Atlas (колекції `calcratings`, `calcratingvotes`), проголосувати з кількох пристроїв, після 5 голосів перевірити Rich Results Test на наявність Software App з рейтингом; PSI; Search Console.
@@ -808,7 +859,7 @@ git commit -m "docs(plan): record PR 3 verification results"
 | Performance (mobile, local) | 96 | 97 |
 | Accessibility | 100 | 100 |
 | SEO | 100 | 100 |
-| Тестів | 26 | 34 |
+| Тестів | 26 | 35 |
 | Перевірка API локально | — | виконано на реальній базі: GET 200, 404 для невідомого calcId, 400 для балу 7, 200 для голосу, 409 для повтору з тієї ж адреси |
 
 ISR підтверджено через `.next/prerender-manifest.json`: `initialRevalidateSeconds: 3600`.
@@ -820,3 +871,10 @@ ISR підтверджено через `.next/prerender-manifest.json`: `initia
 Після деплою: обнулити тестові голоси в Atlas (колекції `calcratings`, `calcratingvotes`),
 проголосувати з кількох пристроїв, після 5 голосів перевірити Rich Results Test на наявність
 Software App з рейтингом; PSI; Search Console.
+
+**Зміни після рев'ю віджета:**
+- нативні radio-інпути замість кнопок з `role="radio"` — клавіатурна модель radiogroup (стрілки перемикають вибір, одна зупинка Tab на групу);
+- заблокований стан (після голосу чи повторної спроби) рендериться як статичні зірки зі sr-only підсумком замість `disabled`-контролів, які випадали б з дерева доступності;
+- відповідь 409 скидає щойно підсвічену зірку замість того, щоб лишати її позначеною без збереженого голосу;
+- кольори зірок підібрано під контраст ≥3:1 на обох фонах картки (`#F5F5F5` світла, `#676465` темна): `text-orange-700`/`dark:text-orange-300` для заповнених, `text-neutral-500`/`dark:text-neutral-300` для порожніх;
+- десятковий роздільник у середній оцінці — кома (`formatRating`), відповідно до української типографіки.
