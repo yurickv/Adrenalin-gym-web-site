@@ -5,11 +5,13 @@ import {
   CALC_DATE_PUBLISHED,
   CALC_DATE_MODIFIED,
 } from '@/const/calcSeo';
+import { buildAggregateRating, type RatingStats } from '@/lib/calcRating';
 
 const SITE_URL = 'https://gym-adrenalin.com.ua';
 const PAGE_URL = `${SITE_URL}/calcs/fat-calculator`;
 
-export const FatJsonLd = () => {
+export const FatJsonLd = ({ rating }: { rating: RatingStats | null }) => {
+  const aggregateRating = buildAggregateRating(rating);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -38,8 +40,16 @@ export const FatJsonLd = () => {
         applicationCategory: 'HealthApplication',
         operatingSystem: 'Web',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'UAH' },
+        ...(aggregateRating ? { aggregateRating } : {}),
         description:
-          'Безкоштовний онлайн-калькулятор для розрахунку відсотка жиру в організмі за методом каліперометрії (формула Джексона-Поллока) для чоловіків і жінок.',
+          'Безкоштовний онлайн-калькулятор відсотка жиру в організмі: за обхватами шиї, талії і стегон (метод ВМС США) або за трьома шкірними складками (Джексон-Поллок), з нормами для чоловіків і жінок та розрахунком жирової маси.',
+        inLanguage: 'uk',
+        featureList: [
+          'Метод за обхватами без каліпера (ВМС США)',
+          'Метод за трьома шкірними складками (Джексон-Поллок)',
+          'Категорії і норми окремо для чоловіків і жінок',
+          'Жирова і суха маса за вагою',
+        ],
         author: CALC_AUTHOR,
         publisher: CALC_PUBLISHER,
         datePublished: CALC_DATE_PUBLISHED,
@@ -52,28 +62,15 @@ export const FatJsonLd = () => {
       },
       {
         '@type': 'HowTo',
-        name: 'Як розрахувати відсоток жиру в організмі',
+        name: 'Як розрахувати відсоток жиру за обхватами',
         description:
-          'Покрокова інструкція, як визначити процент жиру в тілі за товщиною шкірних складок.',
+          'Покрокова інструкція, як визначити відсоток жиру сантиметровою стрічкою за методом ВМС США.',
         step: [
-          {
-            '@type': 'HowToStep',
-            position: 1,
-            name: 'Виміряйте складки',
-            text: 'Виміряйте товщину шкірних складок на грудях, животі та стегні каліпером або лінійкою.',
-          },
-          {
-            '@type': 'HowToStep',
-            position: 2,
-            name: 'Введіть дані',
-            text: 'Додайте три виміри й введіть суму складок, а також вкажіть вік і стать.',
-          },
-          {
-            '@type': 'HowToStep',
-            position: 3,
-            name: 'Отримайте результат',
-            text: 'Калькулятор покаже відсоток жиру в організмі та оцінку вашої фізичної форми.',
-          },
+          { '@type': 'HowToStep', position: 1, name: 'Оберіть метод і стать', text: 'Залиште метод «За обхватами» і виберіть стать.' },
+          { '@type': 'HowToStep', position: 2, name: 'Виміряйте шию', text: 'Обхват шиї під гортанню, стрічка не стискає.' },
+          { '@type': 'HowToStep', position: 3, name: 'Виміряйте талію і стегна', text: 'Талія на рівні пупа (жінки — у найвужчому місці), для жінок також стегна в найширшому місці.' },
+          { '@type': 'HowToStep', position: 4, name: 'Введіть зріст і виміри', text: 'Усі значення в сантиметрах; за бажанням додайте вагу, щоб побачити кілограми жиру.' },
+          { '@type': 'HowToStep', position: 5, name: 'Отримайте результат', text: 'Калькулятор покаже відсоток жиру, категорію для вашої статі, жирову і суху масу.' },
         ],
       },
       {

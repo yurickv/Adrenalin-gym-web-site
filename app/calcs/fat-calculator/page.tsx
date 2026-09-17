@@ -90,7 +90,7 @@ const FatCalc = () => {
       </section>
       <FatFaq />
       <CalcByline />
-      <FatJsonLd />
+      <FatJsonLd rating={null} />
     </main>
   );
 };
