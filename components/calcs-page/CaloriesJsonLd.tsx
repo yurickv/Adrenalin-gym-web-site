@@ -5,11 +5,13 @@ import {
   CALC_DATE_PUBLISHED,
   CALC_DATE_MODIFIED,
 } from '@/const/calcSeo';
+import { buildAggregateRating, type RatingStats } from '@/lib/calcRating';
 
 const SITE_URL = 'https://gym-adrenalin.com.ua';
 const PAGE_URL = `${SITE_URL}/calcs/calories-calculator`;
 
-export const CaloriesJsonLd = () => {
+export const CaloriesJsonLd = ({ rating }: { rating: RatingStats | null }) => {
+  const aggregateRating = buildAggregateRating(rating);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -38,6 +40,7 @@ export const CaloriesJsonLd = () => {
         applicationCategory: 'HealthApplication',
         operatingSystem: 'Web',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'UAH' },
+        ...(aggregateRating ? { aggregateRating } : {}),
         description:
           'Безкоштовний онлайн-калькулятор калорій: базовий обмін (BMR) і денна норма за формулою Міффліна-Сан Жеора, цільові калорії для схуднення, підтримання чи набору ваги і розрахунок БЖВ.',
         inLanguage: 'uk',

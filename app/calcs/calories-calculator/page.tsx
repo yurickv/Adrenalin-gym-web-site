@@ -8,9 +8,13 @@ import { CalcByline } from '@/components/calcs-page/CalcByline';
 import { CaloriesNormTable } from '@/components/calcs-page/CaloriesNormTable';
 import { CaloriesDeficitTable } from '@/components/calcs-page/CaloriesDeficitTable';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
+import { getCalcRating } from '@/app/_services/calcRating.service';
 import Link from 'next/link';
 
-const CaloriesCalc = () => {
+export const revalidate = 3600;
+
+const CaloriesCalc = async () => {
+  const rating = await getCalcRating('calories-calculator');
   return (
     <main>
       <section className="bg-[#2E2F42] md:bg-hero-photo bg-cover bg-center">
@@ -92,7 +96,7 @@ const CaloriesCalc = () => {
       <CaloriesDeficitTable />
       <CaloriesFaq />
       <CalcByline />
-      <CaloriesJsonLd />
+      <CaloriesJsonLd rating={rating} />
     </main>
   );
 };
