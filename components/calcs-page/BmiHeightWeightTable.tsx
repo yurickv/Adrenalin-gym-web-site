@@ -26,14 +26,16 @@ export const BmiHeightWeightTable = () => (
           <tbody>
             {HEIGHT_TABLE_ROWS.map(height => {
               const range = normalWeightRange(height);
+              const female = devineIdealWeight('female', height);
+              const male = devineIdealWeight('male', height);
               return (
                 <tr key={height} className="border-b border-gray-300">
                   <th scope="row" className="py-2 pr-4 font-normal">{height} см</th>
                   <td className="py-2 pr-4">
                     {range.min}–{range.max}
                   </td>
-                  <td className="py-2 pr-4">{devineIdealWeight('female', height)} кг</td>
-                  <td className="py-2">{devineIdealWeight('male', height)} кг</td>
+                  <td className="py-2 pr-4">{female === null ? '—' : `${female} кг`}</td>
+                  <td className="py-2">{male === null ? '—' : `${male} кг`}</td>
                 </tr>
               );
             })}

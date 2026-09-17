@@ -1,28 +1,17 @@
-import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import SceletonForCalc from '@/components/sceleton/sceletonForCalc';
 
 export default function Loading() {
   return (
-    <>
-      <section className="bg-gray-300 bg-center bg-cover ">
-        <div
-          className="div-container  
-        py-[20px] md:py-[44px]  mx-auto text-center flex flex-col gap-5 md:gap-10 z-10 relative"
-        >
-          <h2 className="sr-only">
-            Калькулятор для визначення індексу маси тіла
-          </h2>
-          <h3 className=" text-left text-mainTitleBlack flex gap-2">
-            <div className="flex gap-2 items-center">
-              <HomeIcon />
-              <span className="sr-only md:not-sr-only">Adrenalin_gym</span>
-            </div>
-            <div className="flex gap-2 items-center font-semibold">
-              <span className="sr-only md:not-sr-only">&gt; Калькулятори</span>
-            </div>
-            <span className="font-semibold"> &gt; Індекс маси тіла</span>
-          </h3>
-          <h1 className="title mb-14 text-mainTitleBlack">Калькулятори</h1>
+    <main>
+      <section className="bg-[#2E2F42] md:bg-hero-photo bg-cover bg-center">
+        <div className="div-container py-4 md:py-[44px] mx-auto flex flex-col gap-3 md:gap-8">
+          <div className="h-5 w-40 rounded bg-gray-500/60" aria-hidden="true" />
+          <h1 className="text-3xl md:text-5xl font-bold text-center text-mainTitleBlack">
+            Калькулятор ІМТ: індекс маси тіла і норма ваги
+          </h1>
+          <p className="text-base md:text-lg text-center text-mainTitleBlack pb-2 md:pb-6">
+            Введіть зріст і вагу і дізнайтесь ІМТ, норму ваги та ідеальну вагу
+          </p>
         </div>
       </section>
       <section className="bg-white dark:bg-darkBody">
@@ -30,6 +19,6 @@ export default function Loading() {
           <SceletonForCalc />
         </div>
       </section>
-    </>
+    </main>
   );
 }
