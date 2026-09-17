@@ -282,6 +282,8 @@ import { hashIp } from '@/app/api/_helpers/hashIp';
 import { BadRequest, Conflict, NotFound } from '@/app/api/_helpers/errors';
 import { averageOf, isCalcId, isValidRatingValue } from '@/lib/calcRating';
 
+export const runtime = 'nodejs';
+
 type Params = { calcId: string };
 
 function statsOf(doc: { sum?: number; count?: number } | null) {
@@ -290,9 +292,12 @@ function statsOf(doc: { sum?: number; count?: number } | null) {
   return { average: averageOf(sum, count), count };
 }
 
+// req.ip заповнює платформа (Vercel) з реального з'єднання; X-Forwarded-For
+// беремо лише як запасний варіант, бо перший елемент цього заголовка
+// контролює клієнт. Без обох значень усі голоси об'єднуються під 'unknown'.
 function clientIp(req: NextRequest): string {
   const forwarded = req.headers.get('x-forwarded-for');
-  return forwarded?.split(',')[0]?.trim() || req.ip || 'unknown';
+  return req.ip || forwarded?.split(',')[0]?.trim() || 'unknown';
 }
 
 function errorResponse(e: unknown) {
@@ -329,11 +334,10 @@ export const POST = async (req: NextRequest, { params }: { params: Params }) => 
 
     await connectToDB();
 
+    const ipHash = hashIp(clientIp(req));
+
     try {
-      await CalcRatingVote.create({
-        calcId: params.calcId,
-        ipHash: hashIp(clientIp(req)),
-      });
+      await CalcRatingVote.create({ calcId: params.calcId, ipHash });
     } catch (e) {
       if ((e as { code?: number }).code === 11000) {
         throw new Conflict('Ви вже оцінювали цей калькулятор сьогодні');
@@ -341,11 +345,19 @@ export const POST = async (req: NextRequest, { params }: { params: Params }) => 
       throw e;
     }
 
-    const doc = await CalcRating.findOneAndUpdate(
-      { calcId: params.calcId },
-      { $inc: { sum: value, count: 1 } },
-      { upsert: true, new: true }
-    ).lean();
+    let doc;
+    try {
+      doc = await CalcRating.findOneAndUpdate(
+        { calcId: params.calcId },
+        { $inc: { sum: value, count: 1 } },
+        { upsert: true, new: true }
+      ).lean();
+    } catch (e) {
+      // Компенсація: без цього голос лишився б у журналі, а повторна спроба
+      // отримувала б хибний 409 упродовж доби.
+      await CalcRatingVote.deleteOne({ calcId: params.calcId, ipHash }).catch(() => {});
+      throw e;
+    }
 
     return NextResponse.json(statsOf(doc), { status: 200 });
   } catch (e) {
