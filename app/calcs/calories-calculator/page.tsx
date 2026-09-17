@@ -5,6 +5,8 @@ import { CaloriesDescription } from '@/components/calcs-page/CaloriesDescription
 import { CaloriesFaq } from '@/components/calcs-page/CaloriesFaq';
 import { CaloriesJsonLd } from '@/components/calcs-page/CaloriesJsonLd';
 import { CalcByline } from '@/components/calcs-page/CalcByline';
+import { CaloriesNormTable } from '@/components/calcs-page/CaloriesNormTable';
+import { CaloriesDeficitTable } from '@/components/calcs-page/CaloriesDeficitTable';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
 import Link from 'next/link';
 
@@ -40,10 +42,10 @@ const CaloriesCalc = () => {
             </ol>
           </nav>
           <h1 className="text-3xl md:text-5xl font-bold text-center text-mainTitleBlack">
-            Калькулятор калорій для схуднення та набору ваги
+            Калькулятор калорій: норма на день, дефіцит і БЖВ
           </h1>
           <p className="text-base md:text-lg text-center text-mainTitleBlack pb-2 md:pb-6">
-            Введіть дані і отримайте денну норму калорій за 10 секунд
+            Введіть дані і отримайте норму, дефіцит для схуднення і БЖВ за 10 секунд
           </p>
         </div>
       </section>
@@ -78,14 +80,16 @@ const CaloriesCalc = () => {
           </div>
 
           <div className="mt-12 md:mt-16">
-            <p className="text-sm uppercase tracking-wide mb-4 text-mainText dark:text-mainTextBlack">
-              Інші калькулятори
-            </p>
+            <h2 className="text-xl md:text-2xl font-semibold mb-4 text-mainTitle dark:text-mainTitleBlack">
+              Інші фітнес-калькулятори
+            </h2>
             <CalcTitle page={2} />
           </div>
         </div>
       </section>
 
+      <CaloriesNormTable />
+      <CaloriesDeficitTable />
       <CaloriesFaq />
       <CalcByline />
       <CaloriesJsonLd />

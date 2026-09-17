@@ -16,6 +16,11 @@ export const CalcByline = () => {
           </time>
           .
         </p>
+        <p className="max-w-[900px] mx-auto mt-3 text-xs text-center text-neutral-600 dark:text-mainTextBlack">
+          Розрахунки орієнтовні і не замінюють консультацію лікаря чи дієтолога. За
+          хронічних захворювань, вагітності або віку до 18 років узгодьте раціон із
+          фахівцем.
+        </p>
       </div>
     </section>
   );
