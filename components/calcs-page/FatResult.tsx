@@ -9,6 +9,7 @@ import {
   fatMassKg,
   formatPercent,
   HEALTHY_RANGE,
+  isPlausibleBodyFat,
   jacksonPollockBodyFat,
   leanMassKg,
   navyBodyFat,
@@ -71,6 +72,11 @@ export const FatResult = ({ method, sex, values }: FatResultProps) => {
       const sum = folds.reduce<number>((acc, f) => acc + (f ?? 0), 0);
       pct = jacksonPollockBodyFat(sex, age, sum);
     }
+  }
+
+  if (pct !== null && !isPlausibleBodyFat(pct)) {
+    pct = null;
+    hint = 'Перевірте виміри: результат поза можливим діапазоном 2–70%.';
   }
 
   const weight = validNumber(values.weight, FAT_LIMITS.weight);

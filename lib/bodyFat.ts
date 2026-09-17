@@ -103,3 +103,9 @@ export function leanMassKg(weightKg: number, pct: number): number {
 export function formatPercent(pct: number): string {
   return pct.toFixed(1).replace('.', ',');
 }
+
+export const PLAUSIBLE_RANGE: [number, number] = [2, 70];
+
+export function isPlausibleBodyFat(pct: number): boolean {
+  return pct >= PLAUSIBLE_RANGE[0] && pct <= PLAUSIBLE_RANGE[1];
+}

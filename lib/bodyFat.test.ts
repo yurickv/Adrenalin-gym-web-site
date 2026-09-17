@@ -7,6 +7,7 @@ import {
   fatRangeLabel,
   formatPercent,
   HEALTHY_RANGE,
+  isPlausibleBodyFat,
   jacksonPollockBodyFat,
   leanMassKg,
   navyBodyFat,
@@ -82,6 +83,15 @@ describe('formatPercent', () => {
   it('uses one decimal and a comma', () => {
     expect(formatPercent(19.8)).toBe('19,8');
     expect(formatPercent(18)).toBe('18,0');
+  });
+});
+
+describe('isPlausibleBodyFat', () => {
+  it('accepts 2–70% and rejects the rest', () => {
+    expect(isPlausibleBodyFat(2)).toBe(true);
+    expect(isPlausibleBodyFat(70)).toBe(true);
+    expect(isPlausibleBodyFat(1.9)).toBe(false);
+    expect(isPlausibleBodyFat(-91.7)).toBe(false);
   });
 });
 
