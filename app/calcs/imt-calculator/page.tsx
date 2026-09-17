@@ -91,7 +91,7 @@ const ImtCalc = () => {
       </section>
       <ImtFaq />
       <CalcByline />
-      <ImtJsonLd />
+      <ImtJsonLd rating={null} />
     </main>
   );
 };
