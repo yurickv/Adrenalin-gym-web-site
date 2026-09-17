@@ -2,176 +2,138 @@
 
 import React, { useState } from 'react';
 import { InputSkeleton } from './InputSkeleton';
-import * as yup from 'yup';
-import { FatCalcFormula } from './FatCalcFormula';
+import { FatResult, type FatField } from './FatResult';
+import { SEX_OPTIONS, toggleClass } from './formStyles';
+import { FAT_LIMITS, type FatMethod } from '@/lib/bodyFat';
+import type { Sex } from '@/lib/calories';
+import { rangeError } from '@/lib/rangeError';
 
-const schema = yup.object().shape({
-  age: yup.number().positive().min(14, 'Не менше 14').max(130, 'Не більше 130'),
+const METHODS: Array<{ value: FatMethod; label: string }> = [
+  { value: 'tape', label: 'За обхватами' },
+  { value: 'caliper', label: 'За складками' },
+];
 
-  skinFold: yup
-    .number()
-    .positive()
-    .min(1, 'Не менше 1')
-    .max(100, 'Не більше 100'),
-  skinFoldW: yup
-    .number()
-    .positive()
-    .min(1, 'Не менше 1')
-    .max(100, 'Не більше 100'),
-  skinFoldL: yup
-    .number()
-    .positive()
-    .min(1, 'Не менше 1')
-    .max(100, 'Не більше 100'),
-});
+const LIMIT_OF: Record<FatField, { min: number; max: number }> = {
+  height: FAT_LIMITS.height,
+  neck: FAT_LIMITS.neck,
+  waist: FAT_LIMITS.waist,
+  hip: FAT_LIMITS.hip,
+  age: FAT_LIMITS.age,
+  skinFold: FAT_LIMITS.skinfold,
+  skinFoldW: FAT_LIMITS.skinfold,
+  skinFoldL: FAT_LIMITS.skinfold,
+  weight: FAT_LIMITS.weight,
+};
+
+const EMPTY: Record<FatField, string> = {
+  height: '',
+  neck: '',
+  waist: '',
+  hip: '',
+  age: '',
+  skinFold: '',
+  skinFoldW: '',
+  skinFoldL: '',
+  weight: '',
+};
 
 export const FatCalcList = () => {
-  const [sex, setSex] = useState<boolean>(true);
-  const [age, setAge] = useState<string>('');
-  const [skinFold, setSkinFold] = useState<string>('');
-  const [skinFoldW, setSkinFoldW] = useState<string>('');
-  const [skinFoldL, setSkinFoldL] = useState<string>('');
+  const [method, setMethod] = useState<FatMethod>('tape');
+  const [sex, setSex] = useState<Sex>('male');
+  const [values, setValues] = useState<Record<FatField, string>>(EMPTY);
+  const [errors, setErrors] = useState<Partial<Record<FatField, string>>>({});
 
-  const [errors, setErrors] = useState<{
-    age?: string;
-    skinFold?: string;
-    skinFoldW?: string;
-    skinFoldL?: string;
-  }>({});
+  const change = (field: FatField) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValues(prev => ({ ...prev, [field]: e.target.value }));
 
-  const changeAge = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAge(e.target.value);
-  };
+  const validate = (field: FatField) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setErrors(prev => ({
+      ...prev,
+      [field]: rangeError(e.target.value, LIMIT_OF[field].min, LIMIT_OF[field].max),
+    }));
 
-  const changeSF = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSkinFold(e.target.value);
-  };
-  const changeSFW = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSkinFoldW(e.target.value);
-  };
-  const changeSFL = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSkinFoldL(e.target.value);
-  };
+  const field = (name: FatField, text: string, noRange = false) => (
+    <InputSkeleton
+      key={name}
+      text={text}
+      name={name}
+      min={LIMIT_OF[name].min}
+      max={LIMIT_OF[name].max}
+      value={values[name]}
+      setAny={change(name)}
+      onBlur={validate(name)}
+      error={errors[name]}
+      noRange={noRange}
+    />
+  );
 
-  const validate = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      await schema.validate(
-        { [e.target.name]: e.target.value },
-        { abortEarly: false }
-      );
-      setErrors({});
-    } catch (err) {
-      const validationErrors: Record<string, string> = {};
-      (err as yup.ValidationError).inner.forEach(error => {
-        if (error.path) {
-          validationErrors[error.path] = error.message;
-        }
-      });
-      setErrors(validationErrors);
-    }
-  };
-
-  let sum = 0;
-  if (skinFold && skinFoldW) {
-    let sumFold = Number(skinFold) + Number(skinFoldW);
-    if (skinFoldL) {
-      sum = sumFold + Number(skinFoldL);
-    }
-  }
   return (
-    <form className="flex flex-col gap-7">
-      <label htmlFor="sex" className="font-bold flex items-center gap-3">
-        <span className="p-2 text-lg text-mainTitle dark:text-mainTitleBlack">
-          Стать:{' '}
+    <form className="flex flex-col gap-7" onSubmit={e => e.preventDefault()}>
+      <div role="radiogroup" aria-label="Метод" className="flex flex-col gap-2">
+        <span className="text-lg font-bold text-left text-mainTitle dark:text-mainTitleBlack">
+          Метод
         </span>
-        <label
-          htmlFor="woman"
-          className={`cursor-pointer flex items-center justify-center tracking-widest
-          dark:hover:bg-[#d4d4d4] dark:hover:text-mainText 
-          truncate font-semibold text-lg rounded-xl p-2  hover:bg-[#ECECEC] ${
-            !sex
-              ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-main'
-              : 'dark:text-mainTextBlack'
-          } `}
-        >
-          Жінка{' '}
-        </label>
-        <input
-          id="woman"
-          name="sex"
-          type="radio"
-          value="Жінка"
-          className="appearance-none"
-          checked={!sex}
-          onChange={() => setSex(false)}
-        />
-        <label
-          htmlFor="man"
-          className={`cursor-pointer flex items-center justify-center tracking-widest
-          dark:hover:bg-[#d4d4d4] dark:hover:text-mainText 
-          truncate font-semibold text-lg rounded-xl p-2  hover:bg-[#ECECEC] ${
-            sex
-              ? 'bg-[#D9D9D9] dark:bg-[#d4d4d4] text-main'
-              : 'dark:text-mainTextBlack'
-          } `}
-        >
-          Чоловік{' '}
-        </label>
-        <input
-          id="man"
-          name="sex"
-          type="radio"
-          value="Чоловік"
-          className="appearance-none"
-          checked={sex}
-          onChange={() => setSex(true)}
-        />
-      </label>
-      <InputSkeleton
-        text={'Вік, років:'}
-        name="age"
-        max={130}
-        min={14}
-        value={age}
-        setAny={changeAge}
-        onBlur={validate}
-        error={errors.age}
-      />
-      <p className="font-bold md:text-lg text-mainText dark:text-mainTextBlack">
-        Виміряйте шкірні складки на таких частинах тіла:
-      </p>
-      <InputSkeleton
-        text={sex ? 'На грудях (мм):' : 'На трицепсі (мм):'}
-        name="skinFold"
-        max={100}
-        min={1}
-        value={skinFold}
-        setAny={changeSF}
-        onBlur={validate}
-        error={errors.skinFold}
-      />
+        <div className="flex gap-2 flex-wrap">
+          {METHODS.map(option => (
+            <label key={option.value} className={toggleClass(method === option.value)}>
+              <input
+                type="radio"
+                name="method"
+                value={option.value}
+                className="sr-only"
+                checked={method === option.value}
+                onChange={() => setMethod(option.value)}
+              />
+              {option.label}
+            </label>
+          ))}
+        </div>
+      </div>
 
-      <InputSkeleton
-        text={sex ? 'На животі (мм):' : 'Живіт збоку (мм):'}
-        name="skinFoldW"
-        max={100}
-        min={1}
-        value={skinFoldW}
-        setAny={changeSFW}
-        onBlur={validate}
-        error={errors.skinFoldW}
-      />
-      <InputSkeleton
-        text={sex ? 'На стегні (мм):' : 'На стегні (мм):'}
-        name="skinFoldL"
-        max={100}
-        min={1}
-        value={skinFoldL}
-        setAny={changeSFL}
-        onBlur={validate}
-        error={errors.skinFoldL}
-      />
-      <FatCalcFormula age={age} sex={sex} sum={sum} />
+      <div role="radiogroup" aria-label="Стать" className="flex items-center gap-3">
+        <span className="p-2 text-lg font-bold text-mainTitle dark:text-mainTitleBlack">
+          Стать:
+        </span>
+        {SEX_OPTIONS.map(option => (
+          <label key={option.value} className={toggleClass(sex === option.value)}>
+            <input
+              type="radio"
+              name="sex"
+              value={option.value}
+              className="sr-only"
+              checked={sex === option.value}
+              onChange={() => setSex(option.value)}
+            />
+            {option.label}
+          </label>
+        ))}
+      </div>
+
+      {method === 'tape' ? (
+        <>
+          {field('height', 'Зріст (см):')}
+          {field('neck', 'Обхват шиї (см):')}
+          {field('waist', 'Обхват талії (см):')}
+          {sex === 'female' && field('hip', 'Обхват стегон (см):')}
+          <p className="text-sm text-left text-neutral-600 dark:text-mainTextBlack">
+            Стрічка щільно, але не втискається в шкіру; живіт не втягувати.
+          </p>
+        </>
+      ) : (
+        <>
+          {field('age', 'Вік, років:')}
+          <p className="font-bold md:text-lg text-left text-neutral-700 dark:text-mainTextBlack">
+            Товщина шкірних складок:
+          </p>
+          {field('skinFold', sex === 'male' ? 'На грудях (мм):' : 'На трицепсі (мм):')}
+          {field('skinFoldW', sex === 'male' ? 'На животі (мм):' : 'Живіт збоку (мм):')}
+          {field('skinFoldL', 'На стегні (мм):')}
+        </>
+      )}
+
+      {field('weight', 'Вага, кг (за бажанням):', true)}
+
+      <FatResult method={method} sex={sex} values={values} />
     </form>
   );
 };
