@@ -20,6 +20,22 @@ const nextConfig = {
     };
     return config;
   },
+  async redirects() {
+    return [
+      // Old blog slug with an apostrophe; Google indexed both the raw and the
+      // percent-encoded form, so redirect both to the renamed post.
+      {
+        source: "/blog/specifics-of-women's-training",
+        destination: '/blog/specifics-of-womens-training',
+        statusCode: 301,
+      },
+      {
+        source: '/blog/specifics-of-women%27s-training',
+        destination: '/blog/specifics-of-womens-training',
+        statusCode: 301,
+      },
+    ];
+  },
   preview: {
     enabled: false,
   },
