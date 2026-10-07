@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { Sidebar } from '../Sidebar';
 import { Button } from '@/components/Button';
 import type { Metadata } from 'next';
+import { canonicalFor } from '@/lib/canonical';
 
 export const metadata: Metadata = {
   title: 'Вступ. Перед початком тренувань в тренажерному залі',
   description:
     'Чому важливо тренуватись та вести активний спосіб життя, що буде при сидячому способі життя. Тренування як стиль життя успішної людини',
+  alternates: canonicalFor('/learn/intro'),
   robots: {
     index: true,
     follow: true,

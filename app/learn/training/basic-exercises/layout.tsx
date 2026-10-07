@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
+import { canonicalFor } from '@/lib/canonical';
 
 export const metadata: Metadata = {
   title: 'Базові вправи для максимального швидкого росту і прогресу.',
   description:
     'Перелік базових вправ для початківця, техніка виконання вправ. Тренування в домашніх умовах та спортзалі. Програма тренувань для початку тренувань.',
+  alternates: canonicalFor('/learn/training/basic-exercises'),
   robots: {
     index: true,
     follow: true,

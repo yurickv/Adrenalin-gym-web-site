@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { canonicalFor } from '@/lib/canonical';
 import Link from 'next/link';
 import { BlogCard } from '@/components/blog-page/BlogCard';
 import { HomeIcon } from '@/components/icons/forPopMenu/HomeIcon';
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
   title: 'Блог, корисні статті',
   description:
     'Блог тренажерного залу Adrenalin: статті про харчування, тренування та мотивацію',
+  alternates: canonicalFor('/blog'),
   robots: {
     index: true,
     follow: true,

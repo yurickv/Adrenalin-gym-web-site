@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { canonicalFor } from '@/lib/canonical';
 import Link from 'next/link';
 import { Insta } from '@/components/icons/Instagram';
 import { Location } from '@/components/icons/Location';
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   title: 'Контакти спортклубу Абреналін',
   description:
     'Контактні дані за якими можна з звязатись з тренажерним залом Адреналін: адреса, номери телефонів, посилання на соціальні мережі, розміщення на карті Google',
+  alternates: canonicalFor('/contacts'),
   robots: {
     index: true,
     follow: true,

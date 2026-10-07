@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { canonicalFor } from '@/lib/canonical';
 import { AboutCalc } from '@/components/main-page/AboutCalc';
 import { BlogSection } from '@/components/main-page/BlogSection';
 import { GalerySection } from '@/components/main-page/GalerySection';
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
   title: { absolute: 'Спортзал в Тернополі Адреналін' },
   description:
     'Просторий тренажерний зал Адреналін в м.Тернопіль, зручно для жителів мікрорайонів БАМ, Тинда, Варшавський, без черг. Cилові та кардіо тренажери, персональний тренер (тренування, харчування, всебічна підтримка), система знижок на абонементи. Спортзал',
+  alternates: canonicalFor(''),
   robots: {
     index: true,
     follow: true,
