@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Sidebar } from '../../Sidebar';
 import { ButtonSecond } from '@/components/ButtonSecond';
 import { Button } from '@/components/Button';
+import { SytnoTelegramCta } from '@/components/SytnoTelegramCta';
 
 const BasicsNutrition = () => {
   return (
@@ -212,6 +213,11 @@ const BasicsNutrition = () => {
               height={300}
               loading="lazy"
             />
+            <SytnoTelegramCta>
+              Тарілка здорового харчування, фізичний і емоційний голод, корисні
+              звички без заборон — коротко і простими словами в Telegram-каналі
+              Sytno.
+            </SytnoTelegramCta>
             <div className="flex gap-6 mt-8 justify-end pt-8 border-t-2 border-main ">
               <ButtonSecond
                 route="/learn/training/load-progression"

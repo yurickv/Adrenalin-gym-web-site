@@ -1,3 +1,4 @@
+import { SytnoTelegramCta } from '@/components/SytnoTelegramCta';
 import { formatKg, safeMinimum, weeklyLossKg } from '@/lib/calories';
 
 const BASE = 2000;
@@ -51,6 +52,10 @@ export const CaloriesDeficitTable = () => (
           <li>Після кожних 4–5 кг перерахуйте норму: легше тіло витрачає менше.</li>
           <li>Розрахунок орієнтовний: 1 кг жиру ≈ 7700 ккал, реальний темп коливається.</li>
         </ul>
+        <SytnoTelegramCta>
+          Як втримати дефіцит без зривів: вечірній апетит, жорсткі заборони, рідкі
+          калорії — коротко і простими словами в Telegram-каналі Sytno.
+        </SytnoTelegramCta>
       </div>
     </div>
   </section>

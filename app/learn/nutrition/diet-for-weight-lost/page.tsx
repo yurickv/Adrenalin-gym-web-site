@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Sidebar } from '../../Sidebar';
 import { ButtonSecond } from '@/components/ButtonSecond';
 import { Button } from '@/components/Button';
+import { SytnoTelegramCta } from '@/components/SytnoTelegramCta';
 
 const DietForWeightLost = () => {
   return (
@@ -273,6 +274,11 @@ const DietForWeightLost = () => {
                 сьогодні на персональне тренування.
               </Link>
             </p>
+            <SytnoTelegramCta>
+              Чому ввечері тягне до холодильника, чому жорсткі заборони
+              закінчуються зривами і де ховаються рідкі калорії — розбираємо
+              в Telegram-каналі Sytno.
+            </SytnoTelegramCta>
             <div className="flex gap-6 mt-8 justify-end pt-8 border-t-2 border-main ">
               <ButtonSecond
                 route="/learn/nutrition/before-after-training"

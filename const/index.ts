@@ -58,3 +58,5 @@ export const SCREEN_WIDTHS = {
 
 export const SYTNO_URL =
   'https://nutriday.com.ua/?utm_source=partner&utm_medium=referral&utm_campaign=gym-adrenalin';
+
+export const SYTNO_TELEGRAM_URL = 'https://t.me/sytno_app';
