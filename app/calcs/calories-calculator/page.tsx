@@ -3,6 +3,7 @@ import { CalcTitle } from '@/components/calcs-page/CalcsTitle';
 import { CaloriesCalcList } from '@/components/calcs-page/CaloriesCalcList';
 import { CaloriesDescription } from '@/components/calcs-page/CaloriesDescription';
 import { CaloriesFaq } from '@/components/calcs-page/CaloriesFaq';
+import { CaloriesFormula } from '@/components/calcs-page/CaloriesFormula';
 import { CaloriesJsonLd } from '@/components/calcs-page/CaloriesJsonLd';
 import { CalcByline } from '@/components/calcs-page/CalcByline';
 import { CaloriesNormTable } from '@/components/calcs-page/CaloriesNormTable';
@@ -76,10 +77,12 @@ const CaloriesCalc = async () => {
                 Розрахунок денної норми калорій онлайн
               </h2>
               <p className="mt-4 text-base md:text-lg text-mainText dark:text-mainTextBlack">
-                Калькулятор калорій розраховує денну норму калорій за формулою
-                Міффліна-Сан Жеора з урахуванням статі, віку, зросту, ваги та
-                рівня активності. Щоб схуднути, створюють дефіцит 10–20%
-                (оптимально 15%), щоб набрати вагу — профіцит 10–15% від норми.
+                Денна норма калорій — це базовий обмін (BMR), помножений на
+                коефіцієнт активності. BMR за формулою Міффліна-Сан Жеора: для
+                чоловіків 10 × вага (кг) + 6,25 × зріст (см) − 5 × вік + 5, для
+                жінок 10 × вага (кг) + 6,25 × зріст (см) − 5 × вік − 161. Щоб
+                схуднути, від норми віднімають 10–20% (оптимально 15%), щоб
+                набрати вагу, додають 10–15%.
               </p>
               <CaloriesDescription />
             </div>
@@ -94,6 +97,7 @@ const CaloriesCalc = async () => {
         </div>
       </section>
 
+      <CaloriesFormula />
       <CaloriesNormTable />
       <CaloriesDeficitTable />
       <CaloriesFaq />

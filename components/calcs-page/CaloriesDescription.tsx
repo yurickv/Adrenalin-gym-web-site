@@ -11,10 +11,11 @@ export const CaloriesDescription = () => {
         зріст, теперішню вагу та активність
       </p>
       <p className="mt-6 text-base lg:text-lg  text-justify">
-        Для збалансованого схуднення частину дефіциту створюйте харчуванням, а
-        частину — тренуваннями: так зберігається мʼязова маса, не сповільнюється
-        обмін речовин, а результат тримається довго. Втрачати варто не більше
-        0,5–1 кг на тиждень.
+        Дефіцит калорій створює харчування, а силові тренування бережуть мʼязи:
+        так організм втрачає жир, а не мускулатуру, обмін речовин не
+        сповільнюється, і результат тримається довго. Нормальний темп — 0,5–1%
+        маси тіла на тиждень; оцінюйте його за місячним трендом, бо вода дає
+        щоденні коливання.
       </p>
       <p className="text-lg font-bold mt-6 text-mainTitle dark:text-mainTitleBlack">
         Пам'ятайте, що надміру ваги сприяє ряд факторів:
@@ -50,56 +51,6 @@ export const CaloriesDescription = () => {
           Раціон при наборі ваги
         </Link>
       </div>
-
-      <div className="mt-8 overflow-x-auto">
-        <table className="w-full text-left text-base border-collapse">
-          <caption className="text-left font-bold text-mainTitle dark:text-mainTitleBlack mb-2">
-            Коефіцієнти рівня активності
-          </caption>
-          <thead>
-            <tr className="border-b border-gray-400">
-              <th className="py-2 pr-4">Рівень активності</th>
-              <th className="py-2">Коефіцієнт</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-gray-300">
-              <td className="py-2 pr-4">Сидячий спосіб життя</td>
-              <td className="py-2">1,2</td>
-            </tr>
-            <tr className="border-b border-gray-300">
-              <td className="py-2 pr-4">Легка активність (1–3 тренування/тиждень)</td>
-              <td className="py-2">1,375</td>
-            </tr>
-            <tr className="border-b border-gray-300">
-              <td className="py-2 pr-4">Помірна активність (3–5 тренувань/тиждень)</td>
-              <td className="py-2">1,55</td>
-            </tr>
-            <tr className="border-b border-gray-300">
-              <td className="py-2 pr-4">Висока активність (6–7 тренувань/тиждень)</td>
-              <td className="py-2">1,725</td>
-            </tr>
-            <tr>
-              <td className="py-2 pr-4">Дуже висока (важка фізична праця)</td>
-              <td className="py-2">1,9</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p className="mt-6 text-sm">
-        Джерело: рівняння базального метаболізму Mifflin-St Jeor (1990);
-        рекомендації щодо харчування —{' '}
-        <a
-          href="https://www.who.int/news-room/fact-sheets/detail/healthy-diet"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-mainTitle dark:text-mainTitleBlack underline"
-        >
-          Всесвітня організація охорони здоров’я (ВООЗ)
-        </a>
-        .
-      </p>
     </div>
   );
 };
