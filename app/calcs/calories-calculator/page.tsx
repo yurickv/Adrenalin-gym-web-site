@@ -4,6 +4,10 @@ import { CaloriesCalcList } from '@/components/calcs-page/CaloriesCalcList';
 import { CaloriesDescription } from '@/components/calcs-page/CaloriesDescription';
 import { CaloriesFaq } from '@/components/calcs-page/CaloriesFaq';
 import { CaloriesFormula } from '@/components/calcs-page/CaloriesFormula';
+import { CaloriesGymBurn } from '@/components/calcs-page/CaloriesGymBurn';
+import { CaloriesNextSteps } from '@/components/calcs-page/CaloriesNextSteps';
+import { CalcSources } from '@/components/calcs-page/CalcSources';
+import { CALORIES_SOURCES } from '@/components/calcs-page/caloriesContent';
 import { CaloriesJsonLd } from '@/components/calcs-page/CaloriesJsonLd';
 import { CalcByline } from '@/components/calcs-page/CalcByline';
 import { CaloriesNormTable } from '@/components/calcs-page/CaloriesNormTable';
@@ -100,7 +104,10 @@ const CaloriesCalc = async () => {
       <CaloriesFormula />
       <CaloriesNormTable />
       <CaloriesDeficitTable />
+      <CaloriesGymBurn />
+      <CaloriesNextSteps />
       <CaloriesFaq />
+      <CalcSources sources={CALORIES_SOURCES} />
       <CalcByline calcId="calories-calculator" />
       <CaloriesJsonLd rating={rating} />
     </main>
