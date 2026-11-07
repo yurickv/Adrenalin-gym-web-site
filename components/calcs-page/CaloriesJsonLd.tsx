@@ -1,4 +1,4 @@
-import { caloriesFaq } from './CaloriesFaq';
+import { CALORIES_SOURCES, caloriesFaq } from './caloriesContent';
 import {
   CALC_AUTHOR,
   CALC_PUBLISHER,
@@ -55,11 +55,11 @@ export const CaloriesJsonLd = ({ rating }: { rating: RatingStats | null }) => {
         publisher: CALC_PUBLISHER,
         datePublished: CALC_DATE_PUBLISHED,
         dateModified: CALC_DATE_MODIFIED,
-        citation: {
-          '@type': 'CreativeWork',
-          name: 'Здорове харчування — рекомендації Всесвітньої організації охорони здоров’я (ВООЗ)',
-          url: 'https://www.who.int/news-room/fact-sheets/detail/healthy-diet',
-        },
+        citation: CALORIES_SOURCES.map(source => ({
+          '@type': source.type,
+          name: source.label,
+          url: source.url,
+        })),
       },
       {
         '@type': 'HowTo',
