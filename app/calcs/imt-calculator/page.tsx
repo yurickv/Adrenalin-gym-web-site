@@ -93,7 +93,7 @@ const ImtCalc = async () => {
       <BmiHeightWeightTable />
       <BmiAgeTable />
       <ImtFaq />
-      <CalcByline />
+      <CalcByline calcId="imt-calculator" />
       <ImtJsonLd rating={rating} />
     </main>
   );

@@ -86,7 +86,7 @@ const FatCalc = async () => {
       </section>
 
       <FatFaq />
-      <CalcByline />
+      <CalcByline calcId="fat-calculator" />
       <FatJsonLd rating={rating} />
     </main>
   );

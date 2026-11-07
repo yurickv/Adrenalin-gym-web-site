@@ -97,7 +97,7 @@ const CaloriesCalc = async () => {
       <CaloriesNormTable />
       <CaloriesDeficitTable />
       <CaloriesFaq />
-      <CalcByline />
+      <CalcByline calcId="calories-calculator" />
       <CaloriesJsonLd rating={rating} />
     </main>
   );

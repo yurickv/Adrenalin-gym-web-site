@@ -1,3 +1,5 @@
+import type { CalcId } from '@/lib/calcRating';
+
 export const CALC_SITE_URL = 'https://gym-adrenalin.com.ua';
 export const ORGANIZATION_ID = `${CALC_SITE_URL}/#organization`;
 
@@ -13,8 +15,14 @@ export const CALC_AUTHOR = {
 export const CALC_PUBLISHER = { '@id': ORGANIZATION_ID };
 
 export const CALC_DATE_PUBLISHED = '2023-08-12';
-export const CALC_DATE_MODIFIED = '2026-09-17';
-export const CALC_DATE_MODIFIED_LABEL = '17 вересня 2026';
+// Дата змістовного оновлення кожного калькулятора; змінювати лише разом із його текстом.
+export const CALC_MODIFIED: Record<CalcId, { iso: string; label: string }> = {
+  'calories-calculator': { iso: '2026-11-06', label: '6 листопада 2026' },
+  'imt-calculator': { iso: '2026-09-17', label: '17 вересня 2026' },
+  'fat-calculator': { iso: '2026-09-17', label: '17 вересня 2026' },
+};
+
+export const CALCS_HUB_DATE_MODIFIED = '2026-09-17';
 
 export interface CalcSource {
   label: string;

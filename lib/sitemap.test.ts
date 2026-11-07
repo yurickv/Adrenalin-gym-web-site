@@ -1,14 +1,19 @@
 import { describe, it, expect } from 'vitest';
 import { buildSitemap, lastModifiedForRoute, SITE_URL } from './sitemap';
-import { CALC_DATE_MODIFIED } from '@/const/calcSeo';
+import { CALC_MODIFIED, CALCS_HUB_DATE_MODIFIED } from '@/const/calcSeo';
 import { SITE_CONTENT_LASTMOD, routeSitemap } from '@/const/routeSitemap';
 
 describe('lastModifiedForRoute', () => {
-  it('uses the calculators date for /calcs routes', () => {
-    expect(lastModifiedForRoute('/calcs')).toBe(CALC_DATE_MODIFIED);
+  it('gives each calculator its own date', () => {
     expect(lastModifiedForRoute('/calcs/calories-calculator')).toBe(
-      CALC_DATE_MODIFIED
+      CALC_MODIFIED['calories-calculator'].iso
     );
+    expect(lastModifiedForRoute('/calcs/imt-calculator')).toBe('2026-09-17');
+    expect(lastModifiedForRoute('/calcs/fat-calculator')).toBe('2026-09-17');
+  });
+
+  it('uses the hub date for /calcs', () => {
+    expect(lastModifiedForRoute('/calcs')).toBe(CALCS_HUB_DATE_MODIFIED);
   });
 
   it('uses the site content date for every other route', () => {
@@ -30,7 +35,7 @@ describe('buildSitemap', () => {
       entries.find(entry => entry.url === `${SITE_URL}/calcs/calories-calculator`)
     ).toEqual({
       url: `${SITE_URL}/calcs/calories-calculator`,
-      lastModified: CALC_DATE_MODIFIED,
+      lastModified: CALC_MODIFIED['calories-calculator'].iso,
     });
   });
 

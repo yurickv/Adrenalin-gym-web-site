@@ -3,7 +3,7 @@ import {
   CALC_AUTHOR,
   CALC_PUBLISHER,
   CALC_DATE_PUBLISHED,
-  CALC_DATE_MODIFIED,
+  CALC_MODIFIED,
 } from '@/const/calcSeo';
 import { buildAggregateRating, type RatingStats } from '@/lib/calcRating';
 
@@ -53,7 +53,7 @@ export const FatJsonLd = ({ rating }: { rating: RatingStats | null }) => {
         author: CALC_AUTHOR,
         publisher: CALC_PUBLISHER,
         datePublished: CALC_DATE_PUBLISHED,
-        dateModified: CALC_DATE_MODIFIED,
+        dateModified: CALC_MODIFIED['fat-calculator'].iso,
         citation: {
           '@type': 'CreativeWork',
           name: 'Норми відсотка жиру Американського коледжу спортивної медицини (ACSM)',

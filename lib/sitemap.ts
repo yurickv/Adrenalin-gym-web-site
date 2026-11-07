@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
-import { CALC_DATE_MODIFIED } from '@/const/calcSeo';
+import { CALC_MODIFIED, CALCS_HUB_DATE_MODIFIED } from '@/const/calcSeo';
 import { routeSitemap, SITE_CONTENT_LASTMOD } from '@/const/routeSitemap';
+import { isCalcId } from '@/lib/calcRating';
 
 export const SITE_URL = 'https://gym-adrenalin.com.ua';
 
@@ -10,7 +11,10 @@ export type SitemapPost = {
 };
 
 export function lastModifiedForRoute(route: string): string {
-  return route.startsWith('/calcs') ? CALC_DATE_MODIFIED : SITE_CONTENT_LASTMOD;
+  if (route === '/calcs') return CALCS_HUB_DATE_MODIFIED;
+  const calcId = route.startsWith('/calcs/') ? route.slice('/calcs/'.length) : '';
+  if (isCalcId(calcId)) return CALC_MODIFIED[calcId].iso;
+  return SITE_CONTENT_LASTMOD;
 }
 
 export function buildSitemap(posts: SitemapPost[]): MetadataRoute.Sitemap {
