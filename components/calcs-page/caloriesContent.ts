@@ -25,8 +25,8 @@ export const CALORIES_SOURCES: CalcSource[] = [
   },
   {
     label:
-      'Herrmann SD, Willis EA, Ainsworth BE та ін. 2024 Adult Compendium of Physical Activities. J Sport Health Sci. 2024;13(1):6–12',
-    url: 'https://pacompendium.com/',
+      'Herrmann SD, Willis EA, Ainsworth BE та ін. 2024 Adult Compendium of Physical Activities: A third update of the energy costs of human activities. J Sport Health Sci. 2024;13(1):6–12',
+    url: 'https://doi.org/10.1016/j.jshs.2023.10.010',
     type: 'ScholarlyArticle',
   },
   {

@@ -72,7 +72,7 @@ describe('CALORIES_SOURCES', () => {
     expect(CALORIES_SOURCES.map(s => s.url)).toEqual([
       'https://pubmed.ncbi.nlm.nih.gov/2305711/',
       'https://pubmed.ncbi.nlm.nih.gov/28642676/',
-      'https://pacompendium.com/',
+      'https://doi.org/10.1016/j.jshs.2023.10.010',
       'https://www.who.int/news-room/fact-sheets/detail/healthy-diet',
     ]);
     expect(CALORIES_SOURCES.map(s => s.type)).toEqual([

@@ -17,7 +17,7 @@ export const CALC_PUBLISHER = { '@id': ORGANIZATION_ID };
 export const CALC_DATE_PUBLISHED = '2023-08-12';
 // Дата змістовного оновлення кожного калькулятора; змінювати лише разом із його текстом.
 export const CALC_MODIFIED: Record<CalcId, { iso: string; label: string }> = {
-  'calories-calculator': { iso: '2026-11-06', label: '6 листопада 2026' },
+  'calories-calculator': { iso: '2026-11-07', label: '7 листопада 2026' },
   'imt-calculator': { iso: '2026-09-17', label: '17 вересня 2026' },
   'fat-calculator': { iso: '2026-09-17', label: '17 вересня 2026' },
 };
